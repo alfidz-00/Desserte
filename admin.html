@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Desserté Back Office</title>
+  <link rel="icon" type="image/jpeg" href="images/logo/desserte-logo.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="src/css/styles.css">
+  <link rel="stylesheet" href="src/css/components.css">
+
+  <style>
+    body { background: var(--cream-100); }
+    .admin-nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-layout">
+    
+    <!-- Left Sidebar -->
+    <aside class="admin-sidebar">
+      <div style="padding:1.5rem;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:0.75rem">
+        <img src="images/logo/desserte-logo.jpg" alt="Desserté" style="height:38px;width:38px;border-radius:8px;object-fit:cover;background:#fff">
+        <div>
+          <div style="font-family:var(--font-display);font-size:1.25rem;font-weight:700">Desserté</div>
+          <div style="font-size:0.6875rem;color:var(--gold-300);letter-spacing:0.12em;text-transform:uppercase">Admin Management</div>
+        </div>
+      </div>
+
+      <nav style="flex:1;padding-top:1rem">
+        <div class="admin-nav-item active" data-panel="overview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Dashboard Overview</span>
+        </div>
+        <div class="admin-nav-item" data-panel="orders">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span>Customer Orders</span>
+        </div>
+        <div class="admin-nav-item" data-panel="products">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-8a2 2 0 00-2-2H6a2 2 0 00-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20"/></svg>
+          <span>Produk & Menu</span>
+        </div>
+        <div class="admin-nav-item" data-panel="promos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span>Promosi & Diskon</span>
+        </div>
+        <div class="admin-nav-item" data-panel="outlets">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Kelola Outlet</span>
+        </div>
+      </nav>
+
+      <div style="padding:1.25rem;border-top:1px solid rgba(255,255,255,0.08)">
+        <a href="index.html" class="btn btn-outline" style="width:100%;color:#fff;border-color:rgba(255,255,255,0.3);font-size:0.8125rem">
+          &larr; Lihat Toko Publik
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="admin-main">
+      
+      <!-- Topbar -->
+      <header class="admin-topbar">
+        <div style="font-weight:700;font-size:1.1rem;color:var(--color-primary)">
+          Restoran & Patisserie Management System
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div style="font-size:0.875rem;color:var(--color-text-muted)">
+            Login as: <strong>Admin Manager</strong>
+          </div>
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.875rem">
+            AM
+          </div>
+        </div>
+      </header>
+
+      <!-- Panel Content -->
+      <div class="admin-content">
+
+        <!-- PANEL 1: Overview Dashboard -->
+        <div class="admin-panel" id="panel-overview">
+          
+          <!-- Key Statistics -->
+          <div class="stats-grid" id="admin-stats-grid">
+            <!-- Rendered by initAdmin in products.js -->
+          </div>
+
+          <!-- Quick Orders Section -->
+          <div style="background:#fff;border-radius:var(--radius-xl);padding:1.75rem;box-shadow:var(--shadow-sm);margin-bottom:2rem">
+            <div class="flex-between" style="margin-bottom:1.25rem">
+              <h3 class="text-display" style="font-size:1.25rem">Pesanan Terbaru Hari Ini</h3>
+              <span class="badge badge-green">Live Updates</span>
+            </div>
+            <div style="overflow-x:auto">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Items</th>
+                    <th>Total Biaya</th>
+                    <th>Status</th>
+                    <th>Waktu</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-orders-body">
+                  <!-- Rendered by products.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- PANEL 2: Customer Orders -->
+        <div class="admin-panel" id="panel-orders" style="display:none">
+          <div style="background:#fff;border-radius:var(--radius-xl);padding:1.75rem;box-shadow:var(--shadow-sm)">
+            <div class="flex-between" style="margin-bottom:1.5rem">
+              <div>
+                <h3 class="text-display" style="font-size:1.25rem">Kelola Seluruh Pesanan</h3>
+                <p style="font-size:0.875rem;color:var(--color-text-muted)">Ubah status pesanan dari Processing hingga Delivered secara realtime.</p>
+              </div>
+            </div>
+            <div style="overflow-x:auto">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Items</th>
+                    <th>Total Biaya</th>
+                    <th>Status</th>
+                    <th>Waktu</th>
+                    <th>Update Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>#DS-4021</strong></td>
+                    <td>Siti Rahayu</td>
+                    <td>Chocolate Royale x2</td>
+                    <td><strong>Rp 90.000</strong></td>
+                    <td><span class="order-status status-processing">processing</span></td>
+                    <td>10 min ago</td>
+                    <td>
+                      <select class="input-field" style="padding:.375rem .625rem;font-size:.8rem;width:auto" onchange="updateOrderStatus('#DS-4021', this.value)">
+                        <option value="processing" selected>Processing</option>
+                        <option value="preparing">Preparing</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>#DS-4020</strong></td>
+                    <td>Budi Santoso</td>
+                    <td>Tiramisu Classic</td>
+                    <td><strong>Rp 42.000</strong></td>
+                    <td><span class="order-status status-preparing">preparing</span></td>
+                    <td>25 min ago</td>
+                    <td>
+                      <select class="input-field" style="padding:.375rem .625rem;font-size:.8rem;width:auto" onchange="updateOrderStatus('#DS-4020', this.value)">
+                        <option value="processing">Processing</option>
+                        <option value="preparing" selected>Preparing</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>#DS-4019</strong></td>
+                    <td>Anindita P.</td>
+                    <td>Custom Birthday Cake (8")</td>
+                    <td><strong>Rp 430.000</strong></td>
+                    <td><span class="order-status status-delivered">delivered</span></td>
+                    <td>1 hr ago</td>
+                    <td>
+                      <select class="input-field" style="padding:.375rem .625rem;font-size:.8rem;width:auto" onchange="updateOrderStatus('#DS-4019', this.value)">
+                        <option value="processing">Processing</option>
+                        <option value="preparing">Preparing</option>
+                        <option value="delivered" selected>Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>#DS-4018</strong></td>
+                    <td>Kevin Wijaya</td>
+                    <td>Strawberry Cheesecake</td>
+                    <td><strong>Rp 48.000</strong></td>
+                    <td><span class="order-status status-delivered">delivered</span></td>
+                    <td>2 hrs ago</td>
+                    <td>
+                      <select class="input-field" style="padding:.375rem .625rem;font-size:.8rem;width:auto" onchange="updateOrderStatus('#DS-4018', this.value)">
+                        <option value="processing">Processing</option>
+                        <option value="preparing">Preparing</option>
+                        <option value="delivered" selected>Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>#DS-4017</strong></td>
+                    <td>Dewi Kusuma</td>
+                    <td>Matcha Latte x2</td>
+                    <td><strong>Rp 70.000</strong></td>
+                    <td><span class="order-status status-cancelled">cancelled</span></td>
+                    <td>3 hrs ago</td>
+                    <td>
+                      <select class="input-field" style="padding:.375rem .625rem;font-size:.8rem;width:auto" onchange="updateOrderStatus('#DS-4017', this.value)">
+                        <option value="processing">Processing</option>
+                        <option value="preparing">Preparing</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled" selected>Cancelled</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL 3: Products Management -->
+        <div class="admin-panel" id="panel-products" style="display:none">
+          <div style="background:#fff;border-radius:var(--radius-xl);padding:1.75rem;box-shadow:var(--shadow-sm)">
+            <div class="flex-between" style="margin-bottom:1.5rem">
+              <div>
+                <h3 class="text-display" style="font-size:1.25rem">Katalog Produk</h3>
+                <p style="font-size:0.875rem;color:var(--color-text-muted)">Kelola daftar harga, ketersediaan menu, dan kategori dessert.</p>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="openAddProductModal()">+ Tambah Produk Baru</button>
+            </div>
+            <div style="overflow-x:auto">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Produk</th>
+                    <th>Kategori</th>
+                    <th>Harga Dasar</th>
+                    <th>Rating</th>
+                    <th>Badge</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-products-body">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL 4: Promos Management -->
+        <div class="admin-panel" id="panel-promos" style="display:none">
+          <div style="background:#fff;border-radius:var(--radius-xl);padding:1.75rem;box-shadow:var(--shadow-sm)">
+            <div class="flex-between" style="margin-bottom:1.5rem">
+              <div>
+                <h3 class="text-display" style="font-size:1.25rem">Daftar Kupon & Promo Aktif</h3>
+                <p style="font-size:0.875rem;color:var(--color-text-muted)">Kelola kode voucher dan diskon yang berlaku.</p>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="alert('Form promo baru siap dikonfigurasi')">+ Tambah Promo Baru</button>
+            </div>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Kode Voucher</th>
+                  <th>Judul Promo</th>
+                  <th>Diskon</th>
+                  <th>Masa Berlaku</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong style="color:var(--color-primary)">WEEKEND20</strong></td>
+                  <td>Sweet Weekend</td>
+                  <td>20% Off</td>
+                  <td>31 Des 2026</td>
+                  <td><span class="badge badge-green">Active</span></td>
+                </tr>
+                <tr>
+                  <td><strong style="color:var(--color-primary)">BIRTHDAY</strong></td>
+                  <td>Birthday Treat</td>
+                  <td>10% Off + Free Slice</td>
+                  <td>31 Des 2026</td>
+                  <td><span class="badge badge-green">Active</span></td>
+                </tr>
+                <tr>
+                  <td><strong style="color:var(--color-primary)">BUNDLE3</strong></td>
+                  <td>Buy More, Save More</td>
+                  <td>15% Off Bundle</td>
+                  <td>30 Nov 2026</td>
+                  <td><span class="badge badge-green">Active</span></td>
+                </tr>
+                <tr>
+                  <td><strong style="color:var(--color-primary)">FREEWED</strong></td>
+                  <td>Free Delivery Wednesday</td>
+                  <td>Gratis Ongkir</td>
+                  <td>31 Des 2026</td>
+                  <td><span class="badge badge-green">Active</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PANEL 5: Outlets Management -->
+        <div class="admin-panel" id="panel-outlets" style="display:none">
+          <div style="background:#fff;border-radius:var(--radius-xl);padding:1.75rem;box-shadow:var(--shadow-sm)">
+            <div class="flex-between" style="margin-bottom:1.5rem">
+              <div>
+                <h3 class="text-display" style="font-size:1.25rem">Daftar Outlet & Butik Desserté</h3>
+                <p style="font-size:0.875rem;color:var(--color-text-muted)">Kelola lokasi fisik, kontak, dan jam operasional cabang.</p>
+              </div>
+            </div>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Nama Outlet</th>
+                  <th>Alamat</th>
+                  <th>Telepon</th>
+                  <th>Jam Buka</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Desserté Sudirman</strong></td>
+                  <td>Jl. Jend. Sudirman Kav. 52-53, Jakarta Selatan</td>
+                  <td>+62 21 5789-2200</td>
+                  <td>10:00 – 22:00</td>
+                </tr>
+                <tr>
+                  <td><strong>Desserté Kemang</strong></td>
+                  <td>Jl. Kemang Raya No. 45, Jakarta Selatan</td>
+                  <td>+62 21 7890-1122</td>
+                  <td>11:00 – 23:00</td>
+                </tr>
+                <tr>
+                  <td><strong>Desserté Pondok Indah</strong></td>
+                  <td>Pondok Indah Mall 2, GF, Jakarta Selatan</td>
+                  <td>+62 21 7513-9988</td>
+                  <td>10:00 – 22:00</td>
+                </tr>
+                <tr>
+                  <td><strong>Desserté BSD City</strong></td>
+                  <td>Jl. BSD Grand Boulevard, Tangerang Selatan</td>
+                  <td>+62 21 5372-4410</td>
+                  <td>10:00 – 21:30</td>
+                </tr>
+                <tr>
+                  <td><strong>Desserté Bandung</strong></td>
+                  <td>Jl. Riau No. 72, Citarum, Bandung</td>
+                  <td>+62 22 4231-5566</td>
+                  <td>10:00 – 21:00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add Product -->
+  <div class="overlay" id="add-product-modal" role="dialog" aria-modal="true">
+    <div class="modal" style="max-width:560px;padding:2rem">
+      <div class="flex-between" style="margin-bottom:1.5rem">
+        <h3 class="text-display" style="font-size:1.35rem">Tambah Produk Baru</h3>
+        <button onclick="closeAddProductModal()" class="btn-icon btn-ghost">✕</button>
+      </div>
+      <form onsubmit="handleCreateProduct(event)">
+        <div class="input-group" style="margin-bottom:1rem">
+          <label class="input-label">Nama Produk *</label>
+          <input type="text" id="new-prod-name" class="input-field" placeholder="cth: Pistachio Layer Cake" required>
+        </div>
+        <div class="form-grid-2" style="margin-bottom:1rem">
+          <div class="input-group">
+            <label class="input-label">Kategori *</label>
+            <select id="new-prod-cat" class="input-field">
+              <option value="cakes">Cakes</option>
+              <option value="cheesecake">Cheesecake</option>
+              <option value="chocolate">Chocolate</option>
+              <option value="pastry">Pastry</option>
+              <option value="ice-cream">Ice Cream</option>
+              <option value="drinks">Drinks</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Harga Dasar (Rp) *</label>
+            <input type="number" id="new-prod-price" class="input-field" placeholder="45000" required>
+          </div>
+        </div>
+        <div class="input-group" style="margin-bottom:1.5rem">
+          <label class="input-label">Deskripsi Singkat *</label>
+          <textarea id="new-prod-desc" class="input-field" rows="3" placeholder="Jelaskan cita rasa dan lapisan kue..." required></textarea>
+        </div>
+        <div class="flex-between">
+          <button type="button" class="btn btn-outline" onclick="closeAddProductModal()">Batal</button>
+          <button type="submit" class="btn btn-primary">Simpan Produk</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="src/data/data.js"></script>
+  <script src="src/js/cart.js"></script>
+  <script src="src/js/products.js"></script>
+  <script>
+    function openAddProductModal() {
+      document.getElementById('add-product-modal')?.classList.add('active');
+    }
+    function closeAddProductModal() {
+      document.getElementById('add-product-modal')?.classList.remove('active');
+    }
+    function handleCreateProduct(e) {
+      e.preventDefault();
+      const name = document.getElementById('new-prod-name').value;
+      const cat = document.getElementById('new-prod-cat').value;
+      const price = parseInt(document.getElementById('new-prod-price').value);
+      const desc = document.getElementById('new-prod-desc').value;
+
+      const newP = {
+        id: 'prod-' + Date.now(),
+        name,
+        category: [cat],
+        price,
+        image: 'images/products/chocolate-royale.jpg',
+        fallbackColor: '#1A3A2A',
+        description: desc,
+        ingredients: 'Premium butter, dairy cream, natural sugar',
+        badge: 'New',
+        rating: 5.0,
+        reviewCount: 1,
+        sizes: [
+          { id: 'regular', name: 'Standard Portion', price }
+        ]
+      };
+
+      DESSERTE_DATA.products.unshift(newP);
+      renderAdminProducts();
+      closeAddProductModal();
+      window.desserteToast && window.desserteToast.show(`Produk "${name}" berhasil ditambahkan!`, 'success');
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Desserté — Sweet Moments, Made Special | Premium Dessert & Cake Boutique</title>
+  <meta name="description" content="Desserté menyajikan aneka dessert, artisanal cakes, cheesecake, and pastries premium yang dibuat segar setiap hari untuk membuat setiap momen terasa lebih manis.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="images/logo/desserte-logo.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="src/css/styles.css">
+  <link rel="stylesheet" href="src/css/components.css">
+
+  <style>
+    .logo-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .logo-img {
+      height: 46px;
+      width: 46px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      border: 1.5px solid rgba(201, 168, 76, 0.4);
+    }
+    .nav-brand-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1;
+    }
+    .nav-brand-sub {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    #navbar.transparent .nav-brand-title { color: #FFFFFF; }
+    #navbar.scrolled .nav-brand-title { color: var(--color-primary); }
+    
+    .hero-glass-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: rgba(201, 168, 76, 0.15);
+      border: 1px solid rgba(201, 168, 76, 0.35);
+      border-radius: 9999px;
+      color: var(--gold-300);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .outlet-selector-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      transition: all var(--transition-fast);
+      cursor: pointer;
+      border: 1px solid rgba(201, 168, 76, 0.3);
+    }
+    #navbar.transparent .outlet-selector-pill {
+      background: rgba(255, 255, 255, 0.12);
+      color: #FFFFFF;
+    }
+    #navbar.scrolled .outlet-selector-pill {
+      background: var(--cream-100);
+      color: var(--color-primary);
+      border-color: var(--color-border);
+    }
+    .outlet-selector-pill:hover {
+      background: var(--color-accent) !important;
+      color: #FFFFFF !important;
+      border-color: var(--color-accent) !important;
+    }
+
+    .custom-cake-banner {
+      background: linear-gradient(135deg, #1A3A2A 0%, #2D5A3E 100%);
+      border-radius: var(--radius-xl);
+      padding: 3.5rem 3rem;
+      color: #FFFFFF;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-xl);
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: center;
+      gap: 2.5rem;
+    }
+    .custom-cake-banner::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    @media (max-width: 900px) {
+      .custom-cake-banner {
+        grid-template-columns: 1fr;
+        padding: 2.5rem 1.5rem;
+        text-align: center;
+      }
+      .custom-cake-banner .flex { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================================
+       1. TOP NAVIGATION (Sticky)
+       ========================================================================= -->
+  <header id="navbar" class="transparent" data-transparent="true">
+    <div class="navbar-inner">
+      <!-- Brand Logo -->
+      <a href="index.html" class="nav-logo" aria-label="Desserté Home">
+        <div class="logo-badge">
+          <img src="images/logo/desserte-logo.jpg" alt="Desserté Logo" class="logo-img">
+          <div>
+            <div class="nav-brand-title">Desserté</div>
+            <div class="nav-brand-sub">Cake & Dessert</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="menu.html" class="nav-link">Menu</a>
+        <a href="promo.html" class="nav-link">Promo</a>
+        <a href="cake.html" class="nav-link">Custom Cake</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="nav-actions">
+        <!-- Location / Outlet Selector -->
+        <button class="outlet-selector-pill hide-mobile" onclick="openOutletModal()" aria-label="Select Outlet">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          <span id="selected-outlet-name">Jakarta Sudirman</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <!-- Search Icon -->
+        <button class="nav-actions-icon" id="search-btn" aria-label="Search Desserts">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+
+        <!-- Cart Icon -->
+        <button class="nav-actions-icon" data-action="open-cart" aria-label="Open Cart">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="cart-badge">0</span>
+        </button>
+
+        <!-- CTA "Order Now" -->
+        <a href="menu.html" class="btn btn-gold btn-sm nav-order-btn hide-mobile">
+          Order Now
+        </a>
+
+        <!-- Hamburger (Mobile) -->
+        <button id="hamburger" aria-label="Open navigation menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-menu-overlay"></div>
+  <aside id="mobile-menu-drawer" aria-label="Mobile menu">
+    <div class="mobile-menu-header">
+      <div class="logo-badge">
+        <img src="images/logo/desserte-logo.jpg" alt="Desserté Logo" class="logo-img">
+        <div>
+          <div class="nav-brand-title" style="color:var(--color-primary)">Desserté</div>
+          <div class="nav-brand-sub">Cake & Dessert</div>
+        </div>
+      </div>
+      <button id="mobile-menu-close" class="btn-icon btn-ghost" aria-label="Close menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div style="padding: 1rem 1.5rem; border-bottom: 1px solid var(--cream-200);">
+      <div style="font-size:0.75rem; color:var(--color-text-muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.35rem;">Serving Location</div>
+      <button onclick="openOutletModal()" style="display:flex;align-items:center;gap:0.5rem;font-size:0.9rem;font-weight:600;color:var(--color-primary);background:none;border:none;cursor:pointer">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span id="mobile-outlet-name">Jakarta Sudirman</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+    </div>
+    <nav style="flex:1;">
+      <a href="index.html" class="mobile-nav-link">Home</a>
+      <a href="menu.html" class="mobile-nav-link">Menu & Katalog</a>
+      <a href="promo.html" class="mobile-nav-link">Special Offers & Promo</a>
+      <a href="cake.html" class="mobile-nav-link">Custom Cake Builder</a>
+      <a href="about.html" class="mobile-nav-link">About Desserté</a>
+      <a href="contact.html" class="mobile-nav-link">Outlets & Contact</a>
+      <a href="admin.html" class="mobile-nav-link" style="color:var(--color-accent);font-weight:600">Admin Dashboard</a>
+    </nav>
+    <div style="padding: 1.5rem;">
+      <a href="menu.html" class="btn btn-primary" style="width:100%">Order Now</a>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       2. HERO SECTION
+       ========================================================================= -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-content">
+      <!-- Left Column: Copy & CTAs -->
+      <div class="hero-text">
+        <div class="hero-glass-pill">
+          <span>✦</span>
+          <span>Artisanal Patisserie & Boutique</span>
+        </div>
+        <h1 class="hero-headline">
+          Sweet Moments,<br>
+          <em>Made Special.</em>
+        </h1>
+        <p class="hero-subheadline">
+          Temukan dessert dan cake pilihan yang dibuat dari bahan-bahan terbaik untuk membuat setiap momen terasa lebih manis dan tak terlupakan.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="menu.html" class="btn btn-gold btn-lg">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
+            </svg>
+            Order Now
+          </a>
+          <a href="#quick-order" class="btn btn-outline btn-lg" style="color:#FFFFFF;border-color:rgba(255,255,255,0.4)">
+            Explore Menu
+          </a>
+        </div>
+
+        <!-- Social Proof Stats -->
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-num">100%</div>
+            <div class="hero-stat-label">Freshly Baked Daily</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">4.9 ★</div>
+            <div class="hero-stat-label">Customer Rating</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">5 Outlets</div>
+            <div class="hero-stat-label">Jabodetabek & Bdg</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Visual with Floating Cards -->
+      <div class="hero-visual">
+        <div class="hero-img-main">
+          <img src="images/hero/hero-dessert.jpg" alt="Desserté Signature Belgian Dark Chocolate Cake with Gold Accents">
+        </div>
+
+        <!-- Floating Card 1: Signature Cake -->
+        <div class="hero-float-card float-card-1" onclick="window.productModal && window.productModal.open('chocolate-royale')" style="cursor:pointer">
+          <div class="hero-float-card-icon">🎂</div>
+          <div>
+            <div class="hero-float-card-label">Signature Creation</div>
+            <div class="hero-float-card-name">Chocolate Royale</div>
+          </div>
+        </div>
+
+        <!-- Floating Card 2: Chocolate Dessert -->
+        <div class="hero-float-card float-card-2" onclick="window.productModal && window.productModal.open('dark-chocolate-mousse')" style="cursor:pointer">
+          <div class="hero-float-card-icon">🍫</div>
+          <div>
+            <div class="hero-float-card-label">Pure Indulgence</div>
+            <div class="hero-float-card-name">Dark Choco Mousse</div>
+          </div>
+        </div>
+
+        <!-- Floating Card 3: Best Seller -->
+        <div class="hero-float-card float-card-3" onclick="window.productModal && window.productModal.open('strawberry-cheesecake')" style="cursor:pointer">
+          <div class="hero-float-card-icon">⭐</div>
+          <div>
+            <div class="hero-float-card-label">Best Seller #1</div>
+            <div class="hero-float-card-name">Strawberry Cheesecake</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       3. QUICK ORDER SECTION
+       ========================================================================= -->
+  <section class="quick-order" id="quick-order">
+    <div class="container">
+      <div style="text-align:center; max-width:600px; margin:0 auto;">
+        <span class="section-tag">Quick Discovery</span>
+        <h2 class="section-title">What are you craving today?</h2>
+        <p class="section-subtitle" style="margin:0.5rem auto 0">Pilih kategori favorit Anda untuk menemukan sajian dessert yang paling menggoda selera.</p>
+      </div>
+
+      <div class="quick-order-grid">
+        <a href="menu.html#cakes" class="category-card" data-category="cakes">
+          <div class="category-icon">🎂</div>
+          <span class="category-name">Cakes</span>
+        </a>
+        <a href="menu.html#chocolate" class="category-card" data-category="chocolate">
+          <div class="category-icon">🍫</div>
+          <span class="category-name">Chocolate</span>
+        </a>
+        <a href="menu.html#cheesecake" class="category-card" data-category="cheesecake">
+          <div class="category-icon">🍰</div>
+          <span class="category-name">Cheesecake</span>
+        </a>
+        <a href="menu.html#pastry" class="category-card" data-category="pastry">
+          <div class="category-icon">🥐</div>
+          <span class="category-name">Pastry</span>
+        </a>
+        <a href="menu.html#ice-cream" class="category-card" data-category="ice-cream">
+          <div class="category-icon">🍨</div>
+          <span class="category-name">Ice Cream</span>
+        </a>
+        <a href="menu.html#drinks" class="category-card" data-category="drinks">
+          <div class="category-icon">🥤</div>
+          <span class="category-name">Drinks</span>
+        </a>
+        <a href="menu.html#best-seller" class="category-card" data-category="best-seller">
+          <div class="category-icon">⭐</div>
+          <span class="category-name">Best Sellers</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       4. PROMO SECTION ("Special Offers")
+       ========================================================================= -->
+  <section class="section" style="background:var(--cream-100)" id="promos">
+    <div class="container">
+      <div class="flex-between" style="flex-wrap:wrap;gap:1rem;margin-bottom:1rem">
+        <div>
+          <span class="section-tag">Exclusive Promos</span>
+          <h2 class="section-title">Special Offers</h2>
+          <p class="section-subtitle">Nikmati kelezatan dessert premium dengan harga dan keuntungan istimewa.</p>
+        </div>
+        <a href="promo.html" class="btn btn-outline btn-sm">Lihat Semua Promo &rarr;</a>
+      </div>
+
+      <div class="promos-grid" id="promos-grid">
+        <!-- Rendered by products.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       5. BEST SELLER SECTION (Carousel)
+       ========================================================================= -->
+  <section class="section" id="best-sellers">
+    <div class="container">
+      <div class="flex-between" style="margin-bottom:2rem;flex-wrap:wrap;gap:1rem">
+        <div>
+          <span class="section-tag">Most Loved</span>
+          <h2 class="section-title">Our Best Sellers</h2>
+          <p class="section-subtitle">Produk favorit para penikmat manis yang paling sering dipesan kembali.</p>
+        </div>
+        <!-- Carousel Nav Buttons -->
+        <div class="carousel-nav">
+          <button class="carousel-btn" id="bs-prev" aria-label="Previous best sellers">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="carousel-btn" id="bs-next" aria-label="Next best sellers">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="best-sellers-track-wrap">
+        <div class="best-sellers-track" id="best-sellers-track">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       6. PRODUCT CATALOG PREVIEW / FEATURED SECTION
+       ========================================================================= -->
+  <section class="section" style="background:var(--white)" id="menu">
+    <div class="container">
+      <div class="catalog-header">
+        <div>
+          <span class="section-tag">Signature Catalog</span>
+          <h2 class="section-title">Explore Our Creations</h2>
+          <p class="section-subtitle">Dibuat langsung dari oven dengan bahan baku premium dari Prancis, Belgia, dan Jepang.</p>
+        </div>
+
+        <!-- Search in Catalog -->
+        <div class="search-wrap" style="width:100%;max-width:320px">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="catalog-search" class="search-input" placeholder="Search desserts, cakes...">
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="tab-list" style="margin-top:2rem">
+        <button class="tab-btn active" data-filter="all">All Items</button>
+        <button class="tab-btn" data-filter="cakes">Cakes</button>
+        <button class="tab-btn" data-filter="cheesecake">Cheesecake</button>
+        <button class="tab-btn" data-filter="chocolate">Chocolate</button>
+        <button class="tab-btn" data-filter="pastry">Pastry</button>
+        <button class="tab-btn" data-filter="ice-cream">Ice Cream</button>
+        <button class="tab-btn" data-filter="drinks">Drinks</button>
+        <button class="tab-btn" data-filter="best-seller">Best Sellers</button>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid" id="products-grid">
+        <!-- Rendered by products.js -->
+      </div>
+
+      <div style="text-align:center;margin-top:3.5rem">
+        <a href="menu.html" class="btn btn-primary btn-lg">
+          View Complete Menu & Catalog &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       7. CAKE CUSTOMIZATION FEATURE CALLOUT
+       ========================================================================= -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="custom-cake-banner">
+        <div>
+          <span class="badge badge-gold" style="margin-bottom:1rem">Craft Your Dream Cake</span>
+          <h2 class="text-display" style="font-size:clamp(2rem,3.5vw,3rem);color:#FFFFFF;margin-bottom:1rem;line-height:1.2">
+            Desain Cake Impian Anda,<br>Tepat Sesuai Keinginan.
+          </h2>
+          <p style="color:rgba(255,255,255,0.78);font-size:1.05rem;line-height:1.7;margin-bottom:2rem;max-width:540px">
+            Ulang tahun, anniversary, atau perayaan hangat bersama orang terkasih. Pilih ukuran (6" - 10"), varian sponge, jenis cream, tema dekorasi, hingga tulisan personal dengan estimasi harga transparan dan preview seketika.
+          </p>
+          <div class="flex" style="gap:1rem;flex-wrap:wrap">
+            <a href="cake.html" class="btn btn-gold btn-lg">
+              Mulai Custom Cake &rarr;
+            </a>
+            <a href="contact.html" class="btn btn-outline btn-lg" style="color:#FFFFFF;border-color:rgba(255,255,255,0.4)">
+              Konsultasi dengan Baker
+            </a>
+          </div>
+        </div>
+
+        <div style="text-align:center">
+          <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(201,168,76,0.3);border-radius:var(--radius-xl);padding:2rem;backdrop-filter:blur(10px)">
+            <div style="font-size:4.5rem;margin-bottom:0.5rem">🎂</div>
+            <div style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--gold-300)">Interactive Cake Studio</div>
+            <p style="font-size:0.875rem;color:rgba(255,255,255,0.65);margin-top:0.5rem">Ukuran 6" • 8" • 10" | 5 Pilihan Flavor | Realtime Price</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       8. ABOUT US SECTION
+       ========================================================================= -->
+  <section class="section" style="background:var(--cream-100)" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <!-- Visuals -->
+        <div class="about-images">
+          <div class="about-img-main">
+            <img src="images/about/chef-baking.jpg" alt="Desserté Master Chef Pastry Handcrafting Fresh Cakes">
+          </div>
+          <div class="about-img-accent hide-mobile">
+            <img src="images/about/interior-store.jpg" alt="Desserté Boutique Interior Ambience">
+          </div>
+        </div>
+
+        <!-- Storytelling -->
+        <div class="about-text">
+          <span class="section-tag">Our Philosophy</span>
+          <h2 class="section-title">Made With Passion,<br>Served With Love.</h2>
+          <p style="color:var(--color-text-muted);font-size:1.0625rem;line-height:1.8;margin:1.25rem 0">
+            Desserté berawal dari keyakinan sederhana bahwa dessert bukan sekadar hidangan penutup, melainkan medium perayaan yang mengikat kenangan manis bersama orang terkasih.
+          </p>
+          <p style="color:var(--color-text-muted);font-size:0.95rem;line-height:1.75">
+            Setiap layer kue kami dibuat setiap fajar dengan mentega murni Prancis, cokelat Belgia single-origin, dan buah-buahan segar tanpa bahan pengawet buatan.
+          </p>
+
+          <div class="about-values">
+            <div class="about-value">
+              <div class="about-value-icon">🌿</div>
+              <div class="about-value-title">Pure Ingredients</div>
+              <div class="about-value-text">100% natural, premium dairy, dan cokelat tanpa perisa artifisial.</div>
+            </div>
+            <div class="about-value">
+              <div class="about-value-icon">✨</div>
+              <div class="about-value-title">Fresh Daily</div>
+              <div class="about-value-text">Dipanggang setiap hari oleh tim pastry chef berpengalaman.</div>
+            </div>
+            <div class="about-value">
+              <div class="about-value-icon">🎁</div>
+              <div class="about-value-title">Luxe Packaging</div>
+              <div class="about-value-text">Kotak bingkisan ramah lingkungan yang elegan dan siap dijadikan hadiah.</div>
+            </div>
+            <div class="about-value">
+              <div class="about-value-icon">⚡</div>
+              <div class="about-value-title">Express Delivery</div>
+              <div class="about-value-text">Pengiriman higienis dengan kotak berpendingin agar bentuk tetap sempurna.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       9. CUSTOMER REVIEWS
+       ========================================================================= -->
+  <section class="section" id="reviews">
+    <div class="container">
+      <div class="flex-between" style="margin-bottom:2rem;flex-wrap:wrap;gap:1rem">
+        <div>
+          <span class="section-tag">Loved by Thousands</span>
+          <h2 class="section-title">Sweet Words From Our Customers</h2>
+          <p class="section-subtitle">Pengalaman nyata dari mereka yang telah merayakan momen spesial bersama Desserté.</p>
+        </div>
+        <div class="carousel-nav">
+          <button class="carousel-btn" id="rev-prev" aria-label="Previous customer review">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="carousel-btn" id="rev-next" aria-label="Next customer review">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="reviews-track-wrap">
+        <div class="reviews-track" id="reviews-track">
+          <!-- Rendered by products.js -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       10. INSTAGRAM / SOCIAL SECTION
+       ========================================================================= -->
+  <section class="section instagram-section" style="padding-bottom:5rem">
+    <div class="container">
+      <div style="text-align:center;max-width:550px;margin:0 auto">
+        <span class="section-tag">@desserte.id</span>
+        <h2 class="section-title">Follow Our Sweet Journey</h2>
+        <p class="section-subtitle" style="margin:0.5rem auto 1.5rem">Bagikan momen manismu dengan tagar #SweetMomentsMadeSpecial</p>
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="btn btn-outline btn-sm">
+          Follow Us on Instagram
+        </a>
+      </div>
+
+      <div class="instagram-grid">
+        <div class="instagram-item"><img src="images/instagram/insta-1.jpg" alt="Desserté Instagram Post 1"></div>
+        <div class="instagram-item"><img src="images/instagram/insta-2.jpg" alt="Desserté Instagram Post 2"></div>
+        <div class="instagram-item"><img src="images/instagram/insta-3.jpg" alt="Desserté Instagram Post 3"></div>
+        <div class="instagram-item"><img src="images/instagram/insta-4.jpg" alt="Desserté Instagram Post 4"></div>
+        <div class="instagram-item"><img src="images/instagram/insta-5.jpg" alt="Desserté Instagram Post 5"></div>
+        <div class="instagram-item"><img src="images/instagram/insta-6.jpg" alt="Desserté Instagram Post 6"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       11. FOOTER (Deep Forest Green)
+       ========================================================================= -->
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-grid">
+          <!-- Col 1: Brand -->
+          <div>
+            <div class="logo-badge" style="margin-bottom:1rem">
+              <img src="images/logo/desserte-logo.jpg" alt="Desserté Logo" class="logo-img" style="background:#FFFFFF">
+              <div>
+                <div class="nav-brand-title" style="color:#FFFFFF">Desserté</div>
+                <div class="nav-brand-sub">Cake & Dessert</div>
+              </div>
+            </div>
+            <p class="footer-brand-desc">
+              Boutique dessert modern yang menghadirkan momen manis dan istimewa melalui aneka cake dan pastry artisan berkualitas tinggi.
+            </p>
+            <div class="footer-socials">
+              <a href="#" class="footer-social-btn" aria-label="Instagram">IG</a>
+              <a href="#" class="footer-social-btn" aria-label="TikTok">TT</a>
+              <a href="#" class="footer-social-btn" aria-label="Facebook">FB</a>
+              <a href="#" class="footer-social-btn" aria-label="WhatsApp">WA</a>
+            </div>
+          </div>
+
+          <!-- Col 2: Navigation -->
+          <div>
+            <h4 class="footer-col-title">Desserté</h4>
+            <a href="about.html" class="footer-link">About Us</a>
+            <a href="menu.html" class="footer-link">Our Menu</a>
+            <a href="promo.html" class="footer-link">Special Promo</a>
+            <a href="cake.html" class="footer-link">Custom Cake</a>
+            <a href="contact.html" class="footer-link">Outlets & Stores</a>
+            <a href="admin.html" class="footer-link" style="color:var(--gold-300)">Admin Portal</a>
+          </div>
+
+          <!-- Col 3: Help -->
+          <div>
+            <h4 class="footer-col-title">Customer Help</h4>
+            <a href="contact.html" class="footer-link">FAQ</a>
+            <a href="contact.html" class="footer-link">Contact Support</a>
+            <a href="contact.html" class="footer-link">Delivery Guide</a>
+            <a href="#" class="footer-link">Terms & Conditions</a>
+            <a href="#" class="footer-link">Privacy Policy</a>
+          </div>
+
+          <!-- Col 4: Contact -->
+          <div>
+            <h4 class="footer-col-title">Visit & Order</h4>
+            <div class="footer-contact-item">
+              <span>📍</span>
+              <span>Headquarters: Jl. Jend. Sudirman Kav 52-53, Jakarta Selatan</span>
+            </div>
+            <div class="footer-contact-item">
+              <span>📞</span>
+              <span>+62 21 5789-2200 / +62 811-9988-221</span>
+            </div>
+            <div class="footer-contact-item">
+              <span>✉️</span>
+              <span>hello@desserte.id</span>
+            </div>
+            <div class="footer-contact-item">
+              <span>🕒</span>
+              <span>Mon - Sun: 10:00 - 22:00 WIB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom">
+        <div class="footer-copyright">
+          &copy; 2026 Desserté. All Rights Reserved. Crafted with passion & sweetness.
+        </div>
+        <div class="footer-tagline">
+          "Sweet Moments, Made Special"
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       GLOBAL SHARED OVERLAYS & MODALS
+       ========================================================================= -->
+
+  <!-- Search Modal -->
+  <div id="search-overlay" role="dialog" aria-modal="true" aria-label="Search desserts">
+    <div class="search-box">
+      <div class="flex-between" style="margin-bottom:1rem">
+        <h3 class="text-display" style="font-size:1.25rem">Search Desserté</h3>
+        <button id="search-close" class="btn-icon btn-ghost" aria-label="Close search">✕</button>
+      </div>
+      <div class="search-wrap">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="search-input" class="search-input" placeholder="Search by cake name, chocolate, matcha...">
+      </div>
+      <div id="search-results" class="search-results-list">
+        <p class="search-empty">Ketik nama dessert yang ingin Anda cari...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Detail Modal -->
+  <div class="overlay" id="product-overlay" role="dialog" aria-modal="true" aria-label="Product Detail">
+    <div class="modal" id="product-modal">
+      <!-- Rendered dynamically by products.js -->
+    </div>
+  </div>
+
+  <!-- Cart Drawer -->
+  <div id="cart-overlay"></div>
+  <aside id="cart-drawer" role="dialog" aria-modal="true" aria-label="Shopping Cart">
+    <div class="cart-header">
+      <div class="cart-header-title">Your Sweet Cart</div>
+      <button id="cart-close" class="btn-icon btn-ghost" aria-label="Close cart">✕</button>
+    </div>
+
+    <div id="cart-items">
+      <!-- Rendered dynamically by cart.js -->
+    </div>
+
+    <!-- Empty Cart State -->
+    <div id="cart-empty" class="empty-state" style="display:none">
+      <div class="empty-state-icon">🍰</div>
+      <div class="empty-state-title">Keranjang Anda Masih Kosong</div>
+      <p class="empty-state-text">Yuk, pilih dessert dan cake lezat favorit Anda hari ini!</p>
+      <a href="menu.html" class="btn btn-primary btn-sm" onclick="window.desserteCart.closeDrawer()">Explore Menu</a>
+    </div>
+
+    <!-- Promo Code Section -->
+    <div class="promo-section-cart">
+      <div class="promo-input-wrap">
+        <input type="text" id="promo-input" class="input-field" placeholder="Kode Promo (cth: WEEKEND20)" style="text-transform:uppercase">
+        <button id="apply-promo-btn" class="btn btn-outline btn-sm">Terapkan</button>
+      </div>
+      <div id="cart-promo-tag"></div>
+    </div>
+
+    <!-- Summary Wrap -->
+    <div id="cart-summary-wrap">
+      <div class="cart-summary-row">
+        <span style="color:var(--color-text-muted)">Subtotal</span>
+        <span id="cart-subtotal">Rp 0</span>
+      </div>
+      <div class="cart-summary-row" id="cart-discount-row" style="display:none;color:#059669">
+        <span>Discount</span>
+        <span id="cart-discount">- Rp 0</span>
+      </div>
+      <div class="cart-summary-row">
+        <span style="color:var(--color-text-muted)">Delivery Fee</span>
+        <span id="cart-delivery">Rp 15.000</span>
+      </div>
+      <div class="cart-summary-row cart-summary-total">
+        <span>Estimated Total</span>
+        <span id="cart-total">Rp 0</span>
+      </div>
+
+      <button id="checkout-btn" class="btn btn-primary btn-lg" style="width:100%;margin-top:1rem">
+        Proceed to Checkout &rarr;
+      </button>
+    </div>
+  </aside>
+
+  <!-- Outlet Selector Modal -->
+  <div class="overlay" id="outlet-overlay" role="dialog" aria-modal="true" aria-label="Pilih Outlet">
+    <div class="modal" style="max-width:550px;padding:2rem">
+      <div class="flex-between" style="margin-bottom:1.5rem">
+        <h3 class="text-display" style="font-size:1.5rem">Pilih Outlet Desserté</h3>
+        <button onclick="closeOutletModal()" class="btn-icon btn-ghost">✕</button>
+      </div>
+      <p style="font-size:0.9rem;color:var(--color-text-muted);margin-bottom:1.25rem">Pilih outlet terdekat untuk pemesanan delivery atau pickup langsung.</p>
+      
+      <div style="display:flex;flex-direction:column;gap:0.75rem" id="modal-outlets-list">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation (Fixed) -->
+  <nav id="bottom-nav" aria-label="Mobile Navigation">
+    <div class="nav-items">
+      <a href="index.html" class="nav-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Home</span>
+      </a>
+      <a href="menu.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        <span>Menu</span>
+      </a>
+      <a href="cake.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-8a2 2 0 00-2-2H6a2 2 0 00-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20"/><path d="M7 8v3"/><path d="M12 5v6"/><path d="M17 8v3"/></svg>
+        <span>Custom</span>
+      </a>
+      <a href="promo.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span>Promo</span>
+      </a>
+      <button class="nav-item" data-action="open-cart" style="background:none;border:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span>Cart</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="src/data/data.js"></script>
+  <script src="src/js/navbar.js"></script>
+  <script src="src/js/cart.js"></script>
+  <script src="src/js/products.js"></script>
+
+  <script>
+    function openOutletModal() {
+      const modal = document.getElementById('outlet-overlay');
+      const list = document.getElementById('modal-outlets-list');
+      if (!modal || !list || !window.DESSERTE_DATA) return;
+      
+      const current = localStorage.getItem('desserte_selected_outlet') || 'outlet-sudirman';
+      list.innerHTML = DESSERTE_DATA.outlets.map(o => `
+        <div class="option-card ${o.id === current ? 'selected' : ''}" onclick="selectGlobalOutlet('${o.id}', '${o.name}')" style="cursor:pointer">
+          <div class="option-radio"></div>
+          <div style="flex:1">
+            <div style="font-weight:700;font-size:0.95rem">${o.name}</div>
+            <div style="font-size:0.8125rem;color:var(--color-text-muted)">${o.address}</div>
+            <div style="font-size:0.75rem;color:var(--color-primary);margin-top:2px">${o.hours}</div>
+          </div>
+        </div>
+      `).join('');
+
+      modal.classList.add('active');
+    }
+
+    function closeOutletModal() {
+      document.getElementById('outlet-overlay')?.classList.remove('active');
+    }
+
+    function selectGlobalOutlet(id, name) {
+      localStorage.setItem('desserte_selected_outlet', id);
+      localStorage.setItem('desserte_selected_outlet_name', name);
+      const label = name.replace('Desserté ', '');
+      const dLabel = document.getElementById('selected-outlet-name');
+      const mLabel = document.getElementById('mobile-outlet-name');
+      if (dLabel) dLabel.textContent = label;
+      if (mLabel) mLabel.textContent = label;
+      closeOutletModal();
+      window.desserteToast && window.desserteToast.show(`Outlet diubah ke: ${name}`, 'success');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('desserte_selected_outlet_name');
+      if (saved) {
+        const label = saved.replace('Desserté ', '');
+        const dLabel = document.getElementById('selected-outlet-name');
+        const mLabel = document.getElementById('mobile-outlet-name');
+        if (dLabel) dLabel.textContent = label;
+        if (mLabel) mLabel.textContent = label;
+      }
+    });
+  </script>
+</body>
+</html>

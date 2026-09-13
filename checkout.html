@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Checkout — Desserté | Selesaikan Pesanan Manis Anda</title>
+  <meta name="description" content="Selesaikan proses pemesanan dessert dan cake Anda dengan mudah, aman, dan cepat.">
+  <link rel="icon" type="image/jpeg" href="images/logo/desserte-logo.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="src/css/styles.css">
+  <link rel="stylesheet" href="src/css/components.css">
+
+  <style>
+    .logo-badge { display: flex; align-items: center; gap: 0.75rem; }
+    .logo-img { height: 44px; width: 44px; border-radius: 10px; object-fit: cover; border: 1.5px solid rgba(201,168,76,0.4); }
+    .nav-brand-title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--color-primary); line-height: 1; }
+    .nav-brand-sub { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-accent); font-weight: 600; margin-top: 2px; }
+
+    .checkout-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--color-border);
+      padding: 1.25rem 0;
+    }
+    .payment-option-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    @media (max-width: 600px) {
+      .payment-option-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body style="background:var(--cream-100)">
+
+  <!-- Minimal Checkout Header -->
+  <header class="checkout-header">
+    <div class="container flex-between">
+      <a href="index.html" class="nav-logo" aria-label="Desserté Home">
+        <div class="logo-badge">
+          <img src="images/logo/desserte-logo.jpg" alt="Desserté Logo" class="logo-img">
+          <div>
+            <div class="nav-brand-title">Desserté</div>
+            <div class="nav-brand-sub">Secure Checkout</div>
+          </div>
+        </div>
+      </a>
+      <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.875rem;color:var(--color-primary);font-weight:600">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        <span>256-Bit SSL Encrypted</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Checkout Container -->
+  <main class="section" style="padding-top:2.5rem;padding-bottom:5rem">
+    <div class="container">
+      
+      <!-- Stepper Indicator -->
+      <div class="steps checkout-steps" style="max-width:540px;margin:0 auto 2.5rem">
+        <div class="step-item active" id="step-ind-1">
+          <div class="step-circle">1</div>
+          <div class="step-label">Kontak</div>
+        </div>
+        <div class="step-item" id="step-ind-2">
+          <div class="step-circle">2</div>
+          <div class="step-label">Pengiriman</div>
+        </div>
+        <div class="step-item" id="step-ind-3">
+          <div class="step-circle">3</div>
+          <div class="step-label">Pembayaran</div>
+        </div>
+      </div>
+
+      <div class="checkout-layout">
+        
+        <!-- Left: Form Steps -->
+        <div class="checkout-form-section" id="checkout-form">
+
+          <!-- STEP 1: Customer Information -->
+          <div class="checkout-step-panel" id="step-panel-1">
+            <h2 class="form-section-title">Informasi Pemesan</h2>
+            <div class="form-grid-2" style="margin-bottom:1rem">
+              <div class="input-group">
+                <label class="input-label" for="customer-name">Nama Lengkap *</label>
+                <input type="text" id="customer-name" class="input-field" placeholder="Nama Anda" required>
+              </div>
+              <div class="input-group">
+                <label class="input-label" for="customer-phone">Nomor WhatsApp / HP *</label>
+                <input type="tel" id="customer-phone" class="input-field" placeholder="0812-xxxx-xxxx" required>
+              </div>
+            </div>
+            <div class="input-group" style="margin-bottom:1.5rem">
+              <label class="input-label" for="customer-email">Email Konfirmasi *</label>
+              <input type="email" id="customer-email" class="input-field" placeholder="email@domain.com" required>
+            </div>
+            <div class="input-group" style="margin-bottom:2rem">
+              <label class="input-label" for="order-notes">Catatan Pesanan / Ucapan Khusus (Opsional)</label>
+              <textarea id="order-notes" class="input-field" rows="2" placeholder="Tuliskan ucapan kartu, petunjuk khusus, dsb."></textarea>
+            </div>
+          </div>
+
+          <!-- STEP 2: Order Type (Delivery / Pickup) -->
+          <div class="checkout-step-panel" id="step-panel-2" style="display:none">
+            <h2 class="form-section-title">Metode Pengambilan</h2>
+            
+            <!-- Type Selector Pills -->
+            <div class="toggle-group" style="margin-bottom:1.75rem">
+              <button type="button" class="toggle-btn active" id="type-delivery-btn" onclick="switchOrderType('delivery')">
+                🛵 Delivery (Diantar ke Alamat)
+              </button>
+              <button type="button" class="toggle-btn" id="type-pickup-btn" onclick="switchOrderType('pickup')">
+                🏬 Ambil Sendiri (Self Pickup)
+              </button>
+            </div>
+
+            <!-- Delivery Form Section -->
+            <div id="delivery-details-form">
+              <div class="input-group" style="margin-bottom:1rem">
+                <label class="input-label" for="delivery-address">Alamat Pengiriman Lengkap *</label>
+                <textarea id="delivery-address" class="input-field" rows="2" placeholder="Nama jalan, nomor rumah/kantor, blok, lantai..."></textarea>
+              </div>
+              <div class="form-grid-2" style="margin-bottom:1rem">
+                <div class="input-group">
+                  <label class="input-label" for="delivery-city">Kota / Area</label>
+                  <select id="delivery-city" class="input-field">
+                    <option value="Jakarta Selatan">Jakarta Selatan</option>
+                    <option value="Jakarta Pusat">Jakarta Pusat</option>
+                    <option value="Jakarta Barat">Jakarta Barat</option>
+                    <option value="Jakarta Utara">Jakarta Utara</option>
+                    <option value="Jakarta Timur">Jakarta Timur</option>
+                    <option value="Tangerang Selatan">Tangerang Selatan / BSD</option>
+                    <option value="Bandung">Bandung Kota</option>
+                  </select>
+                </div>
+                <div class="input-group">
+                  <label class="input-label" for="delivery-postal">Kode Pos</label>
+                  <input type="text" id="delivery-postal" class="input-field" placeholder="12190">
+                </div>
+              </div>
+              <div class="input-group" style="margin-bottom:1.5rem">
+                <label class="input-label" for="delivery-notes">Petunjuk Driver (Opsional)</label>
+                <input type="text" id="delivery-notes" class="input-field" placeholder="Pagar hitam, titipkan ke security, dsb.">
+              </div>
+            </div>
+
+            <!-- Pickup Form Section -->
+            <div id="pickup-details-form" style="display:none">
+              <div class="input-group" style="margin-bottom:1.25rem">
+                <label class="input-label">Pilih Outlet Pengambilan *</label>
+                <select id="pickup-outlet" class="input-field">
+                  <option value="outlet-sudirman">Desserté Sudirman — Jl. Jend. Sudirman Kav. 52-53, Senayan</option>
+                  <option value="outlet-kemang">Desserté Kemang — Jl. Kemang Raya No. 45</option>
+                  <option value="outlet-pondok-indah">Desserté Pondok Indah — PIM 2 Lantai GF</option>
+                  <option value="outlet-bsd">Desserté BSD City — Jl. BSD Grand Boulevard</option>
+                  <option value="outlet-bandung">Desserté Bandung — Jl. Riau No. 72, Citarum</option>
+                </select>
+              </div>
+              <div class="input-group" style="margin-bottom:1.5rem">
+                <label class="input-label" for="pickup-time">Perkiraan Waktu Pengambilan *</label>
+                <input type="datetime-local" id="pickup-time" class="input-field">
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3: Payment Options -->
+          <div class="checkout-step-panel" id="step-panel-3" style="display:none">
+            <h2 class="form-section-title">Metode Pembayaran</h2>
+            <p style="font-size:0.875rem;color:var(--color-text-muted);margin-bottom:1.25rem">
+              Pilih kanal pembayaran resmi Desserté. Bebas biaya transaksi admin.
+            </p>
+
+            <div class="payment-option-grid" style="margin-bottom:1.5rem">
+              <label class="option-card selected" onclick="selectPayment('ewallet', this)">
+                <div class="option-radio"></div>
+                <div>
+                  <div style="font-weight:700;font-size:0.95rem">E-Wallet & QRIS</div>
+                  <div style="font-size:0.8rem;color:var(--color-text-muted)">GoPay, OVO, Dana, ShopeePay</div>
+                </div>
+              </label>
+
+              <label class="option-card" onclick="selectPayment('va', this)">
+                <div class="option-radio"></div>
+                <div>
+                  <div style="font-weight:700;font-size:0.95rem">Bank Transfer (VA)</div>
+                  <div style="font-size:0.8rem;color:var(--color-text-muted)">BCA, Mandiri, BNI, BRI</div>
+                </div>
+              </label>
+
+              <label class="option-card" onclick="selectPayment('card', this)">
+                <div class="option-radio"></div>
+                <div>
+                  <div style="font-weight:700;font-size:0.95rem">Kartu Kredit / Debit</div>
+                  <div style="font-size:0.8rem;color:var(--color-text-muted)">Visa, Mastercard, JCB</div>
+                </div>
+              </label>
+
+              <label class="option-card" onclick="selectPayment('cod', this)">
+                <div class="option-radio"></div>
+                <div>
+                  <div style="font-weight:700;font-size:0.95rem">Bayar di Tempat</div>
+                  <div style="font-size:0.8rem;color:var(--color-text-muted)">Cash on Pickup / Store</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Step Navigation Controls -->
+          <div class="flex-between" style="border-top:1px solid var(--cream-200);padding-top:1.5rem;margin-top:1rem">
+            <button type="button" class="btn btn-outline" id="prev-step-btn" style="display:none">
+              &larr; Kembali
+            </button>
+            <div style="margin-left:auto;display:flex;gap:0.75rem">
+              <button type="button" class="btn btn-primary" id="next-step-btn">
+                Lanjutkan &rarr;
+              </button>
+              <button type="button" class="btn btn-gold btn-lg" id="place-order-btn" style="display:none">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Place Order Sekarang
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Order Summary Sidebar -->
+        <aside class="checkout-summary-section">
+          <h3 class="checkout-summary-title">Ringkasan Pesanan</h3>
+          <div id="checkout-order-summary">
+            <!-- Rendered by CheckoutFlow in products.js -->
+            <div class="empty-state" style="padding:2rem 0">
+              <div class="empty-state-icon">🛒</div>
+              <div class="empty-state-title" style="font-size:1.1rem">Memuat Pesanan...</div>
+            </div>
+          </div>
+
+          <div style="margin-top:1.5rem;padding:1rem;background:var(--cream-100);border-radius:var(--radius-md);font-size:0.8125rem;color:var(--color-text-muted);display:flex;gap:0.5rem;align-items:flex-start">
+            <span style="font-size:1rem">🛡️</span>
+            <span>Jaminan kesegaran: Kue dibuat segar sebelum dikirim dengan kemasan berinsulasi dingin.</span>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <div id="toast-container"></div>
+
+  <script src="src/data/data.js"></script>
+  <script src="src/js/cart.js"></script>
+  <script src="src/js/products.js"></script>
+  <script>
+    function switchOrderType(type) {
+      const isDel = type === 'delivery';
+      document.getElementById('type-delivery-btn').classList.toggle('active', isDel);
+      document.getElementById('type-pickup-btn').classList.toggle('active', !isDel);
+      document.getElementById('delivery-details-form').style.display = isDel ? 'block' : 'none';
+      document.getElementById('pickup-details-form').style.display = !isDel ? 'block' : 'none';
+    }
+
+    function selectPayment(type, el) {
+      document.querySelectorAll('.payment-option-grid .option-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+  </script>
+</body>
+</html>
