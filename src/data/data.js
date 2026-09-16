@@ -22,7 +22,7 @@ const DESSERTE_DATA = {
   // ---------------------------------------------------------------------------
   // PRODUCTS
   // ---------------------------------------------------------------------------
-  products: [
+  baseProducts: [
     {
       id: 'chocolate-royale',
       name: 'Chocolate Royale',
@@ -486,9 +486,156 @@ const DESSERTE_DATA = {
 
 };
 
+// ---------------------------------------------------------------------------
+// DYNAMIC PRODUCTS (Local database synced with localStorage)
+// ---------------------------------------------------------------------------
+function getStoredProducts() {
+  try {
+    const custom = JSON.parse(localStorage.getItem('desserte_custom_products') || '[]');
+    const deleted = JSON.parse(localStorage.getItem('desserte_deleted_products') || '[]');
+    const base = (DESSERTE_DATA.baseProducts || []).filter(p => !deleted.includes(p.id));
+    const validCustom = (custom || []).filter(p => !deleted.includes(p.id));
+    return [...validCustom, ...base];
+  } catch (e) {
+    return DESSERTE_DATA.baseProducts || [];
+  }
+}
+
+Object.defineProperty(DESSERTE_DATA, 'products', {
+  get: function() {
+    return getStoredProducts();
+  },
+  set: function(val) {
+    this._products = val;
+  },
+  configurable: true,
+  enumerable: true
+});
+
+// ---------------------------------------------------------------------------
+// ORDERS DATABASE (Stored in localStorage)
+// ---------------------------------------------------------------------------
+const DEFAULT_SAMPLE_ORDERS = [
+  {
+    id: '#DS-4021',
+    customer: 'Siti Rahayu',
+    phone: '0812-3456-7890',
+    email: 'siti.rahayu@gmail.com',
+    type: 'Delivery',
+    address: 'Jl. Senayan No. 12, Jakarta Selatan (Pagar Hitam)',
+    payment: 'E-Wallet & QRIS (GoPay)',
+    items: 'Chocolate Royale (Slice) x2',
+    itemList: [
+      { name: 'Chocolate Royale', size: 'Slice', quantity: 2, price: 45000 }
+    ],
+    subtotal: 90000,
+    discount: 0,
+    deliveryFee: 15000,
+    total: 'Rp 105.000',
+    totalNum: 105000,
+    customerNotes: 'Minta ekstra sendok dan garpu ya.',
+    status: 'processing',
+    time: '10 min ago',
+    date: 'Hari ini'
+  },
+  {
+    id: '#DS-4020',
+    customer: 'Budi Santoso',
+    phone: '0813-8899-7711',
+    email: 'budi.santoso@yahoo.com',
+    type: 'Self-Pickup',
+    address: 'Ambil di Outlet Sudirman (Pukul 14:00)',
+    payment: 'Bank Transfer (BCA VA)',
+    items: 'Tiramisu Classic (Slice) x1',
+    itemList: [
+      { name: 'Tiramisu Classic', size: 'Slice', quantity: 1, price: 42000 }
+    ],
+    subtotal: 42000,
+    discount: 0,
+    deliveryFee: 0,
+    total: 'Rp 42.000',
+    totalNum: 42000,
+    customerNotes: '',
+    status: 'preparing',
+    time: '25 min ago',
+    date: 'Hari ini'
+  },
+  {
+    id: '#DS-4019',
+    customer: 'Anindita Purnama',
+    phone: '0857-1122-3344',
+    email: 'anindita.p@gmail.com',
+    type: 'Delivery',
+    address: 'Jl. Gandaria 1 No. 5, Jakarta Selatan',
+    payment: 'Kartu Kredit',
+    items: 'Custom Cake (8") x1',
+    itemList: [
+      { name: 'Custom Cake (8")', size: '8 inch', quantity: 1, price: 430000, notes: 'Chocolate | Vanilla cream | Birthday | "Happy Bday Kevin"' }
+    ],
+    subtotal: 430000,
+    discount: 0,
+    deliveryFee: 0,
+    total: 'Rp 430.000',
+    totalNum: 430000,
+    customerNotes: 'Lilin angka 25 tolong dipastikan ada ya.',
+    status: 'delivered',
+    time: '1 hr ago',
+    date: 'Hari ini'
+  },
+  {
+    id: '#DS-4018',
+    customer: 'Kevin Wijaya',
+    phone: '0819-0909-1212',
+    email: 'kevin.w@outlook.com',
+    type: 'Delivery',
+    address: 'Apartemen Senopati Suites Tower 2 Lt 15',
+    payment: 'E-Wallet & QRIS (OVO)',
+    items: 'Strawberry Cheesecake (Slice) x1',
+    itemList: [
+      { name: 'Strawberry Cheesecake', size: 'Slice', quantity: 1, price: 48000 }
+    ],
+    subtotal: 48000,
+    discount: 0,
+    deliveryFee: 15000,
+    total: 'Rp 63.000',
+    totalNum: 63000,
+    customerNotes: '',
+    status: 'delivered',
+    time: '2 hrs ago',
+    date: 'Hari ini'
+  }
+];
+
+function getStoredOrders() {
+  try {
+    const raw = localStorage.getItem('desserte_orders');
+    if (!raw) {
+      localStorage.setItem('desserte_orders', JSON.stringify(DEFAULT_SAMPLE_ORDERS));
+      return DEFAULT_SAMPLE_ORDERS;
+    }
+    return JSON.parse(raw);
+  } catch (e) {
+    return DEFAULT_SAMPLE_ORDERS;
+  }
+}
+
+function saveOrders(orders) {
+  try {
+    localStorage.setItem('desserte_orders', JSON.stringify(orders));
+  } catch (e) {
+    console.error('Error saving orders', e);
+  }
+}
+
+DESSERTE_DATA.getStoredProducts = getStoredProducts;
+DESSERTE_DATA.getStoredOrders = getStoredOrders;
+DESSERTE_DATA.saveOrders = saveOrders;
+
 // Export for module usage or attach to window
 if (typeof module !== 'undefined') {
   module.exports = DESSERTE_DATA;
 } else {
   window.DESSERTE_DATA = DESSERTE_DATA;
+  window.getStoredOrders = getStoredOrders;
+  window.saveOrders = saveOrders;
 }

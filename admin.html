@@ -142,87 +142,8 @@
                     <th>Update Status</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td><strong>#DS-4021</strong></td>
-                    <td>Siti Rahayu</td>
-                    <td>Chocolate Royale x2</td>
-                    <td><strong>Rp 90.000</strong></td>
-                    <td><span class="order-status status-processing">processing</span></td>
-                    <td>10 min ago</td>
-                    <td>
-                      <select class="input-field" style="padding:.375rem .625rem;font-size:.8rem;width:auto" onchange="updateOrderStatus('#DS-4021', this.value)">
-                        <option value="processing" selected>Processing</option>
-                        <option value="preparing">Preparing</option>
-                        <option value="delivered">Delivered</option>
-                        <option value="cancelled">Cancelled</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><strong>#DS-4020</strong></td>
-                    <td>Budi Santoso</td>
-                    <td>Tiramisu Classic</td>
-                    <td><strong>Rp 42.000</strong></td>
-                    <td><span class="order-status status-preparing">preparing</span></td>
-                    <td>25 min ago</td>
-                    <td>
-                      <select class="input-field" style="padding:.375rem .625rem;font-size:.8rem;width:auto" onchange="updateOrderStatus('#DS-4020', this.value)">
-                        <option value="processing">Processing</option>
-                        <option value="preparing" selected>Preparing</option>
-                        <option value="delivered">Delivered</option>
-                        <option value="cancelled">Cancelled</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><strong>#DS-4019</strong></td>
-                    <td>Anindita P.</td>
-                    <td>Custom Birthday Cake (8")</td>
-                    <td><strong>Rp 430.000</strong></td>
-                    <td><span class="order-status status-delivered">delivered</span></td>
-                    <td>1 hr ago</td>
-                    <td>
-                      <select class="input-field" style="padding:.375rem .625rem;font-size:.8rem;width:auto" onchange="updateOrderStatus('#DS-4019', this.value)">
-                        <option value="processing">Processing</option>
-                        <option value="preparing">Preparing</option>
-                        <option value="delivered" selected>Delivered</option>
-                        <option value="cancelled">Cancelled</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><strong>#DS-4018</strong></td>
-                    <td>Kevin Wijaya</td>
-                    <td>Strawberry Cheesecake</td>
-                    <td><strong>Rp 48.000</strong></td>
-                    <td><span class="order-status status-delivered">delivered</span></td>
-                    <td>2 hrs ago</td>
-                    <td>
-                      <select class="input-field" style="padding:.375rem .625rem;font-size:.8rem;width:auto" onchange="updateOrderStatus('#DS-4018', this.value)">
-                        <option value="processing">Processing</option>
-                        <option value="preparing">Preparing</option>
-                        <option value="delivered" selected>Delivered</option>
-                        <option value="cancelled">Cancelled</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><strong>#DS-4017</strong></td>
-                    <td>Dewi Kusuma</td>
-                    <td>Matcha Latte x2</td>
-                    <td><strong>Rp 70.000</strong></td>
-                    <td><span class="order-status status-cancelled">cancelled</span></td>
-                    <td>3 hrs ago</td>
-                    <td>
-                      <select class="input-field" style="padding:.375rem .625rem;font-size:.8rem;width:auto" onchange="updateOrderStatus('#DS-4017', this.value)">
-                        <option value="processing">Processing</option>
-                        <option value="preparing">Preparing</option>
-                        <option value="delivered">Delivered</option>
-                        <option value="cancelled" selected>Cancelled</option>
-                      </select>
-                    </td>
-                  </tr>
+                <tbody id="admin-full-orders-body">
+                  <!-- Rendered dynamically by products.js -->
                 </tbody>
               </table>
             </div>
@@ -375,13 +296,13 @@
   <div class="overlay" id="add-product-modal" role="dialog" aria-modal="true">
     <div class="modal" style="max-width:560px;padding:2rem">
       <div class="flex-between" style="margin-bottom:1.5rem">
-        <h3 class="text-display" style="font-size:1.35rem">Tambah Produk Baru</h3>
+        <h3 class="text-display" style="font-size:1.35rem">Tambah Produk Baru ke Menu</h3>
         <button onclick="closeAddProductModal()" class="btn-icon btn-ghost">✕</button>
       </div>
       <form onsubmit="handleCreateProduct(event)">
         <div class="input-group" style="margin-bottom:1rem">
           <label class="input-label">Nama Produk *</label>
-          <input type="text" id="new-prod-name" class="input-field" placeholder="cth: Pistachio Layer Cake" required>
+          <input type="text" id="new-prod-name" class="input-field" placeholder="cth: Pistachio Honey Layer Cake" required>
         </div>
         <div class="form-grid-2" style="margin-bottom:1rem">
           <div class="input-group">
@@ -397,16 +318,45 @@
           </div>
           <div class="input-group">
             <label class="input-label">Harga Dasar (Rp) *</label>
-            <input type="number" id="new-prod-price" class="input-field" placeholder="45000" required>
+            <input type="number" id="new-prod-price" class="input-field" placeholder="48000" min="1000" step="1000" required>
           </div>
+        </div>
+        <div class="form-grid-2" style="margin-bottom:1rem">
+          <div class="input-group">
+            <label class="input-label">Foto Produk *</label>
+            <select id="new-prod-image" class="input-field">
+              <option value="images/products/chocolate-royale.jpg">Chocolate Royale (Dark Cake)</option>
+              <option value="images/products/strawberry-cheesecake.jpg">Strawberry Cheesecake</option>
+              <option value="images/products/tiramisu.jpg">Tiramisu Classic</option>
+              <option value="images/products/matcha-cake.jpg">Matcha Green Tea</option>
+              <option value="images/products/basque.jpg">Burnt Basque Cheesecake</option>
+              <option value="images/products/red-velvet.jpg">Red Velvet Special</option>
+              <option value="images/products/croissant.jpg">French Croissant</option>
+              <option value="images/products/eclair.jpg">Chocolate Eclair</option>
+              <option value="images/products/gelato.jpg">Vanilla Bean Gelato</option>
+              <option value="images/products/lemon-tart.jpg">Lemon Curd Tart</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Badge Label</label>
+            <select id="new-prod-badge" class="input-field">
+              <option value="New">Badge: New</option>
+              <option value="Best Seller">Badge: Best Seller</option>
+              <option value="none">Tanpa Badge</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-group" style="margin-bottom:1rem">
+          <label class="input-label">Komposisi / Bahan Baku</label>
+          <input type="text" id="new-prod-ingredients" class="input-field" placeholder="cth: French butter, cream cheese, pure honey">
         </div>
         <div class="input-group" style="margin-bottom:1.5rem">
           <label class="input-label">Deskripsi Singkat *</label>
-          <textarea id="new-prod-desc" class="input-field" rows="3" placeholder="Jelaskan cita rasa dan lapisan kue..." required></textarea>
+          <textarea id="new-prod-desc" class="input-field" rows="2" placeholder="Jelaskan kelezatan dan tekstur produk..." required></textarea>
         </div>
         <div class="flex-between">
           <button type="button" class="btn btn-outline" onclick="closeAddProductModal()">Batal</button>
-          <button type="submit" class="btn btn-primary">Simpan Produk</button>
+          <button type="submit" class="btn btn-primary">+ Simpan & Tayangkan</button>
         </div>
       </form>
     </div>
@@ -426,33 +376,46 @@
     }
     function handleCreateProduct(e) {
       e.preventDefault();
-      const name = document.getElementById('new-prod-name').value;
+      const name = document.getElementById('new-prod-name').value.trim();
       const cat = document.getElementById('new-prod-cat').value;
-      const price = parseInt(document.getElementById('new-prod-price').value);
-      const desc = document.getElementById('new-prod-desc').value;
+      const price = parseInt(document.getElementById('new-prod-price').value, 10);
+      const img = document.getElementById('new-prod-image').value;
+      const badgeVal = document.getElementById('new-prod-badge').value;
+      const ingredients = document.getElementById('new-prod-ingredients').value.trim() || 'Premium butter, fresh dairy cream, natural ingredients';
+      const desc = document.getElementById('new-prod-desc').value.trim();
 
-      const newP = {
+      const newProduct = {
         id: 'prod-' + Date.now(),
-        name,
+        name: name,
         category: [cat],
-        price,
-        image: 'images/products/chocolate-royale.jpg',
+        price: price,
+        image: img,
         fallbackColor: '#1A3A2A',
         description: desc,
-        ingredients: 'Premium butter, dairy cream, natural sugar',
-        badge: 'New',
+        ingredients: ingredients,
+        badge: badgeVal === 'none' ? null : badgeVal,
         rating: 5.0,
         reviewCount: 1,
         sizes: [
-          { id: 'regular', name: 'Standard Portion', price }
+          { id: 'slice', name: 'Slice Portion', price: price },
+          { id: 'whole', name: 'Whole Cake (8")', price: price * 6 }
         ]
       };
 
-      DESSERTE_DATA.products.unshift(newP);
-      renderAdminProducts();
-      closeAddProductModal();
-      window.desserteToast && window.desserteToast.show(`Produk "${name}" berhasil ditambahkan!`, 'success');
-      e.target.reset();
+      try {
+        const custom = JSON.parse(localStorage.getItem('desserte_custom_products') || '[]');
+        custom.unshift(newProduct);
+        localStorage.setItem('desserte_custom_products', JSON.stringify(custom));
+
+        renderAdminProducts();
+        renderAdminStats();
+        closeAddProductModal();
+        window.desserteToast && window.desserteToast.show(`Produk "${name}" berhasil ditambahkan dan live di menu!`, 'success');
+        e.target.reset();
+      } catch (err) {
+        console.error(err);
+        alert('Gagal menyimpan produk: ' + err.message);
+      }
     }
   </script>
 </body>

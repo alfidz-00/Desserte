@@ -57,11 +57,12 @@ class ProductCatalog {
   }
 
   getFilteredProducts() {
-    return this.products.filter(p => {
-      const catMatch   = this.activeCategory === 'all' || p.category.includes(this.activeCategory);
+    const list = window.DESSERTE_DATA?.products || this.products || [];
+    return list.filter(p => {
+      const catMatch   = this.activeCategory === 'all' || (Array.isArray(p.category) && p.category.includes(this.activeCategory));
       const searchMatch = !this.searchQuery ||
         p.name.toLowerCase().includes(this.searchQuery) ||
-        p.description.toLowerCase().includes(this.searchQuery);
+        (p.description && p.description.toLowerCase().includes(this.searchQuery));
       return catMatch && searchMatch;
     });
   }
@@ -658,10 +659,99 @@ class CheckoutFlow {
   }
 
   placeOrder() {
-    const toast = window.desserteToast;
-    if (toast) toast.show('Order placed successfully! Thank you &#10084;', 'success', 4000);
+    const nameEl  = document.getElementById('customer-name');
+    const phoneEl = document.getElementById('customer-phone');
+    const emailEl = document.getElementById('customer-email');
+    const notesEl = document.getElementById('order-notes');
+
+    if (!nameEl || !nameEl.value.trim() || !phoneEl || !phoneEl.value.trim() || !emailEl || !emailEl.value.trim()) {
+      window.desserteToast && window.desserteToast.show('Mohon lengkapi data pemesan (Nama, No HP, Email).', 'error');
+      this.currentStep = 1;
+      this.renderStep(1);
+      return;
+    }
+
+    const isDelivery = this.orderType === 'delivery';
+    let addressStr = '';
+    if (isDelivery) {
+      const addr = document.getElementById('delivery-address')?.value.trim() || '';
+      const city = document.getElementById('delivery-city')?.value || 'Jakarta Selatan';
+      const postal = document.getElementById('delivery-postal')?.value.trim() || '';
+      const drvNotes = document.getElementById('delivery-notes')?.value.trim() || '';
+      if (!addr) {
+        window.desserteToast && window.desserteToast.show('Mohon isi alamat pengiriman lengkap.', 'error');
+        this.currentStep = 2;
+        this.renderStep(2);
+        return;
+      }
+      addressStr = `${addr}, ${city} ${postal}${drvNotes ? ` (Patokan: ${drvNotes})` : ''}`;
+    } else {
+      const outletVal = document.getElementById('pickup-outlet')?.value || 'outlet-sudirman';
+      const outletObj = (window.DESSERTE_DATA?.outlets || []).find(o => o.id === outletVal);
+      const pickupTime = document.getElementById('pickup-time')?.value || 'Hari ini';
+      addressStr = `Ambil di ${outletObj ? outletObj.name : 'Outlet'} (Waktu: ${pickupTime})`;
+    }
+
+    // Determine payment label
+    const selectedPayCard = document.querySelector('.payment-option-grid .option-card.selected');
+    const paymentLabel = selectedPayCard ? selectedPayCard.querySelector('div div:first-child')?.textContent || 'E-Wallet & QRIS' : 'E-Wallet & QRIS';
+
+    const checkoutData = this.checkoutData || { items: [], subtotal: 0, discount: 0, deliveryFee: 0, total: 0 };
+    if (!checkoutData.items || checkoutData.items.length === 0) {
+      window.desserteToast && window.desserteToast.show('Keranjang Anda kosong!', 'error');
+      return;
+    }
+
+    const itemsSummary = (checkoutData.items || []).map(i => `${i.name}${i.size ? ` (${i.size})` : ''} x${i.quantity}`).join(', ');
+
+    // Generate Order ID
+    const randomId = Math.floor(1000 + Math.random() * 9000);
+    const orderId = `#DS-${randomId}`;
+
+    const newOrder = {
+      id: orderId,
+      customer: nameEl.value.trim(),
+      phone: phoneEl.value.trim(),
+      email: emailEl.value.trim(),
+      customerNotes: notesEl?.value.trim() || '',
+      type: isDelivery ? 'Delivery' : 'Self-Pickup',
+      address: addressStr,
+      payment: paymentLabel,
+      items: itemsSummary,
+      itemList: checkoutData.items || [],
+      subtotal: checkoutData.subtotal || 0,
+      discount: checkoutData.discount || 0,
+      deliveryFee: checkoutData.deliveryFee || 0,
+      total: formatPrice(checkoutData.total || 0),
+      totalNum: checkoutData.total || 0,
+      status: 'processing',
+      time: 'Baru saja',
+      date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+    };
+
+    // Save order into localStorage
+    const getOrdersFn = window.getStoredOrders || window.DESSERTE_DATA?.getStoredOrders;
+    const saveOrdersFn = window.saveOrders || window.DESSERTE_DATA?.saveOrders;
+    const allOrders = getOrdersFn ? getOrdersFn() : [];
+    allOrders.unshift(newOrder);
+    if (saveOrdersFn) saveOrdersFn(allOrders);
+
+    // Clear cart & checkout data
     localStorage.removeItem('desserte_cart');
-    setTimeout(() => window.location.href = 'index.html', 2500);
+    localStorage.removeItem('desserte_checkout');
+    if (window.desserteCart) {
+      window.desserteCart.items = [];
+      window.desserteCart.saveToStorage();
+      window.desserteCart.updateCartBadge();
+    }
+
+    // Success notification
+    const toast = window.desserteToast;
+    if (toast) toast.show(`Pesanan ${orderId} berhasil dibuat! Segera diproses.`, 'success', 5000);
+
+    setTimeout(() => {
+      window.location.href = 'index.html?orderSuccess=' + encodeURIComponent(orderId);
+    }, 2200);
   }
 }
 
@@ -710,88 +800,225 @@ function initAdmin() {
 }
 
 function renderAdminStats() {
+  const getOrdersFn = window.getStoredOrders || window.DESSERTE_DATA?.getStoredOrders;
+  const orders = getOrdersFn ? getOrdersFn() : [];
+  const validOrders = orders.filter(o => o.status !== 'cancelled');
+  const revenue = validOrders.reduce((sum, o) => sum + (o.totalNum || 0), 0);
+  const productsCount = (window.DESSERTE_DATA?.products || []).length;
+  const promosCount = (window.DESSERTE_DATA?.promos || []).length;
+
   const stats = [
-    { label: "Today's Orders", value: '42', change: '+12%', trend: 'up', class: '' },
-    { label: "Today's Revenue", value: 'Rp 3.2M', change: '+8%', trend: 'up', class: 'gold' },
-    { label: 'Total Products', value: '16', change: '+2 new', trend: 'up', class: 'teal' },
-    { label: 'Active Promotions', value: '4', change: '2 ending soon', trend: 'down', class: 'rose' },
+    { label: "Today's Orders", value: orders.length.toString(), change: '+ Baru', trend: 'up', class: '' },
+    { label: "Today's Revenue", value: formatPrice(revenue), change: `${validOrders.length} transaksi`, trend: 'up', class: 'gold' },
+    { label: 'Total Products', value: productsCount.toString(), change: 'Aktif di menu', trend: 'up', class: 'teal' },
+    { label: 'Active Promotions', value: promosCount.toString(), change: 'Voucher siap klaim', trend: 'down', class: 'rose' },
   ];
   const grid = document.getElementById('admin-stats-grid');
   if (!grid) return;
   grid.innerHTML = stats.map(s => `
     <div class="stat-card ${s.class}">
       <div class="stat-label">${s.label}</div>
-      <div class="stat-value">${s.value}</div>
+      <div class="stat-value" style="font-size:1.6rem">${s.value}</div>
       <div class="stat-change ${s.trend}">${s.trend === 'up' ? '&#8593;' : '&#8595;'} ${s.change}</div>
     </div>`).join('');
 }
 
 function renderAdminOrders() {
-  const tbody = document.getElementById('admin-orders-body');
-  if (!tbody) return;
-  const orders = [
-    { id: '#DS-4021', customer: 'Siti Rahayu', items: 'Chocolate Royale x2', total: 'Rp 90.000', status: 'processing', time: '10 min ago' },
-    { id: '#DS-4020', customer: 'Budi Santoso', items: 'Tiramisu Classic', total: 'Rp 42.000', status: 'preparing', time: '25 min ago' },
-    { id: '#DS-4019', customer: 'Anindita P.', items: 'Custom Birthday Cake', total: 'Rp 430.000', status: 'delivered', time: '1 hr ago' },
-    { id: '#DS-4018', customer: 'Kevin Wijaya', items: 'Strawberry Cheesecake', total: 'Rp 48.000', status: 'delivered', time: '2 hrs ago' },
-    { id: '#DS-4017', customer: 'Dewi Kusuma', items: 'Matcha Latte x2', total: 'Rp 70.000', status: 'cancelled', time: '3 hrs ago' },
-  ];
-  tbody.innerHTML = orders.map(o => `
-    <tr>
-      <td><strong>${o.id}</strong></td>
-      <td>${o.customer}</td>
-      <td style="color:var(--color-text-muted)">${o.items}</td>
+  const overviewTbody = document.getElementById('admin-orders-body');
+  const fullTbody = document.getElementById('admin-full-orders-body');
+  const getOrdersFn = window.getStoredOrders || window.DESSERTE_DATA?.getStoredOrders;
+  const orders = getOrdersFn ? getOrdersFn() : [];
+
+  const renderRow = (o) => `
+    <tr data-order-id="${o.id}">
+      <td><strong style="color:var(--color-primary)">${o.id}</strong></td>
+      <td>
+        <strong>${o.customer}</strong>
+        ${o.phone ? `<div style="font-size:0.75rem;color:var(--color-text-muted)">${o.phone}</div>` : ''}
+      </td>
+      <td style="color:var(--color-text-muted);max-width:240px" title="${o.items}">${o.items}</td>
       <td><strong>${o.total}</strong></td>
       <td><span class="order-status status-${o.status}">${o.status}</span></td>
-      <td style="color:var(--color-text-muted)">${o.time}</td>
-      <td>
-        <select class="input-field" style="padding:.375rem .625rem;font-size:.8rem;width:auto" onchange="updateOrderStatus('${o.id}', this.value)">
+      <td style="color:var(--color-text-muted);white-space:nowrap">${o.time || o.date || 'Hari ini'}</td>
+      <td style="white-space:nowrap">
+        <select class="input-field" style="padding:.35rem .5rem;font-size:.8rem;width:auto;display:inline-block" onchange="updateOrderStatus('${o.id}', this.value)">
           <option value="processing" ${o.status === 'processing' ? 'selected' : ''}>Processing</option>
           <option value="preparing"  ${o.status === 'preparing'  ? 'selected' : ''}>Preparing</option>
           <option value="delivered"  ${o.status === 'delivered'  ? 'selected' : ''}>Delivered</option>
           <option value="cancelled"  ${o.status === 'cancelled'  ? 'selected' : ''}>Cancelled</option>
         </select>
+        <button class="btn btn-sm btn-ghost" style="margin-left:4px" onclick="viewOrderDetail('${o.id}')">Detail</button>
+        <button class="btn btn-sm" style="color:#E11D48;background:#FEE2E2;border-radius:var(--radius-full);margin-left:4px" onclick="deleteOrder('${o.id}')">Hapus</button>
       </td>
-    </tr>`).join('');
+    </tr>`;
+
+  if (overviewTbody) {
+    if (orders.length === 0) {
+      overviewTbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--color-text-muted);padding:2rem">Belum ada pesanan masuk.</td></tr>`;
+    } else {
+      overviewTbody.innerHTML = orders.slice(0, 5).map(renderRow).join('');
+    }
+  }
+
+  if (fullTbody) {
+    if (orders.length === 0) {
+      fullTbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--color-text-muted);padding:2rem">Belum ada pesanan masuk.</td></tr>`;
+    } else {
+      fullTbody.innerHTML = orders.map(renderRow).join('');
+    }
+  }
 }
 
 function updateOrderStatus(orderId, status) {
-  window.desserteToast && window.desserteToast.show(`Order ${orderId} updated to "${status}"`, 'success');
+  const getOrdersFn = window.getStoredOrders || window.DESSERTE_DATA?.getStoredOrders;
+  const saveOrdersFn = window.saveOrders || window.DESSERTE_DATA?.saveOrders;
+  const orders = getOrdersFn ? getOrdersFn() : [];
+  const idx = orders.findIndex(o => o.id === orderId);
+  if (idx > -1) {
+    orders[idx].status = status;
+    if (saveOrdersFn) saveOrdersFn(orders);
+    renderAdminOrders();
+    renderAdminStats();
+    window.desserteToast && window.desserteToast.show(`Pesanan ${orderId} diubah status menjadi "${status}"`, 'success');
+  }
+}
+
+function deleteOrder(orderId) {
+  if (confirm(`Hapus data pesanan ${orderId}?`)) {
+    const getOrdersFn = window.getStoredOrders || window.DESSERTE_DATA?.getStoredOrders;
+    const saveOrdersFn = window.saveOrders || window.DESSERTE_DATA?.saveOrders;
+    let orders = getOrdersFn ? getOrdersFn() : [];
+    orders = orders.filter(o => o.id !== orderId);
+    if (saveOrdersFn) saveOrdersFn(orders);
+    renderAdminOrders();
+    renderAdminStats();
+    window.desserteToast && window.desserteToast.show(`Pesanan ${orderId} berhasil dihapus.`, 'info');
+  }
+}
+
+function viewOrderDetail(orderId) {
+  const getOrdersFn = window.getStoredOrders || window.DESSERTE_DATA?.getStoredOrders;
+  const orders = getOrdersFn ? getOrdersFn() : [];
+  const order = orders.find(o => o.id === orderId);
+  if (!order) return;
+
+  let modal = document.getElementById('order-detail-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.className = 'overlay';
+    modal.id = 'order-detail-modal';
+    document.body.appendChild(modal);
+  }
+
+  const itemsListHtml = (order.itemList || []).map(i => `
+    <div class="flex-between" style="padding:0.5rem 0;border-bottom:1px solid var(--cream-200)">
+      <div>
+        <strong>${i.name}</strong> ${i.size ? `<span style="font-size:0.8rem;color:var(--color-text-muted)">(${i.size})</span>` : ''}
+        ${i.notes ? `<div style="font-size:0.75rem;color:var(--color-accent);font-style:italic">"${i.notes}"</div>` : ''}
+      </div>
+      <div>${i.quantity} x ${formatPrice(i.price)}</div>
+    </div>
+  `).join('') || `<div>${order.items}</div>`;
+
+  modal.innerHTML = `
+    <div class="modal" style="max-width:540px;padding:2rem">
+      <div class="flex-between" style="margin-bottom:1.25rem">
+        <div>
+          <h3 class="text-display" style="font-size:1.4rem;color:var(--color-primary)">Detail Pesanan ${order.id}</h3>
+          <span class="order-status status-${order.status}">${order.status}</span>
+        </div>
+        <button onclick="document.getElementById('order-detail-modal').classList.remove('active')" class="btn-icon btn-ghost">✕</button>
+      </div>
+
+      <div style="background:var(--cream-100);padding:1rem;border-radius:12px;margin-bottom:1.25rem;font-size:0.875rem">
+        <div><strong>Pemesan:</strong> ${order.customer}</div>
+        <div><strong>WhatsApp/HP:</strong> ${order.phone || '—'}</div>
+        <div><strong>Email:</strong> ${order.email || '—'}</div>
+        <div><strong>Metode:</strong> ${order.type || 'Delivery'}</div>
+        <div><strong>Alamat / Info:</strong> ${order.address || '—'}</div>
+        <div><strong>Pembayaran:</strong> ${order.payment || 'E-Wallet'}</div>
+        ${order.customerNotes ? `<div style="margin-top:0.35rem"><strong>Catatan Khusus:</strong> "${order.customerNotes}"</div>` : ''}
+      </div>
+
+      <div style="margin-bottom:1.25rem">
+        <h4 style="font-size:0.95rem;margin-bottom:0.5rem">Daftar Item Pesanan:</h4>
+        ${itemsListHtml}
+      </div>
+
+      <div style="border-top:1px solid var(--cream-200);padding-top:0.75rem;margin-bottom:1.5rem">
+        <div class="flex-between" style="font-size:0.9rem;color:var(--color-text-muted)"><span>Subtotal:</span><span>${formatPrice(order.subtotal || 0)}</span></div>
+        ${order.discount ? `<div class="flex-between" style="font-size:0.9rem;color:#059669"><span>Diskon:</span><span>- ${formatPrice(order.discount)}</span></div>` : ''}
+        <div class="flex-between" style="font-size:0.9rem;color:var(--color-text-muted)"><span>Ongkir:</span><span>${order.deliveryFee === 0 ? 'Free' : formatPrice(order.deliveryFee || 0)}</span></div>
+        <div class="flex-between" style="font-size:1.1rem;font-weight:700;color:var(--color-primary);margin-top:0.5rem">
+          <span>Total Pembayaran:</span><span>${order.total}</span>
+        </div>
+      </div>
+
+      <div style="text-align:right">
+        <button class="btn btn-primary btn-sm" onclick="document.getElementById('order-detail-modal').classList.remove('active')">Tutup</button>
+      </div>
+    </div>
+  `;
+
+  modal.classList.add('active');
 }
 
 function renderAdminProducts() {
   const tbody = document.getElementById('admin-products-body');
   if (!tbody || !window.DESSERTE_DATA) return;
-  tbody.innerHTML = DESSERTE_DATA.products.map(p => `
+  const products = window.DESSERTE_DATA.products || [];
+
+  if (products.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--color-text-muted);padding:2rem">Belum ada produk di katalog.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = products.map(p => `
     <tr>
       <td>
         <div style="display:flex;align-items:center;gap:.75rem">
-          <div style="width:44px;height:44px;border-radius:8px;background:${p.fallbackColor}20;overflow:hidden;flex-shrink:0">
+          <div style="width:44px;height:44px;border-radius:8px;background:${p.fallbackColor || '#1A3A2A'}20;overflow:hidden;flex-shrink:0">
             <img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">
           </div>
-          <strong>${p.name}</strong>
+          <div>
+            <strong>${p.name}</strong>
+            <div style="font-size:0.75rem;color:var(--color-text-muted)">ID: ${p.id}</div>
+          </div>
         </div>
       </td>
-      <td style="color:var(--color-text-muted)">${p.category.join(', ')}</td>
+      <td style="color:var(--color-text-muted)">${Array.isArray(p.category) ? p.category.join(', ') : p.category}</td>
       <td><strong>${formatPrice(p.price)}</strong></td>
-      <td><span class="stars" style="font-size:.8rem">${'&#9733;'.repeat(Math.floor(p.rating))}</span> ${p.rating}</td>
+      <td><span class="stars" style="font-size:.8rem">${'&#9733;'.repeat(Math.floor(p.rating || 5))}</span> ${p.rating || 5.0}</td>
       <td>${p.badge ? `<span class="badge ${p.badge === 'New' ? 'badge-new' : 'badge-gold'}">${p.badge}</span>` : '<span style="color:var(--color-text-muted)">—</span>'}</td>
       <td>
         <div style="display:flex;gap:.5rem">
-          <button class="btn btn-ghost btn-sm" onclick="editProduct('${p.id}')">Edit</button>
-          <button class="btn btn-sm" style="color:#E11D48;background:#FEE2E2;border-radius:var(--radius-full)" onclick="deleteProduct('${p.id}')">Delete</button>
+          <button class="btn btn-sm" style="color:#E11D48;background:#FEE2E2;border-radius:var(--radius-full)" onclick="deleteProduct('${p.id}')">Hapus</button>
         </div>
       </td>
     </tr>`).join('');
 }
 
-function editProduct(id) {
-  window.desserteToast && window.desserteToast.show(`Editing product ${id}...`, 'info');
-}
-
 function deleteProduct(id) {
-  if (confirm('Delete this product?')) {
-    window.desserteToast && window.desserteToast.show('Product deleted.', 'success');
+  if (confirm(`Apakah Anda yakin ingin menghapus produk ini dari katalog?`)) {
+    try {
+      // Remove from custom products
+      let custom = JSON.parse(localStorage.getItem('desserte_custom_products') || '[]');
+      custom = custom.filter(p => p.id !== id);
+      localStorage.setItem('desserte_custom_products', JSON.stringify(custom));
+
+      // Add to deleted products list to hide base products
+      let deleted = JSON.parse(localStorage.getItem('desserte_deleted_products') || '[]');
+      if (!deleted.includes(id)) {
+        deleted.push(id);
+        localStorage.setItem('desserte_deleted_products', JSON.stringify(deleted));
+      }
+
+      renderAdminProducts();
+      renderAdminStats();
+      window.desserteToast && window.desserteToast.show('Produk berhasil dihapus dari sistem.', 'success');
+    } catch (e) {
+      console.error(e);
+    }
   }
 }
 

@@ -261,6 +261,9 @@
       document.getElementById('type-pickup-btn').classList.toggle('active', !isDel);
       document.getElementById('delivery-details-form').style.display = isDel ? 'block' : 'none';
       document.getElementById('pickup-details-form').style.display = !isDel ? 'block' : 'none';
+      if (window.checkoutFlow) {
+        window.checkoutFlow.orderType = type;
+      }
     }
 
     function selectPayment(type, el) {
