@@ -14,6 +14,19 @@
   <link rel="stylesheet" href="src/css/styles.css">
   <link rel="stylesheet" href="src/css/components.css">
 
+  <script>
+    (function() {
+      try {
+        const user = JSON.parse(localStorage.getItem('desserte_current_user') || 'null');
+        if (!user || user.role !== 'admin') {
+          window.location.replace('login.html?role=admin&redirect=admin.html');
+        }
+      } catch (e) {
+        window.location.replace('login.html?role=admin&redirect=admin.html');
+      }
+    })();
+  </script>
+
   <style>
     body { background: var(--cream-100); }
     .admin-nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
@@ -56,10 +69,13 @@
         </div>
       </nav>
 
-      <div style="padding:1.25rem;border-top:1px solid rgba(255,255,255,0.08)">
+      <div style="padding:1.25rem;border-top:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;gap:0.6rem">
         <a href="index.html" class="btn btn-outline" style="width:100%;color:#fff;border-color:rgba(255,255,255,0.3);font-size:0.8125rem">
           &larr; Lihat Toko Publik
         </a>
+        <button onclick="window.desserteAuth ? window.desserteAuth.logout() : (localStorage.removeItem('desserte_current_user'), window.location.href='login.html')" class="btn btn-outline" style="width:100%;color:#FDA4AF;border-color:rgba(254,202,202,0.3);font-size:0.8125rem;background:rgba(225,29,72,0.1)">
+          Keluar (Logout)
+        </button>
       </div>
     </aside>
 
@@ -71,13 +87,20 @@
         <div style="font-weight:700;font-size:1.1rem;color:var(--color-primary)">
           Restoran & Patisserie Management System
         </div>
-        <div style="display:flex;align-items:center;gap:1rem">
-          <div style="font-size:0.875rem;color:var(--color-text-muted)">
-            Login as: <strong>Admin Manager</strong>
+        <div style="display:flex;align-items:center;gap:1.25rem">
+          <div style="display:flex;align-items:center;gap:0.75rem">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--color-accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">
+              👑
+            </div>
+            <div style="text-align:left">
+              <div style="font-size:0.875rem;font-weight:700;color:var(--color-primary)" id="admin-name-display">Admin Desserté</div>
+              <div style="font-size:0.75rem;color:var(--color-text-muted)" id="admin-email-display">admin@desserte.id</div>
+            </div>
           </div>
-          <div style="width:36px;height:36px;border-radius:50%;background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.875rem">
-            AM
-          </div>
+          <button onclick="window.desserteAuth ? window.desserteAuth.logout() : (localStorage.removeItem('desserte_current_user'), window.location.href='login.html')" class="btn btn-outline btn-sm" style="color:#E11D48;border-color:#FEE2E2;background:#FFF1F2;display:flex;align-items:center;gap:0.35rem">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span>Logout</span>
+          </button>
         </div>
       </header>
 
@@ -366,8 +389,19 @@
 
   <script src="src/data/data.js"></script>
   <script src="src/js/cart.js"></script>
+  <script src="src/js/auth.js"></script>
   <script src="src/js/products.js"></script>
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = window.desserteAuth ? window.desserteAuth.getCurrentUser() : null;
+      if (user) {
+        const nameEl = document.getElementById('admin-name-display');
+        const emailEl = document.getElementById('admin-email-display');
+        if (nameEl) nameEl.textContent = user.name;
+        if (emailEl) emailEl.textContent = user.email;
+      }
+    });
+
     function openAddProductModal() {
       document.getElementById('add-product-modal')?.classList.add('active');
     }

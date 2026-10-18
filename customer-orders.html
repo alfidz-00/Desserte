@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riwayat Pesanan — Desserté Cake & Dessert</title>
+  <link rel="icon" type="image/jpeg" href="images/logo/desserte-logo.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="src/css/styles.css">
+  <link rel="stylesheet" href="src/css/components.css">
+
+  <style>
+    .order-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .status-processing {
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FCD34D;
+    }
+    .status-delivered {
+      background: #D1FAE5;
+      color: #065F46;
+      border: 1px solid #A7F3D0;
+    }
+    .status-cancelled {
+      background: #FEE2E2;
+      color: #991B1B;
+      border: 1px solid #FECACA;
+    }
+    .order-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px dashed var(--cream-300);
+      font-size: 0.875rem;
+    }
+    .order-item-row:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================================
+       1. TOP NAVBAR
+       ========================================================================= -->
+  <header id="navbar" class="scrolled">
+    <div class="navbar-inner">
+      <a href="index.html" class="nav-logo" aria-label="Desserté Home">
+        <div class="logo-badge">
+          <img src="images/logo/desserte-logo.jpg" alt="Desserté Logo" class="logo-img" style="height:44px;width:44px;border-radius:10px;object-fit:cover;border:1.5px solid rgba(201,168,76,0.4)">
+          <div>
+            <div class="nav-brand-title" style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--color-primary);line-height:1">Desserté</div>
+            <div class="nav-brand-sub" style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-accent);font-weight:600;margin-top:2px">Cake & Dessert</div>
+          </div>
+        </div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="menu.html" class="nav-link">Menu</a>
+        <a href="promo.html" class="nav-link">Promo</a>
+        <a href="cake.html" class="nav-link">Custom Cake</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="nav-actions-icon" id="search-btn" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button class="nav-actions-icon" data-action="open-cart" aria-label="Open Cart">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="cart-badge">0</span>
+        </button>
+        <div id="nav-auth-container"></div>
+        <button id="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-menu-overlay"></div>
+  <aside id="mobile-menu-drawer">
+    <div class="mobile-menu-header">
+      <div class="logo-badge">
+        <img src="images/logo/desserte-logo.jpg" alt="Desserté" class="logo-img" style="height:40px;width:40px;border-radius:8px">
+        <div>
+          <div class="nav-brand-title" style="color:var(--color-primary)">Desserté</div>
+          <div class="nav-brand-sub">Cake & Dessert</div>
+        </div>
+      </div>
+      <button id="mobile-menu-close" class="btn-icon btn-ghost">✕</button>
+    </div>
+    <div style="padding: 1rem 1.5rem; border-bottom: 1px solid var(--cream-200);">
+      <div id="mobile-auth-container"></div>
+    </div>
+    <nav style="flex:1;">
+      <a href="index.html" class="mobile-nav-link">Home</a>
+      <a href="menu.html" class="mobile-nav-link">Menu & Katalog</a>
+      <a href="promo.html" class="mobile-nav-link">Special Offers</a>
+      <a href="cake.html" class="mobile-nav-link">Custom Cake</a>
+      <a href="about.html" class="mobile-nav-link">About Us</a>
+      <a href="contact.html" class="mobile-nav-link">Outlets & Stores</a>
+      <a href="customer-orders.html" class="mobile-nav-link active">Riwayat Pesanan</a>
+    </nav>
+  </aside>
+
+  <!-- =========================================================================
+       2. HERO SECTION
+       ========================================================================= -->
+  <section class="orders-hero">
+    <div class="container" style="position:relative;z-index:2">
+      <div class="flex-between" style="flex-wrap:wrap;gap:1.5rem">
+        <div>
+          <span class="badge badge-gold" style="margin-bottom:0.75rem">Customer Portal</span>
+          <h1 class="text-display" style="font-size:clamp(2rem,3.5vw,3rem);font-weight:700;margin-bottom:0.5rem" id="user-greeting-title">
+            Riwayat Pesanan Anda
+          </h1>
+          <p style="color:rgba(255,255,255,0.85);font-size:0.95rem;margin:0" id="user-greeting-sub">
+            Pantau status pesanan kue & dessert favorit Anda di sini secara real-time.
+          </p>
+        </div>
+        <div id="customer-profile-pill" style="display:none;background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);padding:1rem 1.5rem;border-radius:var(--radius-xl);border:1px solid rgba(255,255,255,0.2)">
+          <div style="font-size:0.75rem;color:var(--gold-300);text-transform:uppercase;letter-spacing:0.08em;font-weight:600">Akun Member</div>
+          <div style="font-size:1.1rem;font-weight:700;color:#fff" id="profile-name">-</div>
+          <div style="font-size:0.8125rem;color:rgba(255,255,255,0.8)" id="profile-email">-</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       3. ORDERS CONTENT
+       ========================================================================= -->
+  <main style="padding: 3rem 0; min-height: 50vh; background: var(--cream-100)">
+    <div class="container" style="max-width: 900px">
+
+      <!-- Unauthenticated State -->
+      <div id="auth-required-box" style="display:none;background:#fff;border-radius:var(--radius-2xl);padding:3.5rem 2rem;text-align:center;box-shadow:var(--shadow-sm);border:1px solid var(--cream-300)">
+        <div style="font-size:3.5rem;margin-bottom:1rem">🔐</div>
+        <h2 class="text-display" style="font-size:1.75rem;color:var(--color-primary);margin-bottom:0.75rem">
+          Silakan Masuk Terlebih Dahulu
+        </h2>
+        <p style="color:var(--color-text-muted);max-width:480px;margin:0 auto 2rem;font-size:0.95rem">
+          Untuk melihat dan melacak riwayat pesanan Anda, silakan masuk ke akun pelanggan Desserté Anda.
+        </p>
+        <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap">
+          <a href="login.html?redirect=customer-orders.html" class="btn btn-primary btn-lg">
+            Masuk ke Akun Saya &rarr;
+          </a>
+          <a href="login.html?role=customer&redirect=customer-orders.html" class="btn btn-outline btn-lg">
+            Daftar Akun Baru
+          </a>
+        </div>
+      </div>
+
+      <!-- Authenticated Content Container -->
+      <div id="orders-main-box" style="display:none">
+        
+        <!-- Filter Tabs -->
+        <div style="display:flex;gap:0.5rem;margin-bottom:1.75rem;overflow-x:auto;padding-bottom:0.25rem">
+          <button class="filter-tab active" onclick="filterCustomerOrders('all', this)">Semua Pesanan</button>
+          <button class="filter-tab" onclick="filterCustomerOrders('processing', this)">Sedang Diproses</button>
+          <button class="filter-tab" onclick="filterCustomerOrders('delivered', this)">Selesai</button>
+        </div>
+
+        <!-- Orders List Container -->
+        <div id="orders-list-container">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Empty State (No orders for this user) -->
+        <div id="orders-empty-state" style="display:none;background:#fff;border-radius:var(--radius-2xl);padding:4rem 2rem;text-align:center;border:1px solid var(--cream-300)">
+          <div style="font-size:3.5rem;margin-bottom:1rem">🍰</div>
+          <h3 class="text-display" style="font-size:1.5rem;color:var(--color-primary);margin-bottom:0.5rem">
+            Belum Ada Pesanan
+          </h3>
+          <p style="color:var(--color-text-muted);max-width:420px;margin:0 auto 1.75rem;font-size:0.9rem">
+            Anda belum memiliki riwayat pesanan. Manjakan lidah Anda dengan pilihan artisanal cake & patisserie istimewa kami!
+          </p>
+          <a href="menu.html" class="btn btn-gold btn-lg">
+            Pesan Dessert Sekarang &rarr;
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       4. FOOTER
+       ========================================================================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="logo-badge" style="margin-bottom:1rem">
+            <img src="images/logo/desserte-logo.jpg" alt="Desserté Logo" class="logo-img" style="height:44px;width:44px;border-radius:10px">
+            <div>
+              <div class="nav-brand-title" style="color:#FFFFFF;font-family:var(--font-display);font-size:1.5rem;font-weight:700">Desserté</div>
+              <div class="nav-brand-sub" style="color:var(--gold-300);font-size:0.65rem;letter-spacing:0.18em">Cake & Dessert</div>
+            </div>
+          </div>
+          <p style="color:rgba(255,255,255,0.7);font-size:0.875rem;line-height:1.7;margin-bottom:1.5rem">
+            Kelezatan patisserie khas Prancis berpadu bahan baku premium Indonesia.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-heading">Navigasi Cepat</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="menu.html">Katalog Menu</a></li>
+            <li><a href="promo.html">Special Promo</a></li>
+            <li><a href="cake.html">Custom Cake</a></li>
+            <li><a href="customer-orders.html">Pesanan Saya</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-heading">Hubungi Kami</h4>
+          <ul class="footer-links">
+            <li><a href="https://wa.me/6285877802506" target="_blank">+62 858 7780 2506</a></li>
+            <li><a href="https://wa.me/6288216514968" target="_blank">+62 882 1651 4968</a></li>
+            <li><a href="https://instagram.com/desserte_box" target="_blank">IG: @desserte_box</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 Desserté Cake & Dessert. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Search Modal -->
+  <div id="search-overlay">
+    <div class="search-box">
+      <div style="display:flex;align-items:center;border-bottom:1px solid var(--cream-300);padding:1rem 1.5rem">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:0.75rem;color:var(--brown-300)"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="search-input" placeholder="Cari cake, pastry, cheesecake..." style="flex:1;border:none;outline:none;font-size:1.1rem;font-family:var(--font-body)">
+        <button id="search-close" class="btn-icon btn-ghost">✕</button>
+      </div>
+      <div id="search-results" class="search-results-list">
+        <p class="search-empty">Ketik untuk mencari produk...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Drawer Component -->
+  <div id="cart-overlay"></div>
+  <aside id="cart-drawer">
+    <div class="cart-drawer-header">
+      <div class="cart-drawer-title">
+        <span>Keranjang Belanja</span>
+      </div>
+      <button id="cart-close" class="btn-icon btn-ghost">✕</button>
+    </div>
+    <div class="cart-drawer-body">
+      <div id="cart-empty" class="cart-empty-state">
+        <div style="font-size:3rem;margin-bottom:0.75rem">🛒</div>
+        <p>Keranjang belanja Anda masih kosong</p>
+        <a href="menu.html" class="btn btn-outline btn-sm">Mulai Belanja</a>
+      </div>
+      <div id="cart-items" class="cart-items-list"></div>
+    </div>
+    <div class="cart-drawer-footer" id="cart-summary-wrap" style="display:none">
+      <div class="cart-summary-row cart-summary-total">
+        <span>Total:</span>
+        <span id="cart-total-amount">Rp 0</span>
+      </div>
+      <button class="btn btn-primary" id="checkout-btn" style="width:100%;margin-top:0.75rem">Checkout &rarr;</button>
+    </div>
+  </aside>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="src/data/data.js"></script>
+  <script src="src/js/navbar.js"></script>
+  <script src="src/js/cart.js"></script>
+  <script src="src/js/auth.js"></script>
+
+  <script>
+    let currentFilter = 'all';
+    let currentUserOrders = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initCustomerOrdersPage();
+    });
+
+    function initCustomerOrdersPage() {
+      const user = window.desserteAuth ? window.desserteAuth.getCurrentUser() : null;
+      const authBox = document.getElementById('auth-required-box');
+      const ordersBox = document.getElementById('orders-main-box');
+      const profilePill = document.getElementById('customer-profile-pill');
+
+      if (!user) {
+        if (authBox) authBox.style.display = 'block';
+        if (ordersBox) ordersBox.style.display = 'none';
+        if (profilePill) profilePill.style.display = 'none';
+        return;
+      }
+
+      if (authBox) authBox.style.display = 'none';
+      if (ordersBox) ordersBox.style.display = 'block';
+      if (profilePill) {
+        profilePill.style.display = 'block';
+        document.getElementById('profile-name').textContent = user.name;
+        document.getElementById('profile-email').textContent = user.email;
+      }
+      document.getElementById('user-greeting-title').textContent = `Riwayat Pesanan ${user.name.split(' ')[0]}`;
+
+      loadCustomerOrders(user);
+    }
+
+    function loadCustomerOrders(user) {
+      const allOrders = window.getStoredOrders ? window.getStoredOrders() : [];
+      const userEmail = (user.email || '').toLowerCase().trim();
+      const userNameFirst = (user.name || '').toLowerCase().trim().split(' ')[0];
+
+      // Match orders by email or customer name
+      currentUserOrders = allOrders.filter(o => {
+        const orderEmail = (o.email || '').toLowerCase().trim();
+        const orderName = (o.customer || '').toLowerCase().trim();
+        return (orderEmail === userEmail) || (userNameFirst && orderName.includes(userNameFirst));
+      });
+
+      renderCustomerOrdersList();
+    }
+
+    function filterCustomerOrders(filter, btn) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderCustomerOrdersList();
+    }
+
+    function renderCustomerOrdersList() {
+      const container = document.getElementById('orders-list-container');
+      const emptyState = document.getElementById('orders-empty-state');
+      if (!container) return;
+
+      let filtered = currentUserOrders;
+      if (currentFilter !== 'all') {
+        filtered = currentUserOrders.filter(o => o.status === currentFilter);
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      container.innerHTML = filtered.map(order => {
+        const isProc = order.status === 'processing';
+        const isDel = order.status === 'delivered';
+        const badgeClass = isProc ? 'status-processing' : isDel ? 'status-delivered' : 'status-cancelled';
+        const badgeLabel = isProc ? '⏳ Sedang Diproses' : isDel ? '✓ Pesanan Selesai' : '✕ Dibatalkan';
+
+        // Render item rows
+        let itemsHtml = '';
+        if (order.itemList && Array.isArray(order.itemList) && order.itemList.length > 0) {
+          itemsHtml = order.itemList.map(it => `
+            <div class="order-item-row">
+              <div>
+                <span style="font-weight:600;color:var(--color-primary)">${it.name}</span>
+                ${it.size ? `<span style="font-size:0.75rem;color:var(--color-text-muted);margin-left:0.35rem">(${it.size})</span>` : ''}
+                <span style="color:var(--color-text-muted);font-size:0.8rem;margin-left:0.5rem">&times; ${it.quantity}</span>
+              </div>
+              <div style="font-weight:600">${formatPrice(it.price * it.quantity)}</div>
+            </div>
+          `).join('');
+        } else {
+          itemsHtml = `
+            <div class="order-item-row">
+              <div>${order.items || 'Menu Pilihan Desserté'}</div>
+              <div style="font-weight:600">${order.total}</div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="order-history-card">
+            <div class="order-history-header">
+              <div>
+                <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">
+                  <span style="font-family:var(--font-display);font-size:1.15rem;font-weight:700;color:var(--color-primary)">${order.id}</span>
+                  <span class="order-status-badge ${badgeClass}">${badgeLabel}</span>
+                </div>
+                <div style="font-size:0.8125rem;color:var(--color-text-muted);margin-top:0.25rem">
+                  Waktu Pemesanan: <strong>${order.date || 'Hari ini'}</strong> • ${order.time || 'Baru saja'}
+                </div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-size:0.75rem;color:var(--color-text-muted);text-transform:uppercase">Total Pembayaran</div>
+                <div style="font-size:1.15rem;font-weight:700;color:var(--color-primary)">${order.total}</div>
+              </div>
+            </div>
+
+            <!-- Delivery & Payment Info -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;padding:0.75rem;background:var(--cream-100);border-radius:var(--radius-md);margin-bottom:1rem;font-size:0.8125rem">
+              <div>
+                <span style="color:var(--color-text-muted)">Tipe Pesanan:</span>
+                <strong style="display:block;color:var(--color-text)">${order.type === 'Delivery' ? '🛵 Pengantaran (Delivery)' : '🏬 Ambil Sendiri (Pickup)'}</strong>
+              </div>
+              <div>
+                <span style="color:var(--color-text-muted)">Metode Bayar:</span>
+                <strong style="display:block;color:var(--color-text)">${order.payment || 'E-Wallet / QRIS'}</strong>
+              </div>
+              <div>
+                <span style="color:var(--color-text-muted)">Tujuan / Lokasi:</span>
+                <strong style="display:block;color:var(--color-text);word-break:break-word">${order.address || 'Alamat Pemesan'}</strong>
+              </div>
+            </div>
+
+            <!-- Items Breakdown -->
+            <div style="margin-bottom:1.25rem">
+              <div style="font-size:0.8125rem;font-weight:700;color:var(--brown-500);text-transform:uppercase;margin-bottom:0.35rem">Rincian Menu:</div>
+              ${itemsHtml}
+            </div>
+
+            <!-- Bottom Actions -->
+            <div class="flex-between" style="border-top:1px solid var(--cream-200);padding-top:0.85rem">
+              <span style="font-size:0.8125rem;color:var(--color-text-muted)">
+                ${order.customerNotes ? `Catatan: <em>"${order.customerNotes}"</em>` : 'Pesanan diproses higienis & segar.'}
+              </span>
+              <a href="menu.html" class="btn btn-outline btn-sm" style="font-size:0.8rem">
+                Pesan Menu Lain &rarr;
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+  </script>
+</body>
+</html>

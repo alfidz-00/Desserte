@@ -71,6 +71,7 @@
           <span class="cart-badge">0</span>
         </button>
         <a href="menu.html" class="btn btn-gold btn-sm hide-mobile">Order Now</a>
+        <div id="nav-auth-container"></div>
         <button id="hamburger" aria-label="Open menu">
           <span></span><span></span><span></span>
         </button>
@@ -91,14 +92,18 @@
       </div>
       <button id="mobile-menu-close" class="btn-icon btn-ghost">✕</button>
     </div>
+    <!-- Mobile Auth Section -->
+    <div style="padding: 1rem 1.5rem; border-bottom: 1px solid var(--cream-200);">
+      <div id="mobile-auth-container"></div>
+    </div>
     <nav style="flex:1;">
       <a href="index.html" class="mobile-nav-link">Home</a>
       <a href="menu.html" class="mobile-nav-link">Menu & Katalog</a>
       <a href="promo.html" class="mobile-nav-link">Special Offers</a>
       <a href="cake.html" class="mobile-nav-link">Custom Cake</a>
       <a href="about.html" class="mobile-nav-link">About Us</a>
-      <a href="contact.html" class="mobile-nav-link">Outlets & Stores</a>
-      <a href="admin.html" class="mobile-nav-link" style="color:var(--color-accent);font-weight:600">Admin Dashboard</a>
+      <a href="contact.html" class="mobile-nav-link active">Outlets & Stores</a>
+      <a href="customer-orders.html" class="mobile-nav-link">Riwayat Pesanan</a>
     </nav>
   </aside>
 
@@ -271,6 +276,7 @@
   <script src="src/data/data.js"></script>
   <script src="src/js/navbar.js"></script>
   <script src="src/js/cart.js"></script>
+  <script src="src/js/auth.js"></script>
   <script src="src/js/products.js"></script>
 </body>
 </html>

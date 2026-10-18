@@ -84,7 +84,13 @@
 
           <!-- STEP 1: Customer Information -->
           <div class="checkout-step-panel" id="step-panel-1">
-            <h2 class="form-section-title">Informasi Pemesan</h2>
+            <div class="flex-between" style="align-items:flex-start;margin-bottom:0.75rem">
+              <h2 class="form-section-title" style="margin:0">Informasi Pemesan</h2>
+              <div id="checkout-auth-badge"></div>
+            </div>
+            <div id="checkout-login-hint" style="display:none;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);border-radius:var(--radius-md);padding:0.65rem 0.85rem;margin-bottom:1.25rem;font-size:0.8125rem;color:var(--color-primary)">
+              Sudah punya akun member? <a href="login.html?redirect=checkout.html" style="font-weight:700;color:var(--color-primary);text-decoration:underline">Masuk di sini</a> untuk checkout lebih praktis.
+            </div>
             <div class="form-grid-2" style="margin-bottom:1rem">
               <div class="input-group">
                 <label class="input-label" for="customer-name">Nama Lengkap *</label>
@@ -253,8 +259,32 @@
 
   <script src="src/data/data.js"></script>
   <script src="src/js/cart.js"></script>
+  <script src="src/js/auth.js"></script>
   <script src="src/js/products.js"></script>
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = window.desserteAuth ? window.desserteAuth.getCurrentUser() : null;
+      const badge = document.getElementById('checkout-auth-badge');
+      const hint = document.getElementById('checkout-login-hint');
+
+      if (user) {
+        if (badge) {
+          badge.innerHTML = `<span class="badge badge-green" style="font-size:0.75rem">Akun: ${user.name}</span>`;
+        }
+        if (hint) hint.style.display = 'none';
+
+        const nameInput = document.getElementById('customer-name');
+        const phoneInput = document.getElementById('customer-phone');
+        const emailInput = document.getElementById('customer-email');
+
+        if (nameInput && !nameInput.value) nameInput.value = user.name || '';
+        if (phoneInput && !phoneInput.value) phoneInput.value = user.phone || '';
+        if (emailInput && !emailInput.value) emailInput.value = user.email || '';
+      } else {
+        if (hint) hint.style.display = 'block';
+      }
+    });
+
     function switchOrderType(type) {
       const isDel = type === 'delivery';
       document.getElementById('type-delivery-btn').classList.toggle('active', isDel);
