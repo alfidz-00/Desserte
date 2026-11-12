@@ -966,10 +966,19 @@ function viewOrderDetail(orderId) {
 function renderAdminProducts() {
   const tbody = document.getElementById('admin-products-body');
   if (!tbody || !window.DESSERTE_DATA) return;
-  const products = window.DESSERTE_DATA.products || [];
+  let products = window.DESSERTE_DATA.products || [];
+
+  // Filter if active search or category exists
+  if (window.adminProductCategoryFilter && window.adminProductCategoryFilter !== 'all') {
+    products = products.filter(p => Array.isArray(p.category) && p.category.includes(window.adminProductCategoryFilter));
+  }
+  if (window.adminProductSearchQuery) {
+    const q = window.adminProductSearchQuery.toLowerCase();
+    products = products.filter(p => p.name.toLowerCase().includes(q) || (p.id && p.id.toLowerCase().includes(q)));
+  }
 
   if (products.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--color-text-muted);padding:2rem">Belum ada produk di katalog.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--color-text-muted);padding:2rem">Tidak ada produk yang cocok dengan pencarian / filter.</td></tr>`;
     return;
   }
 
@@ -991,8 +1000,9 @@ function renderAdminProducts() {
       <td><span class="stars" style="font-size:.8rem">${'&#9733;'.repeat(Math.floor(p.rating || 5))}</span> ${p.rating || 5.0}</td>
       <td>${p.badge ? `<span class="badge ${p.badge === 'New' ? 'badge-new' : 'badge-gold'}">${p.badge}</span>` : '<span style="color:var(--color-text-muted)">—</span>'}</td>
       <td>
-        <div style="display:flex;gap:.5rem">
-          <button class="btn btn-sm" style="color:#E11D48;background:#FEE2E2;border-radius:var(--radius-full)" onclick="deleteProduct('${p.id}')">Hapus</button>
+        <div style="display:flex;gap:.4rem">
+          <button class="btn btn-sm btn-outline" style="border-color:var(--color-accent);color:var(--color-primary);font-size:0.8rem;padding:0.3rem 0.6rem" onclick="openEditProductModal('${p.id}')">✏️ Edit</button>
+          <button class="btn btn-sm" style="color:#E11D48;background:#FEE2E2;border-radius:var(--radius-full);font-size:0.8rem;padding:0.3rem 0.6rem" onclick="deleteProduct('${p.id}')">Hapus</button>
         </div>
       </td>
     </tr>`).join('');

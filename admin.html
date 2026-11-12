@@ -93,8 +93,8 @@
               👑
             </div>
             <div style="text-align:left">
-              <div style="font-size:0.875rem;font-weight:700;color:var(--color-primary)" id="admin-name-display">Admin Desserté</div>
-              <div style="font-size:0.75rem;color:var(--color-text-muted)" id="admin-email-display">admin@desserte.id</div>
+              <div style="font-size:0.875rem;font-weight:700;color:var(--color-primary)" id="admin-name-display">Alpit (Owner & Admin)</div>
+              <div style="font-size:0.75rem;color:var(--color-text-muted)" id="admin-email-display">alpit@desserte.id</div>
             </div>
           </div>
           <button onclick="window.desserteAuth ? window.desserteAuth.logout() : (localStorage.removeItem('desserte_current_user'), window.location.href='login.html')" class="btn btn-outline btn-sm" style="color:#E11D48;border-color:#FEE2E2;background:#FFF1F2;display:flex;align-items:center;gap:0.35rem">
@@ -176,13 +176,29 @@
         <!-- PANEL 3: Products Management -->
         <div class="admin-panel" id="panel-products" style="display:none">
           <div style="background:#fff;border-radius:var(--radius-xl);padding:1.75rem;box-shadow:var(--shadow-sm)">
-            <div class="flex-between" style="margin-bottom:1.5rem">
+            <div class="flex-between" style="margin-bottom:1.25rem;flex-wrap:wrap;gap:1rem">
               <div>
-                <h3 class="text-display" style="font-size:1.25rem">Katalog Produk</h3>
-                <p style="font-size:0.875rem;color:var(--color-text-muted)">Kelola daftar harga, ketersediaan menu, dan kategori dessert.</p>
+                <h3 class="text-display" style="font-size:1.25rem">Katalog Produk (50 Menu)</h3>
+                <p style="font-size:0.875rem;color:var(--color-text-muted)">Ubah harga, foto, deskripsi, atau hapus dan tambah produk baru secara langsung.</p>
               </div>
               <button class="btn btn-primary btn-sm" onclick="openAddProductModal()">+ Tambah Produk Baru</button>
             </div>
+
+            <!-- Search & Category Filter Toolbar -->
+            <div style="display:flex;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap;align-items:center;background:var(--cream-100);padding:0.85rem;border-radius:var(--radius-lg)">
+              <div style="flex:1;min-width:220px">
+                <input type="text" id="admin-product-search" class="input-field" placeholder="🔍 Cari nama produk / ID..." oninput="handleAdminProductSearch(this.value)" style="background:#fff">
+              </div>
+              <div style="display:flex;gap:0.4rem;overflow-x:auto;padding-bottom:2px" id="admin-cat-filter-btns">
+                <button type="button" class="btn btn-sm btn-outline active" style="font-size:0.75rem;padding:0.35rem 0.65rem;border-radius:9999px" onclick="filterAdminProductsCategory('all', this)">Semua (50)</button>
+                <button type="button" class="btn btn-sm btn-outline" style="font-size:0.75rem;padding:0.35rem 0.65rem;border-radius:9999px" onclick="filterAdminProductsCategory('cakes', this)">Cakes (10)</button>
+                <button type="button" class="btn btn-sm btn-outline" style="font-size:0.75rem;padding:0.35rem 0.65rem;border-radius:9999px" onclick="filterAdminProductsCategory('cheesecake', this)">Cheesecake (10)</button>
+                <button type="button" class="btn btn-sm btn-outline" style="font-size:0.75rem;padding:0.35rem 0.65rem;border-radius:9999px" onclick="filterAdminProductsCategory('pastry', this)">Pastry (10)</button>
+                <button type="button" class="btn btn-sm btn-outline" style="font-size:0.75rem;padding:0.35rem 0.65rem;border-radius:9999px" onclick="filterAdminProductsCategory('ice-cream', this)">Ice Cream (9)</button>
+                <button type="button" class="btn btn-sm btn-outline" style="font-size:0.75rem;padding:0.35rem 0.65rem;border-radius:9999px" onclick="filterAdminProductsCategory('drinks', this)">Drinks (11)</button>
+              </div>
+            </div>
+
             <div style="overflow-x:auto">
               <table class="admin-table">
                 <thead>
@@ -385,6 +401,85 @@
     </div>
   </div>
 
+  <!-- Edit Product Modal (Ubah Menu Langsung) -->
+  <div class="overlay" id="edit-product-modal">
+    <div class="modal" style="max-width:580px;padding:2rem">
+      <div class="flex-between" style="margin-bottom:1.5rem">
+        <div>
+          <h3 class="text-display" style="font-size:1.35rem">Ubah / Edit Menu Produk</h3>
+          <p style="font-size:0.8125rem;color:var(--color-text-muted);margin:0">Perubahan langsung aktif dan live di katalog website.</p>
+        </div>
+        <button onclick="closeEditProductModal()" class="btn-icon btn-ghost">✕</button>
+      </div>
+      <form onsubmit="handleUpdateProduct(event)">
+        <input type="hidden" id="edit-prod-id">
+        
+        <div class="input-group" style="margin-bottom:1rem">
+          <label class="input-label">Nama Produk *</label>
+          <input type="text" id="edit-prod-name" class="input-field" required>
+        </div>
+        
+        <div class="form-grid-2" style="margin-bottom:1rem">
+          <div class="input-group">
+            <label class="input-label">Kategori *</label>
+            <select id="edit-prod-cat" class="input-field">
+              <option value="cakes">Cakes</option>
+              <option value="cheesecake">Cheesecake</option>
+              <option value="chocolate">Chocolate</option>
+              <option value="pastry">Pastry</option>
+              <option value="ice-cream">Ice Cream</option>
+              <option value="drinks">Drinks</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Harga Dasar (Rp) *</label>
+            <input type="number" id="edit-prod-price" class="input-field" min="1000" step="1000" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2" style="margin-bottom:1rem">
+          <div class="input-group">
+            <label class="input-label">Foto Produk (File / URL)</label>
+            <input type="text" id="edit-prod-image" class="input-field" placeholder="images/products/cake-1.jpg" oninput="previewEditImage(this.value)">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Badge Label</label>
+            <select id="edit-prod-badge" class="input-field">
+              <option value="none">Tanpa Badge</option>
+              <option value="Best Seller">Badge: Best Seller</option>
+              <option value="New">Badge: New</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Image Preview -->
+        <div id="edit-img-preview-box" style="margin-bottom:1rem;display:flex;align-items:center;gap:1rem;background:var(--cream-100);padding:0.75rem;border-radius:var(--radius-md)">
+          <div style="width:54px;height:54px;border-radius:8px;overflow:hidden;background:#fff;border:1px solid var(--cream-300);flex-shrink:0">
+            <img id="edit-img-preview" src="" alt="Preview" style="width:100%;height:100%;object-fit:cover" onerror="this.src='images/logo/desserte-logo.jpg'">
+          </div>
+          <div style="font-size:0.8rem;color:var(--color-text-muted)">
+            Preview foto produk. Bisa diisi dengan path lokal (contoh: <code style="background:var(--cream-200);padding:2px 4px;border-radius:4px">images/products/cake-1.jpg</code>) atau link gambar.
+          </div>
+        </div>
+
+        <div class="input-group" style="margin-bottom:1rem">
+          <label class="input-label">Komposisi / Bahan Baku</label>
+          <input type="text" id="edit-prod-ingredients" class="input-field" placeholder="cth: French butter, cream cheese, pure honey">
+        </div>
+
+        <div class="input-group" style="margin-bottom:1.5rem">
+          <label class="input-label">Deskripsi Produk *</label>
+          <textarea id="edit-prod-desc" class="input-field" rows="2" placeholder="Jelaskan kelezatan dan tekstur produk..." required></textarea>
+        </div>
+
+        <div class="flex-between">
+          <button type="button" class="btn btn-outline" onclick="closeEditProductModal()">Batal</button>
+          <button type="submit" class="btn btn-primary">✓ Simpan Perubahan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <div id="toast-container"></div>
 
   <script src="src/data/data.js"></script>
@@ -408,6 +503,102 @@
     function closeAddProductModal() {
       document.getElementById('add-product-modal')?.classList.remove('active');
     }
+
+    // Edit Product Functions
+    function openEditProductModal(productId) {
+      const products = window.DESSERTE_DATA?.products || [];
+      const p = products.find(prod => prod.id === productId);
+      if (!p) {
+        alert('Produk tidak ditemukan!');
+        return;
+      }
+
+      document.getElementById('edit-prod-id').value = p.id;
+      document.getElementById('edit-prod-name').value = p.name || '';
+      document.getElementById('edit-prod-cat').value = Array.isArray(p.category) ? p.category[0] : (p.category || 'cakes');
+      document.getElementById('edit-prod-price').value = p.price || 0;
+      document.getElementById('edit-prod-image').value = p.image || '';
+      document.getElementById('edit-prod-badge').value = p.badge || 'none';
+      document.getElementById('edit-prod-ingredients').value = p.ingredients || '';
+      document.getElementById('edit-prod-desc').value = p.description || '';
+
+      const imgPrev = document.getElementById('edit-img-preview');
+      if (imgPrev) imgPrev.src = p.image || 'images/logo/desserte-logo.jpg';
+
+      document.getElementById('edit-product-modal')?.classList.add('active');
+    }
+
+    function closeEditProductModal() {
+      document.getElementById('edit-product-modal')?.classList.remove('active');
+    }
+
+    function previewEditImage(url) {
+      const imgPrev = document.getElementById('edit-img-preview');
+      if (imgPrev) imgPrev.src = url || 'images/logo/desserte-logo.jpg';
+    }
+
+    function handleUpdateProduct(e) {
+      e.preventDefault();
+      const id = document.getElementById('edit-prod-id').value;
+      const name = document.getElementById('edit-prod-name').value.trim();
+      const cat = document.getElementById('edit-prod-cat').value;
+      const price = parseInt(document.getElementById('edit-prod-price').value, 10);
+      const image = document.getElementById('edit-prod-image').value.trim() || 'images/logo/desserte-logo.jpg';
+      const badgeVal = document.getElementById('edit-prod-badge').value;
+      const ingredients = document.getElementById('edit-prod-ingredients').value.trim() || 'Premium ingredients';
+      const desc = document.getElementById('edit-prod-desc').value.trim();
+
+      try {
+        // Save to edited products map in localStorage
+        const edited = JSON.parse(localStorage.getItem('desserte_edited_products') || '{}');
+        edited[id] = {
+          ...(edited[id] || {}),
+          id: id,
+          name: name,
+          category: [cat],
+          price: price,
+          image: image,
+          badge: badgeVal === 'none' ? null : badgeVal,
+          ingredients: ingredients,
+          description: desc,
+          sizes: [
+            { id: 'slice', name: 'Slice / Porsi', price: price },
+            { id: 'whole', name: 'Whole Cake (8")', price: price * 6 }
+          ]
+        };
+        localStorage.setItem('desserte_edited_products', JSON.stringify(edited));
+
+        // If it's a custom product, update it in custom list too
+        let custom = JSON.parse(localStorage.getItem('desserte_custom_products') || '[]');
+        const customIdx = custom.findIndex(p => p.id === id);
+        if (customIdx > -1) {
+          custom[customIdx] = { ...custom[customIdx], ...edited[id] };
+          localStorage.setItem('desserte_custom_products', JSON.stringify(custom));
+        }
+
+        renderAdminProducts();
+        renderAdminStats();
+        closeEditProductModal();
+        window.desserteToast && window.desserteToast.show(`Menu "${name}" berhasil diubah dan live!`, 'success');
+      } catch (err) {
+        console.error('Error updating product:', err);
+        alert('Gagal mengupdate produk: ' + err.message);
+      }
+    }
+
+    // Search and Category Filter for Admin Products
+    function handleAdminProductSearch(query) {
+      window.adminProductSearchQuery = query;
+      renderAdminProducts();
+    }
+
+    function filterAdminProductsCategory(cat, btn) {
+      window.adminProductCategoryFilter = cat;
+      document.querySelectorAll('#admin-cat-filter-btns button').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderAdminProducts();
+    }
+
     function handleCreateProduct(e) {
       e.preventDefault();
       const name = document.getElementById('new-prod-name').value.trim();

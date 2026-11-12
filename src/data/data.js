@@ -1747,8 +1747,21 @@ function getStoredProducts() {
   try {
     const custom = JSON.parse(localStorage.getItem('desserte_custom_products') || '[]');
     const deleted = JSON.parse(localStorage.getItem('desserte_deleted_products') || '[]');
-    const base = (DESSERTE_DATA.baseProducts || []).filter(p => !deleted.includes(p.id));
-    const validCustom = (custom || []).filter(p => !deleted.includes(p.id));
+    const edited = JSON.parse(localStorage.getItem('desserte_edited_products') || '{}');
+
+    const applyEdit = (p) => {
+      if (!edited || !edited[p.id]) return p;
+      return { ...p, ...edited[p.id] };
+    };
+
+    const base = (DESSERTE_DATA.baseProducts || [])
+      .filter(p => !deleted.includes(p.id))
+      .map(applyEdit);
+
+    const validCustom = (custom || [])
+      .filter(p => !deleted.includes(p.id))
+      .map(applyEdit);
+
     return [...validCustom, ...base];
   } catch (e) {
     return DESSERTE_DATA.baseProducts || [];

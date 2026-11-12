@@ -195,7 +195,7 @@
           <label class="input-label" for="admin-email">Email Administrator</label>
           <div class="auth-input-wrapper">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            <input type="email" id="admin-email" class="input-field" placeholder="admin@desserte.id" required>
+            <input type="email" id="admin-email" class="input-field" placeholder="alpit@desserte.id" required>
           </div>
         </div>
 
@@ -215,23 +215,19 @@
         </button>
       </form>
 
-      <!-- 1-Click Demo Accounts Quick Test (Ideal for Presentation/Teacher Grading) -->
+      <!-- 1-Click Demo Accounts Quick Test (For Customers only) -->
       <div class="auth-demo-box">
         <div style="font-weight:700;color:var(--color-primary);margin-bottom:0.25rem;display:flex;align-items:center;gap:0.35rem">
           <span>⚡</span>
-          <span>Akses Cepat Pengujian (1-Click Demo)</span>
+          <span>Akses Cepat Pengujian Pelanggan</span>
         </div>
         <p style="color:var(--color-text-muted);font-size:0.75rem;margin:0 0 0.65rem">
-          Klik tombol di bawah untuk langsung mencoba login tanpa perlu mengetik manual:
+          Coba alur pemesanan member dengan akun demo pelanggan (Akses admin wajib login resmi):
         </p>
         <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
           <button type="button" class="demo-pill-btn" onclick="quickFillCustomer()">
             <span>👤</span>
             <span>Demo Pelanggan (Sarah)</span>
-          </button>
-          <button type="button" class="demo-pill-btn" onclick="quickFillAdmin()">
-            <span>👑</span>
-            <span>Demo Admin Portal</span>
           </button>
         </div>
       </div>
@@ -353,17 +349,6 @@
       window.desserteToast && window.desserteToast.show('Memproses demo pelanggan...', 'info', 1000);
       setTimeout(() => {
         document.getElementById('form-cust-login').dispatchEvent(new Event('submit'));
-      }, 400);
-    }
-
-    // 1-Click Quick Demo Admin
-    function quickFillAdmin() {
-      switchTab('admin-login');
-      document.getElementById('admin-email').value = 'admin@desserte.id';
-      document.getElementById('admin-password').value = 'admin123';
-      window.desserteToast && window.desserteToast.show('Memproses demo admin...', 'info', 1000);
-      setTimeout(() => {
-        document.getElementById('form-admin-login').dispatchEvent(new Event('submit'));
       }, 400);
     }
   </script>

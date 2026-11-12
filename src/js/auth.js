@@ -18,29 +18,46 @@ class AuthManager {
 
   initDefaultUsers() {
     try {
-      const existing = localStorage.getItem(this.storageKeyUsers);
-      if (!existing) {
-        const defaultUsers = [
-          {
-            id: 'usr-admin-1',
-            name: 'Admin Desserté',
-            email: 'admin@desserte.id',
-            password: 'admin123',
-            phone: '+62 858 7780 2506',
-            role: 'admin',
-            createdAt: '2026-01-01'
-          },
-          {
-            id: 'usr-cust-1',
-            name: 'Sarah Jessica',
-            email: 'pelanggan@desserte.id',
-            password: 'user123',
-            phone: '085877802506',
-            role: 'customer',
-            createdAt: '2026-02-14'
-          }
-        ];
+      const defaultUsers = [
+        {
+          id: 'usr-admin-alpit',
+          name: 'Alpit (Owner & Admin)',
+          email: 'alpit@desserte.id',
+          password: 'alpit123',
+          phone: '+62 858 7780 2506',
+          role: 'admin',
+          createdAt: '2026-01-01'
+        },
+        {
+          id: 'usr-admin-1',
+          name: 'Admin Desserté',
+          email: 'admin@desserte.id',
+          password: 'admin123',
+          phone: '+62 858 7780 2506',
+          role: 'admin',
+          createdAt: '2026-01-01'
+        },
+        {
+          id: 'usr-cust-1',
+          name: 'Sarah Jessica',
+          email: 'pelanggan@desserte.id',
+          password: 'user123',
+          phone: '085877802506',
+          role: 'customer',
+          createdAt: '2026-02-14'
+        }
+      ];
+
+      const raw = localStorage.getItem(this.storageKeyUsers);
+      if (!raw) {
         localStorage.setItem(this.storageKeyUsers, JSON.stringify(defaultUsers));
+      } else {
+        const users = JSON.parse(raw);
+        // Ensure Alpit's admin account exists
+        if (!users.some(u => u.email.toLowerCase() === 'alpit@desserte.id')) {
+          users.unshift(defaultUsers[0]);
+          localStorage.setItem(this.storageKeyUsers, JSON.stringify(users));
+        }
       }
     } catch (e) {
       console.error('Error initializing default users:', e);
