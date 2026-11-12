@@ -708,6 +708,7 @@ class CheckoutFlow {
     const randomId = Math.floor(1000 + Math.random() * 9000);
     const orderId = `#DS-${randomId}`;
 
+    const orderTimestamp = new Date();
     const newOrder = {
       id: orderId,
       customer: nameEl.value.trim(),
@@ -725,8 +726,10 @@ class CheckoutFlow {
       total: formatPrice(checkoutData.total || 0),
       totalNum: checkoutData.total || 0,
       status: 'processing',
+      isNew: true,
       time: 'Baru saja',
-      date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+      timestamp: orderTimestamp.getTime(),
+      date: orderTimestamp.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
     };
 
     // Save order into localStorage
@@ -792,11 +795,120 @@ function selectOutlet(id) {
 /* ---------------------------------------------------------------------------
    ADMIN DASHBOARD
    --------------------------------------------------------------------------- */
+
+// Track order count to detect new incoming orders
+let _adminLastOrderCount = 0;
+let _adminLastOrderId = null;
+let _adminPollInterval = null;
+
 function initAdmin() {
   renderAdminStats();
   renderAdminOrders();
   renderAdminProducts();
   bindAdminNav();
+  startAdminOrderPolling();
+}
+
+/**
+ * Poll localStorage for new customer orders every 30 seconds.
+ * Shows a notification banner + badge when new order arrives.
+ */
+function startAdminOrderPolling() {
+  // Record initial state
+  const getOrdersFn = window.getStoredOrders || window.DESSERTE_DATA?.getStoredOrders;
+  const initialOrders = getOrdersFn ? getOrdersFn() : [];
+  _adminLastOrderCount = initialOrders.length;
+  _adminLastOrderId = initialOrders[0]?.id || null;
+
+  // Update sidebar badge immediately
+  updateOrderSidebarBadge(initialOrders.length);
+
+  // Poll every 15 seconds
+  if (_adminPollInterval) clearInterval(_adminPollInterval);
+  _adminPollInterval = setInterval(() => {
+    const freshOrders = getOrdersFn ? getOrdersFn() : [];
+    const freshCount = freshOrders.length;
+    const freshNewestId = freshOrders[0]?.id || null;
+
+    // If new order(s) arrived
+    if (freshCount > _adminLastOrderCount || freshNewestId !== _adminLastOrderId) {
+      const newCount = freshCount - _adminLastOrderCount;
+      _adminLastOrderCount = freshCount;
+      _adminLastOrderId = freshNewestId;
+
+      // Re-render tables and stats
+      renderAdminOrders();
+      renderAdminStats();
+      updateOrderSidebarBadge(freshCount);
+
+      // Show notification banner
+      const newest = freshOrders[0];
+      if (newest) {
+        showNewOrderNotification(newest, newCount > 0 ? newCount : 1);
+      }
+    } else {
+      _adminLastOrderCount = freshCount;
+    }
+  }, 15000);
+}
+
+function updateOrderSidebarBadge(count) {
+  const badge = document.getElementById('orders-sidebar-badge');
+  if (!badge) return;
+  badge.textContent = count;
+  badge.style.display = count > 0 ? 'inline-flex' : 'none';
+}
+
+function showNewOrderNotification(order, newCount) {
+  // Toast notification
+  if (window.desserteToast) {
+    window.desserteToast.show(
+      `🔔 ${newCount > 1 ? newCount + ' Pesanan Baru!' : 'Pesanan baru: ' + order.customer + ' — ' + order.total}`,
+      'success', 7000
+    );
+  }
+
+  // Persistent banner in overview panel
+  let banner = document.getElementById('new-order-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'new-order-banner';
+    banner.style.cssText = 'position:sticky;top:0;z-index:100;background:linear-gradient(135deg,#1A3A2A,#2D5A3E);color:#fff;padding:0.85rem 1.5rem;border-radius:var(--radius-lg);margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;box-shadow:0 4px 20px rgba(26,58,42,0.3);animation:slideDown 0.4s ease';
+    const content = document.getElementById('admin-content') || document.querySelector('.admin-content');
+    if (content) content.prepend(banner);
+  }
+
+  const ordersNavItem = document.querySelector('.admin-nav-item[data-panel="orders"]');
+
+  banner.innerHTML = `
+    <div style="display:flex;align-items:center;gap:0.75rem">
+      <span style="font-size:1.5rem">🔔</span>
+      <div>
+        <div style="font-weight:700;font-size:0.9375rem">${newCount > 1 ? newCount + ' Pesanan Baru Masuk!' : 'Pesanan Baru Masuk!'}</div>
+        <div style="font-size:0.8125rem;opacity:0.85">${order.customer} &bull; ${order.total} &bull; ${order.type} &bull; ${order.time || 'Baru saja'}</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem">
+      <button onclick="switchToOrdersPanel()" style="background:var(--color-accent);color:#fff;border:none;padding:0.45rem 1rem;border-radius:var(--radius-full);font-weight:700;font-size:0.8125rem;cursor:pointer">Lihat Pesanan →</button>
+      <button onclick="document.getElementById('new-order-banner').remove()" style="background:rgba(255,255,255,0.15);color:#fff;border:none;width:28px;height:28px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+    </div>
+  `;
+  banner.style.display = 'flex';
+
+  // Auto-hide after 20 seconds
+  setTimeout(() => { if (banner) banner.style.display = 'none'; }, 20000);
+}
+
+function switchToOrdersPanel() {
+  document.querySelectorAll('.admin-nav-item').forEach(i => i.classList.remove('active'));
+  const ordersNav = document.querySelector('.admin-nav-item[data-panel="orders"]');
+  if (ordersNav) ordersNav.classList.add('active');
+  document.querySelectorAll('.admin-panel').forEach(p => p.style.display = 'none');
+  const ordersPanel = document.getElementById('panel-orders');
+  if (ordersPanel) ordersPanel.style.display = 'block';
+  const banner = document.getElementById('new-order-banner');
+  if (banner) banner.style.display = 'none';
+  renderAdminOrders();
 }
 
 function renderAdminStats() {
@@ -829,17 +941,40 @@ function renderAdminOrders() {
   const getOrdersFn = window.getStoredOrders || window.DESSERTE_DATA?.getStoredOrders;
   const orders = getOrdersFn ? getOrdersFn() : [];
 
+  // Update sidebar badge with current order count
+  updateOrderSidebarBadge(orders.length);
+
+  // Update "last refresh" timestamp
+  const refreshEl = document.getElementById('last-refresh-time');
+  if (refreshEl) refreshEl.textContent = 'Diperbarui: ' + new Date().toLocaleTimeString('id-ID');
+
+  const statusColors = {
+    processing: 'background:#FEF3C7;color:#92400E',
+    preparing:  'background:#DBEAFE;color:#1E40AF',
+    delivered:  'background:#D1FAE5;color:#065F46',
+    cancelled:  'background:#FEE2E2;color:#991B1B'
+  };
+  const statusLabels = {
+    processing: '⏳ Processing',
+    preparing:  '👨‍🍳 Preparing',
+    delivered:  '✅ Delivered',
+    cancelled:  '❌ Cancelled'
+  };
+
   const renderRow = (o) => `
-    <tr data-order-id="${o.id}">
-      <td><strong style="color:var(--color-primary)">${o.id}</strong></td>
+    <tr data-order-id="${o.id}" style="${o.isNew ? 'background:#F0FDF4;' : ''}">
+      <td>
+        <strong style="color:var(--color-primary)">${o.id}</strong>
+        ${o.isNew ? '<span style="font-size:0.65rem;background:#059669;color:#fff;padding:1px 6px;border-radius:9999px;margin-left:4px;vertical-align:middle">BARU</span>' : ''}
+      </td>
       <td>
         <strong>${o.customer}</strong>
         ${o.phone ? `<div style="font-size:0.75rem;color:var(--color-text-muted)">${o.phone}</div>` : ''}
       </td>
-      <td style="color:var(--color-text-muted);max-width:240px" title="${o.items}">${o.items}</td>
-      <td><strong>${o.total}</strong></td>
-      <td><span class="order-status status-${o.status}">${o.status}</span></td>
-      <td style="color:var(--color-text-muted);white-space:nowrap">${o.time || o.date || 'Hari ini'}</td>
+      <td style="color:var(--color-text-muted);max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${o.items}">${o.items}</td>
+      <td><strong style="color:var(--color-primary)">${o.total}</strong></td>
+      <td><span style="display:inline-block;padding:0.3rem 0.6rem;border-radius:9999px;font-size:0.75rem;font-weight:600;${statusColors[o.status] || 'background:#F3F4F6;color:#374151'}">${statusLabels[o.status] || o.status}</span></td>
+      <td style="color:var(--color-text-muted);white-space:nowrap;font-size:0.8125rem">${o.time || o.date || 'Hari ini'}</td>
       <td style="white-space:nowrap">
         <select class="input-field" style="padding:.35rem .5rem;font-size:.8rem;width:auto;display:inline-block" onchange="updateOrderStatus('${o.id}', this.value)">
           <option value="processing" ${o.status === 'processing' ? 'selected' : ''}>Processing</option>
@@ -852,20 +987,18 @@ function renderAdminOrders() {
       </td>
     </tr>`;
 
+  const emptyRow = `<tr><td colspan="7" style="text-align:center;color:var(--color-text-muted);padding:3rem 1rem">
+    <div style="font-size:2rem;margin-bottom:0.5rem">📋</div>
+    <div style="font-weight:600;margin-bottom:0.25rem">Belum ada pesanan masuk.</div>
+    <div style="font-size:0.8125rem">Pesanan dari pelanggan akan muncul di sini secara otomatis.</div>
+  </td></tr>`;
+
   if (overviewTbody) {
-    if (orders.length === 0) {
-      overviewTbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--color-text-muted);padding:2rem">Belum ada pesanan masuk.</td></tr>`;
-    } else {
-      overviewTbody.innerHTML = orders.slice(0, 5).map(renderRow).join('');
-    }
+    overviewTbody.innerHTML = orders.length === 0 ? emptyRow : orders.slice(0, 10).map(renderRow).join('');
   }
 
   if (fullTbody) {
-    if (orders.length === 0) {
-      fullTbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--color-text-muted);padding:2rem">Belum ada pesanan masuk.</td></tr>`;
-    } else {
-      fullTbody.innerHTML = orders.map(renderRow).join('');
-    }
+    fullTbody.innerHTML = orders.length === 0 ? emptyRow : orders.map(renderRow).join('');
   }
 }
 

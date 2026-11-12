@@ -30,6 +30,14 @@
   <style>
     body { background: var(--cream-100); }
     .admin-nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.6; }
+    }
   </style>
 </head>
 <body>
@@ -51,9 +59,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
           <span>Dashboard Overview</span>
         </div>
-        <div class="admin-nav-item" data-panel="orders">
+        <div class="admin-nav-item" data-panel="orders" style="position:relative">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
           <span>Customer Orders</span>
+          <span id="orders-sidebar-badge" style="display:none;background:#E11D48;color:#fff;font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:9999px;min-width:18px;text-align:center;margin-left:auto;line-height:1.4">0</span>
         </div>
         <div class="admin-nav-item" data-panel="products">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-8a2 2 0 00-2-2H6a2 2 0 00-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20"/></svg>
@@ -105,7 +114,10 @@
       </header>
 
       <!-- Panel Content -->
-      <div class="admin-content">
+      <div class="admin-content" id="admin-content">
+
+        <!-- New Order Notification Banner (injected by JS when order arrives) -->
+        <!-- id="new-order-banner" injected dynamically by products.js -->
 
         <!-- PANEL 1: Overview Dashboard -->
         <div class="admin-panel" id="panel-overview">
@@ -118,8 +130,17 @@
           <!-- Quick Orders Section -->
           <div style="background:#fff;border-radius:var(--radius-xl);padding:1.75rem;box-shadow:var(--shadow-sm);margin-bottom:2rem">
             <div class="flex-between" style="margin-bottom:1.25rem">
-              <h3 class="text-display" style="font-size:1.25rem">Pesanan Terbaru Hari Ini</h3>
-              <span class="badge badge-green">Live Updates</span>
+              <div>
+                <h3 class="text-display" style="font-size:1.25rem">Pesanan Masuk Terkini</h3>
+                <p style="font-size:0.8rem;color:var(--color-text-muted);margin-top:0.2rem">Auto-refresh setiap 15 detik. <span id="last-refresh-time" style="color:var(--color-accent)">Memuat...</span></p>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.6rem">
+                <span class="badge badge-green" style="animation:pulse 2s infinite">🟢 Live</span>
+                <button onclick="manualRefreshOrders()" class="btn btn-outline btn-sm" title="Refresh pesanan sekarang">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+                  Refresh
+                </button>
+              </div>
             </div>
             <div style="overflow-x:auto">
               <table class="admin-table">
@@ -151,6 +172,10 @@
                 <h3 class="text-display" style="font-size:1.25rem">Kelola Seluruh Pesanan</h3>
                 <p style="font-size:0.875rem;color:var(--color-text-muted)">Ubah status pesanan dari Processing hingga Delivered secara realtime.</p>
               </div>
+              <button onclick="manualRefreshOrders()" class="btn btn-outline btn-sm">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+                Refresh
+              </button>
             </div>
             <div style="overflow-x:auto">
               <table class="admin-table">
@@ -495,7 +520,23 @@
         if (nameEl) nameEl.textContent = user.name;
         if (emailEl) emailEl.textContent = user.email;
       }
+
+      // Update "last refresh" timestamp display every second
+      setInterval(() => {
+        const el = document.getElementById('last-refresh-time');
+        if (el) el.textContent = 'Diperbarui: ' + new Date().toLocaleTimeString('id-ID');
+      }, 5000);
     });
+
+    function manualRefreshOrders() {
+      if (typeof renderAdminOrders === 'function') {
+        renderAdminOrders();
+        renderAdminStats();
+      }
+      const el = document.getElementById('last-refresh-time');
+      if (el) el.textContent = 'Diperbarui: ' + new Date().toLocaleTimeString('id-ID');
+      if (window.desserteToast) window.desserteToast.show('Pesanan berhasil diperbarui!', 'success', 2000);
+    }
 
     function openAddProductModal() {
       document.getElementById('add-product-modal')?.classList.add('active');

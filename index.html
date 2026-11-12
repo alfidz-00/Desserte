@@ -873,6 +873,39 @@
         if (dLabel) dLabel.textContent = label;
         if (mLabel) mLabel.textContent = label;
       }
+
+      // Show order success banner if redirected from checkout
+      const params = new URLSearchParams(window.location.search);
+      const orderSuccessId = params.get('orderSuccess');
+      if (orderSuccessId) {
+        // Create success banner
+        const banner = document.createElement('div');
+        banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#1A3A2A 0%,#2D5A3E 100%);color:#fff;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;box-shadow:0 4px 24px rgba(0,0,0,0.25);animation:slideDown 0.5s ease';
+        banner.innerHTML = `
+          <div style="display:flex;align-items:center;gap:1rem">
+            <div style="font-size:2rem">🎉</div>
+            <div>
+              <div style="font-weight:700;font-size:1rem">Pesanan Berhasil Diterima!</div>
+              <div style="font-size:0.8125rem;opacity:0.85">Order <strong>${decodeURIComponent(orderSuccessId)}</strong> sedang kami proses. Tim Desserté akan segera menghubungi Anda.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;flex-shrink:0">
+            <a href="customer-orders.html" style="background:var(--color-accent);color:#fff;text-decoration:none;padding:0.45rem 1rem;border-radius:9999px;font-weight:700;font-size:0.8125rem">Lihat Pesanan</a>
+            <button onclick="this.closest('[style]').remove();history.replaceState(null,'',window.location.pathname)" style="background:rgba(255,255,255,0.15);color:#fff;border:none;width:28px;height:28px;border-radius:50%;font-size:1rem;cursor:pointer">✕</button>
+          </div>
+        `;
+        document.body.prepend(banner);
+
+        // Auto-hide after 10 seconds, clean URL
+        setTimeout(() => {
+          banner.style.opacity = '0';
+          banner.style.transition = 'opacity 0.4s';
+          setTimeout(() => banner.remove(), 400);
+        }, 10000);
+
+        // Clean URL without reload
+        history.replaceState(null, '', window.location.pathname);
+      }
     });
   </script>
 </body>
