@@ -360,3 +360,14 @@ body.lux { overflow-x: clip; } /* guards a pre-existing 9px navbar overflow on p
   .lux-hero-tag button { font-size: 1.1rem; }
   .lux-sig { display: none; }
 }
+
+
+/* ---- Story frame fallback: show one intentional state before GSAP loads,
+   and when motion is reduced or the animation CDN is unavailable. ---- */
+.lux-story-cam img:not(:first-child) {
+  opacity: 0;
+}
+.lux-story-steps > .lux-step:not(:first-child) {
+  visibility: hidden;
+  opacity: 0;
+}
