@@ -146,7 +146,57 @@
   /* -------------------------------------------------------------------------
      5. SCROLL-DRIVEN STORY + PARALLAX + REVEAL (GSAP / ScrollTrigger)
      ------------------------------------------------------------------------- */
-  if (!hasGSAP || reduced) return; // static fallback is already styled in CSS
+  // Native scroll-story fallback: the signature animation must still work
+  // when a CDN is blocked, slow, or unavailable (common on GitHub Pages visitors).
+  if (!hasGSAP && !reduced) {
+    var nativeStory = document.getElementById('story');
+    if (nativeStory) {
+      var nativeCam = nativeStory.querySelector('.lux-story-cam');
+      var nativeFrames = [].slice.call(nativeStory.querySelectorAll('.lux-story-cam img'));
+      var nativeSteps = [].slice.call(nativeStory.querySelectorAll('.lux-step'));
+      var nativeBar = nativeStory.querySelector('.lux-story-progress i');
+      var nativeCounter = nativeStory.querySelector('.lux-story-count');
+      if (nativeFrames.length > 1 && nativeSteps.length === nativeFrames.length) {
+        nativeStory.classList.add('is-native-anim');
+        var nativeQueued = false;
+        function updateNativeStory() {
+          nativeQueued = false;
+          var rect = nativeStory.getBoundingClientRect();
+          var distance = Math.max(1, nativeStory.offsetHeight - window.innerHeight);
+          var progress = Math.max(0, Math.min(1, -rect.top / distance));
+          var position = progress * (nativeFrames.length - 1);
+          var active = Math.min(nativeFrames.length - 1, Math.floor(position + 0.001));
+          var blend = Math.max(0, Math.min(1, position - active));
+          nativeFrames.forEach(function (frame, index) {
+            var opacity = index === active ? 1 - blend : (index === active + 1 ? blend : 0);
+            frame.style.display = 'block';
+            frame.style.opacity = String(opacity);
+          });
+          nativeSteps.forEach(function (step, index) {
+            var opacity = index === active ? 1 : 0;
+            step.style.display = 'block';
+            step.style.visibility = opacity ? 'visible' : 'hidden';
+            step.style.opacity = String(opacity);
+            step.style.transform = opacity ? 'translateY(0)' : 'translateY(18px)';
+          });
+          if (nativeBar) nativeBar.style.transform = 'scaleX(' + progress + ')';
+          if (nativeCounter) nativeCounter.textContent =
+            ('0' + (active + 1)).slice(-2) + ' / ' + ('0' + nativeFrames.length).slice(-2);
+          if (nativeCam) nativeCam.style.transform = 'scale(' + (1 + progress * 0.07) + ')';
+        }
+        function queueNativeStory() {
+          if (!nativeQueued) {
+            nativeQueued = true;
+            window.requestAnimationFrame(updateNativeStory);
+          }
+        }
+        window.addEventListener('scroll', queueNativeStory, { passive: true });
+        window.addEventListener('resize', queueNativeStory);
+        updateNativeStory();
+      }
+    }
+  }
+  if (!hasGSAP || reduced) return; // native/static fallback has already handled the story
 
   gsap.registerPlugin(ScrollTrigger);
   document.documentElement.classList.add('lux-anim');
