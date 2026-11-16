@@ -32,7 +32,7 @@ const DESSERTE_DATA = {
       "best-seller"
     ],
     "price": 45000,
-    "image": "images/products/cake-1.jpg",
+    "image": "images/products/opt/cake-1.webp",
     "fallbackColor": "#3D1F00",
     "description": "Rich chocolate cake layered with smooth chocolate cream and premium chocolate ganache.",
     "ingredients": "Dark chocolate, butter, eggs, sugar, flour, heavy cream, cocoa powder",
@@ -70,7 +70,7 @@ const DESSERTE_DATA = {
       "best-seller"
     ],
     "price": 42000,
-    "image": "images/products/cake-2.jpg",
+    "image": "images/products/opt/cake-2.webp",
     "fallbackColor": "#5D4037",
     "description": "Authentic Italian tiramisu with espresso-soaked ladyfingers and mascarpone cream dusted with cocoa.",
     "ingredients": "Mascarpone, eggs, sugar, espresso, ladyfingers, cocoa powder, dark rum",
@@ -107,7 +107,7 @@ const DESSERTE_DATA = {
       "cakes"
     ],
     "price": 46000,
-    "image": "images/products/cake-3.jpg",
+    "image": "images/products/opt/cake-3.webp",
     "fallbackColor": "#2E7D32",
     "description": "Delicate Japanese matcha sponge layered with light matcha cream and white chocolate ganache.",
     "ingredients": "Premium matcha powder, flour, eggs, sugar, cream, white chocolate",
@@ -144,7 +144,7 @@ const DESSERTE_DATA = {
       "cakes"
     ],
     "price": 44000,
-    "image": "images/products/cake-4.jpg",
+    "image": "images/products/opt/cake-4.webp",
     "fallbackColor": "#B71C1C",
     "description": "Elegant red velvet layers with tangy cream cheese frosting and velvet crumb decoration.",
     "ingredients": "Flour, cocoa, buttermilk, red food coloring, cream cheese, butter",
@@ -182,7 +182,7 @@ const DESSERTE_DATA = {
       "chocolate"
     ],
     "price": 48000,
-    "image": "images/products/cake-5.jpg",
+    "image": "images/products/opt/cake-5.webp",
     "fallbackColor": "#1A0A00",
     "description": "Silky dark chocolate mousse layered with delicate chocolate sponge and cocoa glaze.",
     "ingredients": "Dark chocolate 70%, eggs, sugar, cream, vanilla, gelatin",
@@ -215,7 +215,7 @@ const DESSERTE_DATA = {
       "best-seller"
     ],
     "price": 49000,
-    "image": "images/products/cake-6.jpg",
+    "image": "images/products/opt/cake-6.webp",
     "fallbackColor": "#F5E6C8",
     "description": "Twenty delicate crêpe layers filled with silky pastry cream, finished with caramelized sugar.",
     "ingredients": "Flour, eggs, milk, butter, pastry cream, sugar",
@@ -253,7 +253,7 @@ const DESSERTE_DATA = {
       "chocolate"
     ],
     "price": 47000,
-    "image": "images/products/cake-7.jpg",
+    "image": "images/products/opt/cake-7.webp",
     "fallbackColor": "#3E2723",
     "description": "Traditional French opera cake with almond sponge soaked in coffee syrup, ganache and coffee buttercream.",
     "ingredients": "Almond sponge, coffee syrup, dark ganache, coffee buttercream, dark chocolate glaze",
@@ -286,7 +286,7 @@ const DESSERTE_DATA = {
       "chocolate"
     ],
     "price": 45000,
-    "image": "images/products/cake-8.jpg",
+    "image": "images/products/opt/cake-8.webp",
     "fallbackColor": "#2C1810",
     "description": "Classic German cake layered with chocolate sponge, Chantilly cream, and sweet dark cherries.",
     "ingredients": "Cocoa sponge, dark cherries, cherry kirsch syrup, whipped cream, chocolate shavings",
@@ -323,7 +323,7 @@ const DESSERTE_DATA = {
       "cakes"
     ],
     "price": 43000,
-    "image": "images/products/cake-9.jpg",
+    "image": "images/products/opt/cake-9.webp",
     "fallbackColor": "#FFF8E1",
     "description": "Fluffy vanilla chiffon cake layered with fresh mixed berries compote and light diplomat cream.",
     "ingredients": "Vanilla chiffon, mixed berries, heavy cream, sugar, fresh mint",
@@ -356,7 +356,7 @@ const DESSERTE_DATA = {
       "best-seller"
     ],
     "price": 46000,
-    "image": "images/products/cake-10.jpg",
+    "image": "images/products/opt/cake-10.webp",
     "fallbackColor": "#C97A3E",
     "description": "Moist sponge cake layered with rich Lotus Biscoff spread, speculoos crunch, and salted caramel glaze.",
     "ingredients": "Biscoff cookies, speculoos spread, caramel drizzle, butter, brown sugar, eggs",
@@ -394,7 +394,7 @@ const DESSERTE_DATA = {
       "best-seller"
     ],
     "price": 48000,
-    "image": "images/products/cheesecake-11.png",
+    "image": "images/products/opt/cheesecake-11.webp",
     "fallbackColor": "#C0392B",
     "description": "Velvety New York-style cheesecake topped with fresh strawberry compote and whole berries.",
     "ingredients": "Cream cheese, eggs, sugar, sour cream, graham crackers, butter, fresh strawberries",
@@ -432,7 +432,7 @@ const DESSERTE_DATA = {
       "best-seller"
     ],
     "price": 52000,
-    "image": "images/products/cheesecake-12.png",
+    "image": "images/products/opt/cheesecake-12.webp",
     "fallbackColor": "#6D4C41",
     "description": "San Sebastián-style cheesecake with a caramelized top and luxuriously creamy center.",
     "ingredients": "Cream cheese, eggs, heavy cream, sugar, flour",
@@ -469,7 +469,7 @@ const DESSERTE_DATA = {
       "cheesecake"
     ],
     "price": 48000,
-    "image": "images/products/cheesecake-13.png",
+    "image": "images/products/opt/cheesecake-13.webp",
     "fallbackColor": "#4A148C",
     "description": "Dense baked cheesecake swirled with wild Canada blueberry compote on a buttery graham crust.",
     "ingredients": "Cream cheese, wild blueberries, digestive biscuits, heavy cream, lemon zest",
@@ -501,7 +501,7 @@ const DESSERTE_DATA = {
       "cheesecake"
     ],
     "price": 45000,
-    "image": "images/products/cheesecake-14.png",
+    "image": "images/products/opt/cheesecake-14.webp",
     "fallbackColor": "#FFFDE7",
     "description": "Ultra-light, fluffy soufflé cheesecake with melt-in-the-mouth texture and delicate cheese aroma.",
     "ingredients": "Philadelphia cream cheese, fresh milk, butter, whipped egg whites, lemon juice",
@@ -534,7 +534,7 @@ const DESSERTE_DATA = {
       "best-seller"
     ],
     "price": 50000,
-    "image": "images/products/cheesecake-15.png",
+    "image": "images/products/opt/cheesecake-15.webp",
     "fallbackColor": "#D35400",
     "description": "Smooth baked cheesecake infused with Lotus Biscoff cookie butter, topped with melted cookie spread.",
     "ingredients": "Cream cheese, Lotus Biscoff biscuits, cookie spread, brown sugar, heavy cream",
@@ -566,7 +566,7 @@ const DESSERTE_DATA = {
       "cheesecake"
     ],
     "price": 49000,
-    "image": "images/products/cheesecake-16.png",
+    "image": "images/products/opt/cheesecake-16.webp",
     "fallbackColor": "#2E7D32",
     "description": "Harmonious blend of rich French cream cheese and Kyoto ceremonial matcha on Oreo base.",
     "ingredients": "Kyoto matcha, cream cheese, Oreo crust, white chocolate, organic cream",
@@ -598,7 +598,7 @@ const DESSERTE_DATA = {
       "cheesecake"
     ],
     "price": 48000,
-    "image": "images/products/cheesecake-17.png",
+    "image": "images/products/opt/cheesecake-17.webp",
     "fallbackColor": "#F57F17",
     "description": "Refreshing tropical baked cheesecake layered with Alphonso mango mousse and passionfruit coulis.",
     "ingredients": "Cream cheese, Alphonso mango puree, passionfruit juice, graham crust, gelatin",
@@ -631,7 +631,7 @@ const DESSERTE_DATA = {
       "chocolate"
     ],
     "price": 46000,
-    "image": "images/products/cheesecake-18.png",
+    "image": "images/products/opt/cheesecake-18.webp",
     "fallbackColor": "#212121",
     "description": "Classic New York cheesecake loaded with crunchy Oreo pieces inside and topped with dark ganache.",
     "ingredients": "Cream cheese, crushed Oreos, vanilla extract, butter, dark chocolate ganache",
@@ -664,7 +664,7 @@ const DESSERTE_DATA = {
       "chocolate"
     ],
     "price": 52000,
-    "image": "images/products/cheesecake-19.png",
+    "image": "images/products/opt/cheesecake-19.webp",
     "fallbackColor": "#3E2723",
     "description": "Decadent baked cheesecake infused with melted 70% Callebaut dark chocolate and chocolate crust.",
     "ingredients": "Callebaut dark chocolate, cream cheese, cocoa powder, chocolate cookie crust, cream",
@@ -696,7 +696,7 @@ const DESSERTE_DATA = {
       "cheesecake"
     ],
     "price": 50000,
-    "image": "images/products/cheesecake-20.png",
+    "image": "images/products/opt/cheesecake-20.webp",
     "fallbackColor": "#880E4F",
     "description": "Silky smooth baked cheesecake with tart European raspberry glaze and edible gold flakes.",
     "ingredients": "Cream cheese, fresh raspberries, shortbread base, organic sugar, lemon juice",
@@ -729,7 +729,7 @@ const DESSERTE_DATA = {
       "best-seller"
     ],
     "price": 35000,
-    "image": "images/products/drink-21.jpg",
+    "image": "images/products/opt/drink-21.webp",
     "fallbackColor": "#388E3C",
     "description": "Premium ceremonial-grade Uji matcha whisked with fresh milk and touch of cane sugar.",
     "ingredients": "Ceremonial Uji matcha, fresh milk, organic cane sugar, ice",
@@ -758,7 +758,7 @@ const DESSERTE_DATA = {
       "best-seller"
     ],
     "price": 42000,
-    "image": "images/products/drink-22.jpg",
+    "image": "images/products/opt/drink-22.webp",
     "fallbackColor": "#3E2723",
     "description": "Thick, indulgent milkshake blended with premium Belgian chocolate and topped with whipped cream.",
     "ingredients": "Fresh milk, Belgian chocolate gelato, chocolate syrup, Chantilly cream",
@@ -785,7 +785,7 @@ const DESSERTE_DATA = {
       "drinks"
     ],
     "price": 36000,
-    "image": "images/products/drink-23.jpg",
+    "image": "images/products/opt/drink-23.webp",
     "fallbackColor": "#E91E63",
     "description": "Handmade fresh strawberry puree layered with creamy whole milk and sweet cold foam.",
     "ingredients": "Fresh strawberries, whole milk, sweet cream foam, natural strawberry puree",
@@ -812,7 +812,7 @@ const DESSERTE_DATA = {
       "drinks"
     ],
     "price": 38000,
-    "image": "images/products/drink-24.jpg",
+    "image": "images/products/opt/drink-24.webp",
     "fallbackColor": "#795548",
     "description": "Freshly steamed milk with vanilla syrup, marked with espresso and finished with caramel drizzle.",
     "ingredients": "Arabica espresso, vanilla bean syrup, fresh milk, salted caramel sauce",
@@ -839,7 +839,7 @@ const DESSERTE_DATA = {
       "drinks"
     ],
     "price": 32000,
-    "image": "images/products/drink-25.jpg",
+    "image": "images/products/opt/drink-25.webp",
     "fallbackColor": "#AD1457",
     "description": "Effervescent soda infused with freshly squeezed lemons, crushed raspberries, and mint.",
     "ingredients": "Sparkling water, fresh lemon juice, raspberry syrup, mint leaves, cane sugar",
@@ -866,7 +866,7 @@ const DESSERTE_DATA = {
       "drinks"
     ],
     "price": 28000,
-    "image": "images/products/drink-26.jpg",
+    "image": "images/products/opt/drink-26.webp",
     "fallbackColor": "#FF8A80",
     "description": "Aromatic Taiwanese white tea brewed with natural peach essence and tender peach slices.",
     "ingredients": "Oolong white tea, white peach extract, fresh peach chunks, rock sugar",
@@ -893,7 +893,7 @@ const DESSERTE_DATA = {
       "drinks"
     ],
     "price": 38000,
-    "image": "images/products/drink-27.jpg",
+    "image": "images/products/opt/drink-27.webp",
     "fallbackColor": "#4E342E",
     "description": "Double espresso shaken with roasted hazelnut paste, cold milk, and chocolate flakes.",
     "ingredients": "Double espresso, Piedmont hazelnut paste, whole milk, ice",
@@ -920,7 +920,7 @@ const DESSERTE_DATA = {
       "drinks"
     ],
     "price": 34000,
-    "image": "images/products/drink-28.jpg",
+    "image": "images/products/opt/drink-28.webp",
     "fallbackColor": "#A1887F",
     "description": "Classic Ceylon black tea perfumed with bergamot orange, blended with smooth creamy milk.",
     "ingredients": "Earl Grey tea leaves, bergamot oil, fresh milk, brown sugar",
@@ -947,7 +947,7 @@ const DESSERTE_DATA = {
       "drinks"
     ],
     "price": 42000,
-    "image": "images/products/drink-29.jpg",
+    "image": "images/products/opt/drink-29.webp",
     "fallbackColor": "#689F38",
     "description": "Rich blended Mentega avocado crowned with a scoop of vanilla gelato and single shot espresso.",
     "ingredients": "Fresh avocado, vanilla bean gelato, espresso shot, chocolate drizzle",
@@ -975,7 +975,7 @@ const DESSERTE_DATA = {
       "chocolate"
     ],
     "price": 36000,
-    "image": "images/products/drink-30.jpg",
+    "image": "images/products/opt/drink-30.webp",
     "fallbackColor": "#004D40",
     "description": "Cooling garden mint syrup blended with rich melted dark chocolate and creamy milk.",
     "ingredients": "Dark chocolate 65%, peppermint extract, fresh milk, whipped topping",
@@ -1002,7 +1002,7 @@ const DESSERTE_DATA = {
       "drinks"
     ],
     "price": 38000,
-    "image": "images/products/drink-31.jpg",
+    "image": "images/products/opt/drink-31.webp",
     "fallbackColor": "#FFB300",
     "description": "Sweet Gedong mango blended with coconut cream and topped with toasted coconut flakes.",
     "ingredients": "Ripe mango, coconut cream, crushed ice, agave nectar",
@@ -1030,7 +1030,7 @@ const DESSERTE_DATA = {
       "best-seller"
     ],
     "price": 32000,
-    "image": "images/products/icecream-32.png",
+    "image": "images/products/opt/icecream-32.webp",
     "fallbackColor": "#FFF8E1",
     "description": "Authentic Italian gelato crafted with Bourbon vanilla beans from Madagascar and pure cream.",
     "ingredients": "Whole milk, heavy cream, organic egg yolks, Madagascar vanilla beans, sugar",
@@ -1062,7 +1062,7 @@ const DESSERTE_DATA = {
       "ice-cream"
     ],
     "price": 30000,
-    "image": "images/products/icecream-33.png",
+    "image": "images/products/opt/icecream-33.webp",
     "fallbackColor": "#C62828",
     "description": "Dairy-free sorbet bursting with 100% natural sun-ripened strawberry sweetness and lemon zest.",
     "ingredients": "Fresh strawberries, mineral water, lemon juice, organic sugar",
@@ -1091,7 +1091,7 @@ const DESSERTE_DATA = {
       "best-seller"
     ],
     "price": 34000,
-    "image": "images/products/icecream-34.png",
+    "image": "images/products/opt/icecream-34.webp",
     "fallbackColor": "#1A0A00",
     "description": "Deep, bittersweet 72% Belgian dark chocolate churned slowly for an unbeatably dense texture.",
     "ingredients": "Belgian dark chocolate, cocoa mass, heavy cream, milk, sugar",
@@ -1123,7 +1123,7 @@ const DESSERTE_DATA = {
       "ice-cream"
     ],
     "price": 34000,
-    "image": "images/products/icecream-35.png",
+    "image": "images/products/opt/icecream-35.webp",
     "fallbackColor": "#D7CCC8",
     "description": "Handmade caramelized sugar infused with French Guérande sea salt and crunchy praline bits.",
     "ingredients": "Caramelized sugar, Guérande sea salt, whole cream, praline almonds",
@@ -1150,7 +1150,7 @@ const DESSERTE_DATA = {
       "ice-cream"
     ],
     "price": 38000,
-    "image": "images/products/icecream-36.png",
+    "image": "images/products/opt/icecream-36.webp",
     "fallbackColor": "#A5D6A7",
     "description": "Authentic Sicilian Bronte pistachios lightly roasted and finely stone-ground into velvet gelato.",
     "ingredients": "Sicilian Bronte pistachios, organic milk, cream, raw cane sugar",
@@ -1178,7 +1178,7 @@ const DESSERTE_DATA = {
       "chocolate"
     ],
     "price": 35000,
-    "image": "images/products/icecream-37.jpeg",
+    "image": "images/products/opt/icecream-37.webp",
     "fallbackColor": "#80CBC4",
     "description": "Cool peppermint cream studded with thin, melt-in-mouth dark chocolate ribbon shards.",
     "ingredients": "Fresh mint infusion, Callebaut chocolate shavings, whole milk, cream",
@@ -1205,7 +1205,7 @@ const DESSERTE_DATA = {
       "ice-cream"
     ],
     "price": 32000,
-    "image": "images/products/icecream-38.jpeg",
+    "image": "images/products/opt/icecream-38.webp",
     "fallbackColor": "#7E57C2",
     "description": "Tangy Greek frozen yogurt folded with plump, antioxidant-rich wild blueberries.",
     "ingredients": "Greek yogurt, wild blueberries, honey, probiotic cultures",
@@ -1233,7 +1233,7 @@ const DESSERTE_DATA = {
       "best-seller"
     ],
     "price": 48000,
-    "image": "images/products/icecream-39.jpeg",
+    "image": "images/products/opt/icecream-39.webp",
     "fallbackColor": "#D7CCC8",
     "description": "Crisp handmade waffle cone holding two artisan scoops, chocolate ganache drizzle, and roasted nuts.",
     "ingredients": "Handmade waffle cone, 2 scoops of your choice, chocolate fudge, chopped hazelnuts",
@@ -1260,7 +1260,7 @@ const DESSERTE_DATA = {
       "ice-cream"
     ],
     "price": 32000,
-    "image": "images/products/icecream-40.jpg",
+    "image": "images/products/opt/icecream-40.webp",
     "fallbackColor": "#FFB74D",
     "description": "Exotic tropical sorbet blending sweet mango nectar and aromatic passion fruit pulp.",
     "ingredients": "Mango puree, passionfruit pulp, lime juice, water, organic sugar",
@@ -1288,7 +1288,7 @@ const DESSERTE_DATA = {
       "best-seller"
     ],
     "price": 22000,
-    "image": "images/products/pastry-41.jpg",
+    "image": "images/products/opt/pastry-41.webp",
     "fallbackColor": "#D4A017",
     "description": "Flaky, golden French croissant with 81 crisp laminated layers baked with Normandy butter.",
     "ingredients": "Normandy butter, French flour, sourdough starter, milk, sea salt",
@@ -1322,7 +1322,7 @@ const DESSERTE_DATA = {
       "best-seller"
     ],
     "price": 28000,
-    "image": "images/products/pastry-42.jpg",
+    "image": "images/products/opt/pastry-42.webp",
     "fallbackColor": "#2C1810",
     "description": "Crisp choux pastry piped full with silky Tahitian vanilla pastry cream and dipped in dark chocolate glaze.",
     "ingredients": "Choux pastry, Madagascar vanilla pastry cream, Belgian chocolate glaze",
@@ -1355,7 +1355,7 @@ const DESSERTE_DATA = {
       "chocolate"
     ],
     "price": 35000,
-    "image": "images/products/pastry-43.jpg",
+    "image": "images/products/opt/pastry-43.webp",
     "fallbackColor": "#4A2500",
     "description": "Buttery cocoa crust cradling roasted hazelnut praline and a shiny dome of dark chocolate ganache.",
     "ingredients": "Pâte sablée, roasted hazelnut praline, 70% dark ganache, gold leaf",
@@ -1382,7 +1382,7 @@ const DESSERTE_DATA = {
       "pastry"
     ],
     "price": 32000,
-    "image": "images/products/pastry-44.jpg",
+    "image": "images/products/opt/pastry-44.webp",
     "fallbackColor": "#F9A825",
     "description": "Crisp pastry shell filled with zesty Meyer lemon curd and crowned with torched Italian meringue.",
     "ingredients": "Shortcrust shell, Meyer lemon curd, eggs, butter, whipped Italian meringue",
@@ -1411,7 +1411,7 @@ const DESSERTE_DATA = {
       "best-seller"
     ],
     "price": 26000,
-    "image": "images/products/pastry-45.jpg",
+    "image": "images/products/opt/pastry-45.webp",
     "fallbackColor": "#5D4037",
     "description": "Golden laminated dough wrapping two batons of melted bittersweet French dark chocolate.",
     "ingredients": "French butter, cocoa batons, laminated yeast dough, egg wash",
@@ -1438,7 +1438,7 @@ const DESSERTE_DATA = {
       "pastry"
     ],
     "price": 30000,
-    "image": "images/products/pastry-46.jpg",
+    "image": "images/products/opt/pastry-46.webp",
     "fallbackColor": "#D7CCC8",
     "description": "Butter croissant filled with rich almond frangipane cream, topped with toasted sliced almonds.",
     "ingredients": "Almond frangipane, butter croissant, rum syrup, toasted sliced almonds, icing sugar",
@@ -1465,7 +1465,7 @@ const DESSERTE_DATA = {
       "pastry"
     ],
     "price": 34000,
-    "image": "images/products/pastry-47.jpg",
+    "image": "images/products/opt/pastry-47.webp",
     "fallbackColor": "#D81B60",
     "description": "Crisp shortbread tart filled with smooth vanilla bean pastry cream and fresh assorted berries.",
     "ingredients": "Sweet shortcrust, crème pâtissière, strawberries, blueberries, apricot glaze",
@@ -1492,7 +1492,7 @@ const DESSERTE_DATA = {
       "pastry"
     ],
     "price": 25000,
-    "image": "images/products/pastry-48.jpg",
+    "image": "images/products/opt/pastry-48.webp",
     "fallbackColor": "#8D6E63",
     "description": "Flaky coiled pastry with fragrant Saigon cinnamon brown sugar filling and vanilla cream icing.",
     "ingredients": "Danish puff pastry, Saigon cinnamon, brown sugar, vanilla sugar glaze",
@@ -1519,7 +1519,7 @@ const DESSERTE_DATA = {
       "pastry"
     ],
     "price": 32000,
-    "image": "images/products/pastry-49.jpg",
+    "image": "images/products/opt/pastry-49.webp",
     "fallbackColor": "#81C784",
     "description": "Hybrid of croissant and muffin rolled in sugar and filled to bursting with nutty pistachio cream.",
     "ingredients": "Croissant dough, pistachio cream, caster sugar, roasted crushed pistachios",
@@ -1546,7 +1546,7 @@ const DESSERTE_DATA = {
       "pastry"
     ],
     "price": 24000,
-    "image": "images/products/pastry-50.jpg",
+    "image": "images/products/opt/pastry-50.webp",
     "fallbackColor": "#FFE082",
     "description": "Delicate choux puff with a crunchy sugar craquelin crust, filled with chilled Tahitian diplomat cream.",
     "ingredients": "Choux pastry, butter craquelin, Tahitian vanilla diplomat cream, powdered sugar",

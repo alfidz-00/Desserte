@@ -1,0 +1,362 @@
+/* =============================================================================
+   DESSERTÉ — Luxury Layer
+   Loaded AFTER styles.css + components.css. Only used on pages whose <body>
+   has class "lux" (index.html, menu.html). Nothing here removes or renames
+   any existing class/ID, so cart, checkout, admin and data logic are untouched.
+   ============================================================================= */
+
+:root {
+  --lux-cream: #F6F0E4;
+  --lux-ivory: #FBF8F2;
+  --lux-sand: #E9DEC9;
+  --lux-ink: #1B2A21;
+  --lux-choc: #3B2418;
+  --lux-gold: #C9A84C;
+  --lux-gold-deep: #8A6D1E;
+  --lux-ease: cubic-bezier(.22, .7, .2, 1);
+  --lux-serif: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+}
+
+/* ---- Lenis (desktop smooth scroll) ---- */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* ---- Page curtain (loading + page transition) ---- */
+.lux-curtain {
+  position: fixed; inset: 0; z-index: 9999;
+  display: grid; place-items: center;
+  background: var(--lux-cream);
+  pointer-events: none;
+  animation: luxCurtainOut .8s var(--lux-ease) .6s forwards;
+}
+.lux-curtain img {
+  width: 72px; height: 72px; border-radius: 16px; object-fit: cover;
+  animation: luxPulse 1.4s ease-in-out infinite;
+}
+.lux-curtain.is-leaving {
+  pointer-events: all;
+  animation: luxCurtainIn .35s ease forwards;
+}
+@keyframes luxCurtainOut { from { opacity: 1; visibility: visible; } to { opacity: 0; visibility: hidden; } }
+@keyframes luxCurtainIn  { from { opacity: 0; visibility: visible; } to { opacity: 1; visibility: visible; } }
+@keyframes luxPulse { 0%,100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.06); opacity: 1; } }
+
+/* ---- Type & base ---- */
+body.lux { background: var(--lux-ivory); }
+body.lux .section-tag {
+  font-size: .72rem; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--lux-gold-deep); font-weight: 600;
+}
+body.lux .section-title {
+  font-family: var(--lux-serif); font-weight: 500;
+  font-size: clamp(2.2rem, 4.4vw, 3.6rem); line-height: 1.04; letter-spacing: -.01em;
+  color: var(--lux-ink);
+}
+body.lux .section-subtitle { color: var(--brown-500); font-weight: 300; }
+body.lux .section { padding-block: clamp(4rem, 9vw, 8rem); }
+
+/* ---- Buttons ---- */
+.lux-btn {
+  display: inline-flex; align-items: center; gap: .7rem;
+  padding: 1.05rem 1.9rem; border-radius: 999px;
+  font: 600 .74rem/1 var(--font-body); letter-spacing: .18em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer; border: 1px solid transparent;
+  transition: transform .35s var(--lux-ease), background .3s, color .3s, border-color .3s;
+}
+.lux-btn:hover { transform: translateY(-2px); }
+.lux-btn:active { transform: translateY(0) scale(.98); }
+.lux-btn--ink { background: var(--lux-ink); color: var(--lux-ivory); }
+.lux-btn--ink:hover { background: var(--green-700); }
+.lux-btn--gold { background: var(--lux-gold); color: var(--lux-ink); }
+.lux-btn--gold:hover { background: var(--gold-300); }
+.lux-btn--line { border-color: currentColor; color: inherit; background: transparent; }
+.lux-btn--line:hover { background: rgba(255,255,255,.1); }
+.lux-btn .lux-arrow { transition: transform .35s var(--lux-ease); }
+.lux-btn:hover .lux-arrow { transform: translateX(4px); }
+
+/* ---- Navbar over the cream hero ---- */
+body.lux #navbar.transparent .nav-brand-title { color: var(--lux-ink); }
+body.lux #navbar.transparent .nav-link { color: var(--lux-ink); opacity: .78; }
+body.lux #navbar.transparent .nav-link:hover,
+body.lux #navbar.transparent .nav-link.active { color: var(--lux-gold-deep); background: transparent; opacity: 1; }
+body.lux #navbar.transparent .nav-actions-icon { color: var(--lux-ink); }
+body.lux #navbar.transparent .nav-actions-icon:hover { background: rgba(27,42,33,.08); color: var(--lux-ink); }
+body.lux #navbar.transparent .outlet-selector-pill { background: rgba(27,42,33,.05); color: var(--lux-ink); border-color: rgba(27,42,33,.16); }
+body.lux #navbar.transparent .nav-auth-btn { background: rgba(27,42,33,.05); color: var(--lux-ink); border-color: rgba(27,42,33,.16); }
+body.lux #navbar.transparent #hamburger span { background: var(--lux-ink); }
+body.lux #navbar.scrolled {
+  background: rgba(251, 248, 242, .86);
+  backdrop-filter: saturate(1.4) blur(16px); -webkit-backdrop-filter: saturate(1.4) blur(16px);
+  box-shadow: 0 1px 0 rgba(27,42,33,.08);
+}
+/* animated underline for nav links */
+body.lux .nav-link { position: relative; background: transparent !important; }
+body.lux .nav-link::after {
+  content: ''; position: absolute; left: .875rem; right: .875rem; bottom: .28rem; height: 1px;
+  background: currentColor; transform: scaleX(0); transform-origin: left;
+  transition: transform .45s var(--lux-ease);
+}
+body.lux .nav-link:hover::after, body.lux .nav-link.active::after { transform: scaleX(1); }
+
+/* ---- HERO ---- */
+.lux-hero {
+  position: relative; min-height: 100svh; overflow: hidden;
+  background: var(--lux-cream);
+  display: flex; align-items: center;
+  padding: 7.5rem 0 4rem;
+}
+.lux-hero::before { /* soft light, not a decorative gradient block */
+  content: ''; position: absolute; width: 60vw; height: 60vw; right: -12vw; top: -18vw;
+  background: radial-gradient(closest-side, rgba(201,168,76,.16), transparent);
+  pointer-events: none;
+}
+.lux-hero-grid {
+  position: relative; width: 100%; max-width: 1360px; margin: 0 auto; padding: 0 var(--container-px);
+  display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(2rem, 6vw, 6rem); align-items: center;
+}
+.lux-eyebrow {
+  font: 600 .72rem/1 var(--font-body); letter-spacing: .3em; text-transform: uppercase;
+  color: var(--lux-gold-deep); margin-bottom: 1.6rem;
+  display: flex; align-items: center; gap: .9rem;
+}
+.lux-eyebrow::before { content: ''; width: 2.6rem; height: 1px; background: currentColor; }
+.lux-hero-title {
+  font-family: var(--lux-serif); font-weight: 500; color: var(--lux-ink);
+  font-size: clamp(3rem, 6.6vw, 6.2rem); line-height: .94; letter-spacing: -.025em;
+}
+.lux-hero-title em { font-style: italic; font-weight: 400; color: var(--lux-gold-deep); display: block; padding-left: .55em; }
+.lux-hero-sub { max-width: 30rem; margin: 2rem 0 2.4rem; font-weight: 300; line-height: 1.75; color: var(--brown-500); font-size: 1.05rem; }
+.lux-hero-ctas { display: flex; flex-wrap: wrap; gap: .9rem; align-items: center; }
+.lux-text-link {
+  font: 600 .74rem/1 var(--font-body); letter-spacing: .18em; text-transform: uppercase;
+  color: var(--lux-ink); text-decoration: none; padding-bottom: .4rem;
+  border-bottom: 1px solid rgba(27,42,33,.35); transition: border-color .3s, color .3s;
+}
+.lux-text-link:hover { color: var(--lux-gold-deep); border-color: var(--lux-gold-deep); }
+.lux-hero-meta { display: flex; gap: 2.6rem; margin-top: 3.4rem; flex-wrap: wrap; }
+.lux-hero-meta strong { display: block; font: 500 1.9rem/1 var(--lux-serif); color: var(--lux-ink); }
+.lux-hero-meta span { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--brown-300); }
+
+.lux-hero-media { position: relative; }
+.lux-hero-frame {
+  position: relative; overflow: hidden; border-radius: 220px 220px 6px 6px; /* arch window */
+  aspect-ratio: 4 / 5; box-shadow: 0 40px 80px -30px rgba(59,36,24,.35);
+}
+.lux-hero-frame img { width: 100%; height: 118%; object-fit: cover; object-position: 50% 40%; display: block; will-change: transform; }
+.lux-hero-tag {
+  position: absolute; left: -1.5rem; bottom: 2.2rem; background: var(--lux-ivory);
+  padding: 1rem 1.3rem; box-shadow: 0 18px 40px -18px rgba(59,36,24,.4); max-width: 15rem;
+}
+.lux-hero-tag small { display: block; font-size: .66rem; letter-spacing: .22em; text-transform: uppercase; color: var(--lux-gold-deep); margin-bottom: .35rem; }
+.lux-hero-tag a, .lux-hero-tag button {
+  font: 500 1.3rem/1.15 var(--lux-serif); color: var(--lux-ink); background: none; border: 0; padding: 0; cursor: pointer; text-align: left;
+}
+.lux-hero-tag button:hover { color: var(--lux-gold-deep); }
+.lux-scroll-cue {
+  position: absolute; left: 50%; bottom: 1.4rem; transform: translateX(-50%);
+  font-size: .66rem; letter-spacing: .3em; text-transform: uppercase; color: var(--brown-300);
+  display: flex; flex-direction: column; align-items: center; gap: .6rem; text-decoration: none;
+}
+.lux-scroll-cue::after { content: ''; width: 1px; height: 38px; background: linear-gradient(var(--lux-gold-deep), transparent); animation: luxCue 2s ease-in-out infinite; transform-origin: top; }
+@keyframes luxCue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+/* hero entrance (pure CSS so it works even if JS libs fail) */
+.lux-hero [data-rise] { opacity: 0; transform: translateY(26px); animation: luxRise 1.1s var(--lux-ease) forwards; }
+.lux-hero [data-rise="1"] { animation-delay: .9s; }
+.lux-hero [data-rise="2"] { animation-delay: 1.05s; }
+.lux-hero [data-rise="3"] { animation-delay: 1.2s; }
+.lux-hero [data-rise="4"] { animation-delay: 1.35s; }
+.lux-hero [data-rise="5"] { animation-delay: 1.5s; }
+.lux-hero .lux-hero-frame { opacity: 0; clip-path: inset(12% 8% 0 8% round 220px 220px 6px 6px); animation: luxReveal 1.6s var(--lux-ease) 1s forwards; }
+@keyframes luxRise { to { opacity: 1; transform: none; } }
+@keyframes luxReveal { to { opacity: 1; clip-path: inset(0 0 0 0 round 220px 220px 6px 6px); } }
+
+/* ---- SIGNATURE STORY (scroll-driven) ---- */
+.lux-story { position: relative; background: var(--green-900); color: var(--lux-ivory); overflow: hidden; }
+.lux-story-pin { min-height: 100svh; display: flex; align-items: center; padding: 5.5rem 0 4.5rem; position: relative; }
+.lux-story-inner {
+  width: 100%; max-width: 1360px; margin: 0 auto; padding: 0 var(--container-px);
+  display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(2rem, 6vw, 6rem); align-items: center;
+}
+.lux-story .lux-eyebrow { color: var(--gold-300); }
+.lux-story-steps { position: relative; min-height: 22rem; display: grid; }
+.lux-step { grid-area: 1 / 1; align-self: center; }
+.lux-step-num { font: 400 .8rem/1 var(--font-body); letter-spacing: .3em; color: var(--gold-300); margin-bottom: 1.4rem; display: block; }
+.lux-step h2, .lux-step h3 {
+  font-family: var(--lux-serif); font-weight: 500; font-size: clamp(2.6rem, 5.4vw, 5rem);
+  line-height: .98; letter-spacing: -.02em; margin-bottom: 1.4rem;
+}
+.lux-step h2 em, .lux-step h3 em { font-style: italic; font-weight: 400; color: var(--gold-300); }
+.lux-step p { max-width: 26rem; font-weight: 300; line-height: 1.75; color: rgba(251,248,242,.78); }
+.lux-step .lux-step-price { font: 500 1.6rem/1 var(--lux-serif); color: var(--gold-300); margin: 0 0 1.6rem; }
+.lux-step-cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.8rem; }
+.lux-story .lux-btn--line:hover { background: rgba(255,255,255,.12); }
+
+.lux-story-stage-wrap { position: relative; justify-self: center; width: min(100%, 620px, calc(100svh - 14rem)); }
+.lux-story-stage {
+  position: relative; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 6px;
+  box-shadow: 0 50px 90px -30px rgba(0,0,0,.65), 0 0 0 1px rgba(226,201,126,.18);
+  background: #D9C3A7;
+}
+.lux-story-cam { position: absolute; inset: 0; will-change: transform; transform-origin: 62% 60%; }
+.lux-story-cam img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.lux-story-progress { position: absolute; left: 0; right: 0; bottom: -1.4rem; height: 1px; background: rgba(226,201,126,.25); }
+.lux-story-progress i { position: absolute; inset: 0; background: var(--gold-300); transform: scaleX(0); transform-origin: left; display: block; }
+.lux-story-count { position: absolute; right: 0; bottom: -3.4rem; font-size: .68rem; letter-spacing: .26em; text-transform: uppercase; color: rgba(251,248,242,.55); }
+.lux-story-note { font-size: .72rem; color: rgba(251,248,242,.45); margin-top: 4.4rem; max-width: 34rem; line-height: 1.6; }
+
+/* Fallback (no JS / no GSAP / reduced motion): show only the finished dessert + final copy */
+html:not(.lux-anim) .lux-story-cam img:not(:last-child) { display: none; }
+html:not(.lux-anim) .lux-step:not(:last-child) { display: none; }
+html:not(.lux-anim) .lux-story-progress, html:not(.lux-anim) .lux-story-count { display: none; }
+html:not(.lux-anim) .lux-story-pin { min-height: 0; padding: 6rem 0; }
+
+/* ---- Scroll reveal (only when animation is active) ---- */
+html.lux-anim .lux-reveal { opacity: 0; transform: translateY(34px); transition: opacity 1s var(--lux-ease), transform 1s var(--lux-ease); }
+html.lux-anim .lux-reveal.is-in { opacity: 1; transform: none; }
+
+/* ---- Home: quick categories, about, banner restyle (markup unchanged) ---- */
+body.lux .quick-order { background: var(--lux-ivory); }
+body.lux .category-card {
+  background: transparent; border: 0; border-bottom: 1px solid rgba(27,42,33,.14); border-radius: 0; box-shadow: none;
+  transition: border-color .35s, transform .45s var(--lux-ease);
+}
+body.lux .category-card:hover { border-color: var(--lux-gold-deep); transform: translateY(-4px); box-shadow: none; }
+body.lux .category-icon { filter: grayscale(.35); opacity: .85; font-size: 1.6rem; background: transparent; }
+body.lux .category-name { font-family: var(--lux-serif); font-size: 1.25rem; letter-spacing: .01em; }
+body.lux .about-value-icon { filter: grayscale(.4); }
+body.lux .custom-cake-banner { background: var(--green-900); border-radius: 6px; box-shadow: none; }
+body.lux .promo-card, body.lux .review-card { border-radius: 6px; box-shadow: none; }
+body.lux .bs-card { border-radius: 4px; box-shadow: none; border: 0; background: transparent; }
+body.lux .bs-card img { transition: transform 1.1s var(--lux-ease); }
+body.lux .bs-card:hover img { transform: scale(1.06); }
+body.lux .bs-card:hover { box-shadow: none; transform: none; }
+body.lux .tab-btn { border-radius: 0; background: transparent; border: 0; border-bottom: 1px solid transparent; letter-spacing: .14em; text-transform: uppercase; font-size: .72rem; }
+body.lux .tab-btn.active { background: transparent; color: var(--lux-ink); border-bottom-color: var(--lux-gold-deep); box-shadow: none; }
+body.lux .tab-btn:not(.active):hover { background: transparent; color: var(--lux-gold-deep); }
+body.lux #footer { background: var(--green-900); }
+
+/* ---- EDITORIAL PRODUCT CATALOG ---- */
+body.lux .products-grid {
+  grid-template-columns: repeat(3, 1fr); gap: 4.5rem clamp(1.5rem, 3.5vw, 3.5rem); margin-top: 3.5rem;
+}
+body.lux .products-grid .lux-card:nth-child(3n+2) { margin-top: 4rem; }
+.lux-card { background: transparent; border: 0; box-shadow: none; border-radius: 0; display: flex; flex-direction: column; }
+.lux-card-media {
+  position: relative; display: block; width: 100%; padding: 0; border: 0; cursor: pointer; overflow: hidden;
+  aspect-ratio: 4 / 5; background: var(--lux-sand); border-radius: 4px;
+}
+.lux-card-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 1.2s var(--lux-ease); }
+.lux-card:hover .lux-card-media img { transform: scale(1.07); }
+.lux-card-media::after {
+  content: 'View detail'; position: absolute; left: 50%; bottom: 1.1rem; transform: translate(-50%, 12px);
+  background: var(--lux-ivory); color: var(--lux-ink); padding: .65rem 1.2rem; border-radius: 999px;
+  font: 600 .64rem/1 var(--font-body); letter-spacing: .2em; text-transform: uppercase; opacity: 0;
+  transition: opacity .4s, transform .5s var(--lux-ease); pointer-events: none;
+}
+.lux-card:hover .lux-card-media::after { opacity: 1; transform: translate(-50%, 0); }
+.lux-card .product-badge { position: absolute; top: .9rem; left: .9rem; z-index: 2; }
+.lux-card-info { padding-top: 1.3rem; display: flex; flex-direction: column; flex: 1; }
+.lux-card-notes { font-size: .66rem; letter-spacing: .2em; text-transform: uppercase; color: var(--lux-gold-deep); margin-bottom: .6rem; }
+.lux-card .product-name { font-family: var(--lux-serif); font-weight: 500; font-size: 1.75rem; line-height: 1.1; color: var(--lux-ink); margin-bottom: .6rem; }
+.lux-card .product-desc { color: var(--brown-500); font-weight: 300; font-size: .92rem; line-height: 1.65; margin-bottom: 1.2rem; }
+.lux-card-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding-top: 1rem; border-top: 1px solid rgba(27,42,33,.12); flex-wrap: wrap; }
+.lux-card-foot .price { font: 500 1.35rem/1 var(--lux-serif); color: var(--lux-ink); }
+.lux-card-actions { display: flex; align-items: center; gap: 1rem; }
+.lux-link-btn {
+  background: none; border: 0; padding: 0 0 .25rem; cursor: pointer; color: var(--lux-ink);
+  font: 600 .66rem/1 var(--font-body); letter-spacing: .18em; text-transform: uppercase; border-bottom: 1px solid rgba(27,42,33,.35);
+  transition: color .3s, border-color .3s;
+}
+.lux-link-btn:hover { color: var(--lux-gold-deep); border-color: var(--lux-gold-deep); }
+.lux-add-btn {
+  background: var(--lux-ink); color: var(--lux-ivory); border: 0; cursor: pointer; padding: .7rem 1.1rem; border-radius: 999px;
+  font: 600 .66rem/1 var(--font-body); letter-spacing: .18em; text-transform: uppercase; transition: background .3s, transform .3s var(--lux-ease);
+}
+.lux-add-btn:hover { background: var(--green-700); transform: translateY(-1px); }
+.lux-add-btn:active { transform: scale(.96); }
+
+/* ---- Product modal: typographic polish only ---- */
+body.lux .product-modal-name { font-family: var(--lux-serif); font-weight: 500; font-size: clamp(2rem, 3.4vw, 2.8rem); line-height: 1.05; }
+body.lux .product-modal-img { overflow: hidden; }
+body.lux .product-modal-img img { transition: transform 1.2s var(--lux-ease); }
+body.lux .product-modal-img:hover img { transform: scale(1.04); }
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+  body.lux .products-grid { grid-template-columns: repeat(2, 1fr); gap: 3rem 1.6rem; }
+  body.lux .products-grid .lux-card:nth-child(3n+2) { margin-top: 0; }
+  body.lux .products-grid .lux-card:nth-child(2n) { margin-top: 3rem; }
+}
+@media (max-width: 860px) {
+  .lux-hero { padding-top: 6.5rem; align-items: flex-start; }
+  .lux-hero-grid { grid-template-columns: 1fr; gap: 2.4rem; }
+  .lux-hero-media { order: -1; max-width: 420px; margin: 0 auto; width: 100%; }
+  .lux-hero-frame { aspect-ratio: 5 / 5; border-radius: 160px 160px 6px 6px; }
+  .lux-hero-tag { left: .5rem; bottom: 1rem; }
+  .lux-hero-meta { gap: 1.6rem; margin-top: 2.2rem; }
+  .lux-scroll-cue { display: none; }
+  .lux-story-pin { padding: 4.6rem 0 5.2rem; align-items: flex-start; }
+  .lux-story-inner { grid-template-columns: 1fr; gap: 1.2rem; }
+  .lux-story .lux-eyebrow { display: none; }
+  .lux-story-stage-wrap { order: -1; width: min(70vw, 36svh); }
+  .lux-story-steps { min-height: 0; }
+  .lux-step p { font-size: .92rem; line-height: 1.6; }
+  .lux-step-num { margin-bottom: .8rem; }
+  .lux-step-price { margin-bottom: 1rem !important; }
+  .lux-step-cta { margin-top: 1.1rem; gap: .6rem; }
+  .lux-step-cta .lux-btn { padding: .9rem 1.3rem; }
+  .lux-step h2, .lux-step h3 { font-size: clamp(2.2rem, 9vw, 3rem); margin-bottom: .9rem; }
+  .lux-story-note { display: none; }
+}
+@media (max-width: 560px) {
+  body.lux .products-grid { gap: 2.4rem 1rem; }
+  body.lux .lux-card .product-name { font-size: 1.3rem; }
+  body.lux .lux-card .product-desc { display: none; }
+  .lux-card-foot { flex-direction: column; align-items: flex-start; }
+  .lux-card-media::after { display: none; }
+  .lux-hero-title { font-size: clamp(2.9rem, 14vw, 4rem); }
+}
+@media (hover: none) { .lux-card-media::after { display: none; } }
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .lux-curtain { display: none; }
+  .lux-hero [data-rise], .lux-hero .lux-hero-frame { animation: none; opacity: 1; transform: none; clip-path: none; }
+  .lux-scroll-cue::after { animation: none; }
+  html.lux-anim .lux-reveal { opacity: 1; transform: none; transition: none; }
+  .lux-card-media img, .lux-btn { transition: none; }
+}
+
+/* hero signature quick-links (keep the 3 original product shortcuts) */
+.lux-sig { display: flex; flex-direction: column; align-items: flex-start; gap: .35rem; margin-top: .7rem; padding-top: .7rem; border-top: 1px solid rgba(27,42,33,.12); }
+.lux-sig button { font: 600 .64rem/1.3 var(--font-body); letter-spacing: .14em; text-transform: uppercase; color: var(--brown-500); background: none; border: 0; padding: 0; cursor: pointer; text-align: left; transition: color .3s; }
+.lux-sig button:hover { color: var(--lux-gold-deep); }
+.lux-hero-tag { max-width: 17rem; }
+
+/* mobile fit fixes */
+@media (max-width: 560px) {
+  body.lux .category-name { font-size: .92rem; }
+  body.lux .category-card { min-width: 0; padding-inline: .25rem; }
+  body.lux .nav-actions .btn-gold, body.lux .outlet-selector-pill { display: none; } /* still reachable: drawer + bottom nav */
+}
+@media (max-width: 860px) and (max-height: 720px) {
+  .lux-story-stage-wrap { width: min(58vw, 30svh); }
+  .lux-step p:not(.lux-step-price) { display: none; }
+  .lux-step h2, .lux-step h3 { font-size: clamp(1.9rem, 8vw, 2.4rem); }
+}
+@media (min-width: 861px) and (max-height: 760px) {
+  .lux-step h2, .lux-step h3 { font-size: clamp(2.2rem, 4.4vw, 3.6rem); margin-bottom: 1rem; }
+  .lux-step-num { margin-bottom: .9rem; }
+}
+
+body.lux { overflow-x: clip; } /* guards a pre-existing 9px navbar overflow on phones */
+
+/* phone nav + hero tag: make room for the hamburger (auth stays in the mobile drawer) */
+@media (max-width: 560px) {
+  body.lux #nav-auth-container { display: none; }
+  .lux-hero-tag { max-width: 12.5rem; padding: .75rem .95rem; left: .6rem; bottom: .8rem; }
+  .lux-hero-tag button { font-size: 1.1rem; }
+  .lux-sig { display: none; }
+}

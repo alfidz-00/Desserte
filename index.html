@@ -7,6 +7,7 @@
   <meta name="description" content="Desserté menyajikan aneka dessert, artisanal cakes, cheesecake, and pastries premium yang dibuat segar setiap hari untuk membuat setiap momen terasa lebih manis.">
   
   <!-- Favicon -->
+  <link rel="preload" as="image" href="images/hero/hero-dessert.jpg">
   <link rel="icon" type="image/jpeg" href="images/logo/desserte-logo.jpg">
 
   <!-- Google Fonts -->
@@ -17,6 +18,7 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="src/css/styles.css">
   <link rel="stylesheet" href="src/css/components.css">
+  <link rel="stylesheet" href="src/css/luxury.css">
 
   <style>
     .logo-badge {
@@ -128,7 +130,9 @@
     }
   </style>
 </head>
-<body>
+<body class="lux">
+  <div class="lux-curtain" aria-hidden="true"><img src="images/logo/desserte-logo.jpg" alt=""></div>
+
 
   <!-- =========================================================================
        1. TOP NAVIGATION (Sticky)
@@ -244,83 +248,99 @@
   <!-- =========================================================================
        2. HERO SECTION
        ========================================================================= -->
-  <section class="hero" id="hero">
-    <div class="hero-bg-pattern"></div>
-    <div class="hero-content">
-      <!-- Left Column: Copy & CTAs -->
-      <div class="hero-text">
-        <div class="hero-glass-pill">
-          <span>✦</span>
-          <span>Artisanal Patisserie & Boutique</span>
+  <section class="lux-hero" id="hero" aria-label="Desserté">
+    <div class="lux-hero-grid">
+      <div class="lux-hero-text">
+        <div class="lux-eyebrow" data-rise="1">Artisanal Patisserie &amp; Boutique</div>
+        <h1 class="lux-hero-title" data-rise="2">Sweet Moments, <em>Made Special.</em></h1>
+        <p class="lux-hero-sub" data-rise="3">Temukan dessert dan cake pilihan yang dibuat dari bahan-bahan terbaik untuk membuat setiap momen terasa lebih manis dan tak terlupakan.</p>
+        <div class="lux-hero-ctas" data-rise="4">
+          <a href="menu.html" class="lux-btn lux-btn--ink">Discover Our Collection <span class="lux-arrow" aria-hidden="true">&rarr;</span></a>
+          <a href="#story" class="lux-text-link">Lihat prosesnya</a>
         </div>
-        <h1 class="hero-headline">
-          Sweet Moments,<br>
-          <em>Made Special.</em>
-        </h1>
-        <p class="hero-subheadline">
-          Temukan dessert dan cake pilihan yang dibuat dari bahan-bahan terbaik untuk membuat setiap momen terasa lebih manis dan tak terlupakan.
-        </p>
-
-        <div class="hero-ctas">
-          <a href="menu.html" class="btn btn-gold btn-lg">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
-            </svg>
-            Order Now
-          </a>
-          <a href="#quick-order" class="btn btn-outline btn-lg" style="color:#FFFFFF;border-color:rgba(255,255,255,0.4)">
-            Explore Menu
-          </a>
+        <div class="lux-hero-meta" data-rise="5">
+          <div><strong>100%</strong><span>Freshly Baked Daily</span></div>
+          <div><strong>4.9 ★</strong><span>Customer Rating</span></div>
+          <div><strong>5 Outlets</strong><span>Jabodetabek &amp; Bdg</span></div>
         </div>
-
-        <!-- Social Proof Stats -->
-        <div class="hero-stats">
-          <div>
-            <div class="hero-stat-num">100%</div>
-            <div class="hero-stat-label">Freshly Baked Daily</div>
-          </div>
-          <div>
-            <div class="hero-stat-num">4.9 ★</div>
-            <div class="hero-stat-label">Customer Rating</div>
-          </div>
-          <div>
-            <div class="hero-stat-num">5 Outlets</div>
-            <div class="hero-stat-label">Jabodetabek & Bdg</div>
+      </div>
+      <div class="lux-hero-media">
+        <div class="lux-hero-frame">
+          <img src="images/hero/hero-dessert.jpg" alt="Desserté Signature Belgian Dark Chocolate Cake with Gold Accents" fetchpriority="high">
+        </div>
+        <div class="lux-hero-tag" data-rise="5">
+          <small>Signature Creation</small>
+          <button type="button" data-lux-open="chocolate-royale">Chocolate Royale</button>
+          <div class="lux-sig">
+            <button type="button" data-lux-open="dark-chocolate-mousse">Dark Choco Mousse</button>
+            <button type="button" data-lux-open="strawberry-cheesecake">Best Seller · Strawberry Cheesecake</button>
           </div>
         </div>
       </div>
+    </div>
+    <a href="#story" class="lux-scroll-cue" aria-label="Scroll to story">Scroll</a>
+  </section>
 
-      <!-- Right Column: Visual with Floating Cards -->
-      <div class="hero-visual">
-        <div class="hero-img-main">
-          <img src="images/hero/hero-dessert.jpg" alt="Desserté Signature Belgian Dark Chocolate Cake with Gold Accents">
-        </div>
-
-        <!-- Floating Card 1: Signature Cake -->
-        <div class="hero-float-card float-card-1" onclick="window.productModal && window.productModal.open('chocolate-royale')" style="cursor:pointer">
-          <div class="hero-float-card-icon">🎂</div>
-          <div>
-            <div class="hero-float-card-label">Signature Creation</div>
-            <div class="hero-float-card-name">Chocolate Royale</div>
+  <!-- =========================================================================
+       2b. SIGNATURE SCROLL STORY — pinned, scroll-driven image sequence
+       ========================================================================= -->
+  <section class="lux-story" id="story" aria-label="Strawberry cheesecake dibangun lapis demi lapis">
+    <div class="lux-story-pin">
+      <div class="lux-story-inner">
+        <div class="lux-story-copy">
+          <div class="lux-eyebrow">The Signature Story</div>
+          <div class="lux-story-steps">
+          <div class="lux-step" data-step="1">
+            <span class="lux-step-num">01 — 06</span>
+            <h3>Dimulai dari <em>dasar.</em></h3>
+            <p>Remah graham dan mentega dipadatkan menjadi dasar yang renyah — fondasi setiap irisan.</p>
           </div>
-        </div>
-
-        <!-- Floating Card 2: Chocolate Dessert -->
-        <div class="hero-float-card float-card-2" onclick="window.productModal && window.productModal.open('dark-chocolate-mousse')" style="cursor:pointer">
-          <div class="hero-float-card-icon">🍫</div>
-          <div>
-            <div class="hero-float-card-label">Pure Indulgence</div>
-            <div class="hero-float-card-name">Dark Choco Mousse</div>
+          <div class="lux-step" data-step="2">
+            <span class="lux-step-num">02 — 06</span>
+            <h3>Lapisan <em>cream cheese.</em></h3>
+            <p>Cream cheese ala New York yang lembut ditata di atas dasar, perlahan dan merata.</p>
           </div>
-        </div>
-
-        <!-- Floating Card 3: Best Seller -->
-        <div class="hero-float-card float-card-3" onclick="window.productModal && window.productModal.open('strawberry-cheesecake')" style="cursor:pointer">
-          <div class="hero-float-card-icon">⭐</div>
-          <div>
-            <div class="hero-float-card-label">Best Seller #1</div>
-            <div class="hero-float-card-name">Strawberry Cheesecake</div>
+          <div class="lux-step" data-step="3">
+            <span class="lux-step-num">03 — 06</span>
+            <h3>Dibentuk <em>sempurna.</em></h3>
+            <p>Didinginkan hingga padat, lalu dipotong rapi agar setiap sisi bersih dan tegas.</p>
           </div>
+          <div class="lux-step" data-step="4">
+            <span class="lux-step-num">04 — 06</span>
+            <h3>Saus <em>stroberi.</em></h3>
+            <p>Kompot stroberi dituang perlahan, mengalir alami ke sisi irisan.</p>
+          </div>
+          <div class="lux-step" data-step="5">
+            <span class="lux-step-num">05 — 06</span>
+            <h3>Sentuhan <em>akhir.</em></h3>
+            <p>Stroberi segar dan whipped cream menutup komposisi.</p>
+          </div>
+            <div class="lux-step" data-step="6">
+              <span class="lux-step-num">06 — 06</span>
+              <h2>Strawberry New York <em>Cheesecake.</em></h2>
+              <p>Cheesecake New York yang lembut dengan kompot stroberi dan buah segar, dibuat segar setiap hari.</p>
+              <p class="lux-step-price" id="story-price"></p>
+              <div class="lux-step-cta">
+                <button type="button" class="lux-btn lux-btn--gold" data-lux-open="strawberry-cheesecake">Pesan Sekarang <span class="lux-arrow" aria-hidden="true">&rarr;</span></button>
+                <a href="menu.html#cheesecake" class="lux-btn lux-btn--line">Lihat Cheesecake</a>
+              </div>
+            </div>
+          </div>
+          <p class="lux-story-note">Ilustrasi proses berupa visual konsep, bukan foto produk final.</p>
+        </div>
+        <div class="lux-story-stage-wrap">
+          <div class="lux-story-stage">
+            <div class="lux-story-cam">
+            <img src="images/story/01.jpg" width="512" height="512" alt="Dasar biskuit graham cheesecake" decoding="async">
+            <img src="images/story/02.jpg" width="512" height="512" alt="Lapisan cream cheese di atas dasar biskuit" decoding="async">
+            <img src="images/story/03.jpg" width="512" height="512" alt="Irisan cheesecake yang telah terbentuk" decoding="async">
+            <img src="images/story/04.jpg" width="512" height="512" alt="Saus stroberi dituang di atas cheesecake" decoding="async">
+            <img src="images/story/05.jpg" width="512" height="512" alt="Cheesecake dengan stroberi segar dan whipped cream" decoding="async">
+            <img src="images/story/06.jpg" width="512" height="512" alt="Strawberry New York Cheesecake siap disajikan" decoding="async">
+            </div>
+          </div>
+          <div class="lux-story-progress" aria-hidden="true"><i></i></div>
+          <div class="lux-story-count" aria-hidden="true">01 / 06</div>
         </div>
       </div>
     </div>
@@ -826,6 +846,11 @@
   <script src="src/js/cart.js"></script>
   <script src="src/js/auth.js"></script>
   <script src="src/js/products.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="src/js/luxury.js"></script>
 
   <script>
     function openOutletModal() {
