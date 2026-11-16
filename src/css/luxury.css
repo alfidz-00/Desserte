@@ -371,3 +371,33 @@ body.lux { overflow-x: clip; } /* guards a pre-existing 9px navbar overflow on p
   visibility: hidden;
   opacity: 0;
 }
+
+
+/* ---- Native pinned story fallback (works without external animation CDNs) ---- */
+.lux-story.is-native-anim {
+  min-height: 520svh;
+  overflow: visible;
+}
+.lux-story.is-native-anim .lux-story-pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 100svh;
+  padding: 5.5rem 0 4.5rem;
+  overflow: hidden;
+}
+.lux-story.is-native-anim .lux-story-cam img,
+.lux-story.is-native-anim .lux-step {
+  display: block !important;
+}
+.lux-story.is-native-anim .lux-story-cam img {
+  transition: opacity .18s linear;
+}
+.lux-story.is-native-anim .lux-step {
+  transition: opacity .22s ease, transform .22s ease;
+}
+@media (max-width: 860px) {
+  .lux-story.is-native-anim .lux-story-pin {
+    padding: 4.6rem 0 5.2rem;
+  }
+}
